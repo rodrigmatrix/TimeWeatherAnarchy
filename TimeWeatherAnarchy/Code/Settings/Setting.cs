@@ -23,10 +23,6 @@ namespace TimeWeatherAnarchy.Code.Settings
         public const string kDateGroup = "Date Controls";
         public const string kResetGroup = "Reset Controls";
 
-        // current prefs
-        private int currentTime = 0;
-        private bool setTimeManually = false;
-
         public TimeWeatherAnarchySettings(IMod mod) : base(mod)
         {
 
@@ -35,6 +31,10 @@ namespace TimeWeatherAnarchy.Code.Settings
         [SettingsUIHidden]
         [SettingsUISection(kTimeGroup)]
         public int CurrentTime { get; set; }
+        
+        [SettingsUIHidden]
+        [SettingsUISection(kTimeGroup)]
+        public float CurrentWeatherTime { get; set; }
         
         [SettingsUIHidden]
         [SettingsUISection(kTimeGroup)]
@@ -47,6 +47,38 @@ namespace TimeWeatherAnarchy.Code.Settings
         [SettingsUIHidden]
         [SettingsUISection(kTimeGroup)]
         public int WeatherOption { get; set; }
+        
+        [SettingsUIHidden]
+        [SettingsUISection(kTimeGroup)]
+        public bool EnableCustomPrecipitation { get; set; }
+        
+        [SettingsUIHidden]
+        [SettingsUISection(kTimeGroup)]
+        public bool EnableCustomTemperature { get; set; }
+        
+        [SettingsUIHidden]
+        [SettingsUISection(kTimeGroup)]
+        public bool EnableCustomClouds { get; set; }
+        
+        [SettingsUIHidden]
+        [SettingsUISection(kTimeGroup)]
+        public bool EnableCustomAurora { get; set; }
+        
+        [SettingsUIHidden]
+        [SettingsUISection(kTimeGroup)]
+        public float CurrentAurora { get; set; }
+        
+        [SettingsUIHidden]
+        [SettingsUISection(kTimeGroup)]
+        public float CurrentClouds { get; set; }
+        
+        [SettingsUIHidden]
+        [SettingsUISection(kTimeGroup)]
+        public float CurrentPrecipitation { get; set; }
+        
+        [SettingsUIHidden]
+        [SettingsUISection(kTimeGroup)]
+        public int CurrentDayOfTheYear { get; set; }
 
         [SettingsUISection(kSection, kResetGroup)]
         public bool ResetBindings
@@ -62,8 +94,6 @@ namespace TimeWeatherAnarchy.Code.Settings
         {
             //throw new System.NotImplementedException();
         }
-
-       
     }
 
 }

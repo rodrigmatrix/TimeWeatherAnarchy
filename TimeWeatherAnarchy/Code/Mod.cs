@@ -6,7 +6,6 @@ using Game.Modding;
 using Game.SceneFlow;
 using TimeWeatherAnarchy.Code.Settings;
 using TimeWeatherAnarchy.Code.System;
-using UnityEngine;
 
 namespace TimeWeatherAnarchy.Code
 {
@@ -36,7 +35,11 @@ namespace TimeWeatherAnarchy.Code
             m_Setting.RegisterKeyBindings();
 
             // Load mod settings
-            AssetDatabase.global.LoadSettings(nameof(TimeWeatherAnarchy), m_Setting, new TimeWeatherAnarchySettings(this));
+            AssetDatabase.global.LoadSettings(
+                ("ModsSettings/" + nameof(TimeWeatherAnarchy) + "/" + nameof(TimeWeatherAnarchy)), 
+                m_Setting, 
+                new TimeWeatherAnarchySettings(this)
+            );
 
             // Load system
             updateSystem.UpdateAt<TimeControlSystem>(SystemUpdatePhase.MainLoop);
