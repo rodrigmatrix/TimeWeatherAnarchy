@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeWeatherAnarchy", "TimeWeatherAnarchy.csproj", "{1182A645-021A-4EB5-847F-7F7477C1B5A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1182A645-021A-4EB5-847F-7F7477C1B5A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1182A645-021A-4EB5-847F-7F7477C1B5A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1182A645-021A-4EB5-847F-7F7477C1B5A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1182A645-021A-4EB5-847F-7F7477C1B5A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C194C9EF-BAA9-4052-8F9D-54C33C2B9453}
+	EndGlobalSection
+EndGlobal
