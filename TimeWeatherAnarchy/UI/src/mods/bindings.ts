@@ -12,12 +12,12 @@ export const WeatherOptions = {
     Default: 0,
     Spring: 1,
     Summer: 2,
-    Autumn: 3,
+    Fall: 3,
     Winter: 4,
     Custom: 5,
 } as const;
 
-const MAIN_PANNEL_OPEN = "MainPannelOpen"
+const MAIN_PANEL_OPEN = "MainPanelOpen"
 export const CUSTOM_TIME = "CurrentTime"
 export const CUSTOM_TEMPERATURE = "CurrentTemperature"
 export const TIME_OPTION = "TimeOption"
@@ -32,7 +32,7 @@ export const CUSTOM_CLOUDS = "CurrentClouds"
 export const CUSTOM_AURORA = "CurrentAurora"
 export const CUSTOM_WEATHER_TIME = "CurrentWeatherTime"
 
-export const MainPannelOpen = bindValue<boolean>(mod.id, MAIN_PANNEL_OPEN);
+export const MainPannelOpen = bindValue<boolean>(mod.id, MAIN_PANEL_OPEN);
 export const CurrentTime = bindValue<number>(mod.id, CUSTOM_TIME);
 export const CurrentTemperature = bindValue<number>(mod.id, CUSTOM_TEMPERATURE);
 export const TimeOption = bindValue<number>(mod.id, TIME_OPTION);
@@ -47,7 +47,7 @@ export const CurrentAurora = bindValue<number>(mod.id, CUSTOM_AURORA);
 export const CurrentWeatherTime = bindValue<number>(mod.id, CUSTOM_WEATHER_TIME);
 export const EnableCustomTemperature = bindValue<boolean>(mod.id, ENABLE_CUSTOM_TEMPERATURE);
 
-export const SetMainPannelOpen = (open: boolean) => trigger(mod.id, MAIN_PANNEL_OPEN, open);
+export const SetMainPanelOpen = (open: boolean) => trigger(mod.id, MAIN_PANEL_OPEN, open);
 export const SetCurrentTime = (time: number) => trigger(mod.id, CUSTOM_TIME, time);
 export const SetCurrentTemperature = (time: number) => trigger(mod.id, CUSTOM_TEMPERATURE, time);
 export const SetTimeOption = (option: number) => trigger(mod.id, TIME_OPTION, option);

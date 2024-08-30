@@ -1,22 +1,21 @@
-import { FloatingButton, Button, Tooltip } from "cs2/ui";
+import { Button, Tooltip, Icon } from "cs2/ui";
 import modIcon from "images/mod_icon.svg";
-import { SetMainPannelOpen } from "mods/bindings";
-import classNames from "classnames";
+import { SetMainPanelOpen } from "mods/bindings";
 import { MainPannelOpen } from "mods/bindings";
 import { useValue } from "cs2/api";
-import styles from "./mod-button-module.scss";
 
 export const ModIconButton = () => {
-	const getMainPannelState = useValue(MainPannelOpen);
+	const getMainPanelState = useValue(MainPannelOpen);
 	return (
 		<>
-		<Tooltip 
+		<Tooltip
 			tooltip="Time and Weather Anarchy">
 		   <Button
 				variant="floating"
-				onClick={() => { SetMainPannelOpen(!getMainPannelState) }}
-			>
-        		<img style={{ maskImage: `url(${modIcon})` }} />
+				onClick={() => { SetMainPanelOpen(!getMainPanelState) }}>
+        		<Icon
+					tinted={true}
+					src={modIcon}/>
 			</Button>
 		</Tooltip>
 		</>

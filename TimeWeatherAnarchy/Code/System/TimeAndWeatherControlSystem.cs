@@ -5,36 +5,55 @@ using TimeWeatherAnarchy.Code.Settings;
 
 namespace TimeWeatherAnarchy.Code.System
 {
-    public partial class TimeControlSystem : GameSystemBase
+    public partial class TimeAndWeatherControlSystem : GameSystemBase
     {
         private ClimateSystem _climateSystem;
         private PlanetarySystem _planetarySystem;
         private float _currentTime;
+        private bool _isEditor;
+        private bool gameLoaded;
 
         protected override void OnCreate()
         {
             base.OnCreate();
-            _climateSystem = World.GetExistingSystemManaged<ClimateSystem>();
-            _planetarySystem = World.GetExistingSystemManaged<PlanetarySystem>();
-            Enabled = true;
+            _climateSystem = World.GetOrCreateSystemManaged<ClimateSystem>();
+            _planetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
         }
 
+        protected override void OnGameLoaded(Context serializationContext)
+        {
+            base.OnGameLoaded(serializationContext);
+            _climateSystem = World.GetOrCreateSystemManaged<ClimateSystem>();
+            _planetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
+            if (_isEditor) return;
+            
+            UpdateTime();
+            UpdateWeather();
+        }
+        
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
         {
             base.OnGameLoadingComplete(purpose, mode);
-
-            if (!mode.IsGameOrEditor())
+   
+            _isEditor = mode.IsEditor();
+            if (_isEditor) return;
+            if (mode.IsGameOrEditor())
+            {
                 return;
+            }
 
+            gameLoaded = true;
+            _climateSystem = World.GetOrCreateSystemManaged<ClimateSystem>();
+            _planetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
             UpdateTime();
             UpdateWeather();
         }
 
         public void UpdateWeather()
         {
-            _climateSystem.temperature.overrideState = Mod.m_Setting.EnableCustomTemperature;
-            _climateSystem.temperature.overrideValue = Mod.m_Setting.CurrentTemperature;
-            _climateSystem.currentDate.overrideState = true;
+            _climateSystem = World.GetOrCreateSystemManaged<ClimateSystem>();
+            _planetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
+            if (_isEditor) return;
             switch (Mod.m_Setting.WeatherOption)
             {
                 case ((int)WeatherOptions.Default):
@@ -46,7 +65,7 @@ namespace TimeWeatherAnarchy.Code.System
                 case ((int)WeatherOptions.Summer):
                     _climateSystem.currentDate.overrideValue = 0.500f;
                     break;
-                case ((int)WeatherOptions.Autumn):
+                case ((int)WeatherOptions.Fall):
                     _climateSystem.currentDate.overrideValue = 0.750f;
                     break;
                 case ((int)WeatherOptions.Winter): 
@@ -56,19 +75,22 @@ namespace TimeWeatherAnarchy.Code.System
                     _climateSystem.currentDate.overrideValue = Mod.m_Setting.CurrentWeatherTime;
                     break;
             };
-
+            _climateSystem.temperature.overrideValue = Mod.m_Setting.CurrentTemperature;
             _climateSystem.precipitation.overrideValue = Mod.m_Setting.CurrentPrecipitation;
-            _climateSystem.precipitation.overrideState = Mod.m_Setting.EnableCustomPrecipitation;
-
             _climateSystem.cloudiness.overrideValue = Mod.m_Setting.CurrentClouds;
-            _climateSystem.cloudiness.overrideState = Mod.m_Setting.EnableCustomClouds;
-            
             _climateSystem.aurora.overrideValue = Mod.m_Setting.CurrentAurora;
+            _planetarySystem.dayOfYear = Mod.m_Setting.CurrentDayOfTheYear;
+            
+            _climateSystem.temperature.overrideState = Mod.m_Setting.EnableCustomTemperature;
+            _climateSystem.precipitation.overrideState = Mod.m_Setting.EnableCustomPrecipitation;
+            _climateSystem.cloudiness.overrideState = Mod.m_Setting.EnableCustomClouds;
             _climateSystem.aurora.overrideState = Mod.m_Setting.EnableCustomAurora;
+            _climateSystem.currentDate.overrideState = Mod.m_Setting.WeatherOption != (int) WeatherOptions.Default;
         }
 
         public void UpdateTime()
         {
+            if (_isEditor) return;
             _currentTime = Mod.m_Setting.TimeOption switch
             {
                 ((int) TimeOptions.Default) => 12,
@@ -79,13 +101,18 @@ namespace TimeWeatherAnarchy.Code.System
             };
             _planetarySystem.time = _currentTime;
             _planetarySystem.overrideTime = Mod.m_Setting.TimeOption != (int) TimeOptions.Default;
-
-            // do not add to onUpdate
-            _planetarySystem.dayOfYear = Mod.m_Setting.CurrentDayOfTheYear;
         }
 
         protected override void OnUpdate()
         {
+            if (_isEditor) return;
+            if (gameLoaded)
+            {
+                gameLoaded = false;
+                UpdateWeather();
+                UpdateTime();
+            }
+
             _planetarySystem.time = _currentTime;
         }
     }

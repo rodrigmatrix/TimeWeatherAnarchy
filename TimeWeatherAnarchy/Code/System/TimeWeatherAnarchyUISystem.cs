@@ -6,10 +6,10 @@ namespace TimeWeatherAnarchy.Code.System
 {
     internal partial class TimeWeatherAnarchyUISystem : UISystemBase
     {
-        private TimeControlSystem _timeControlSystem;
+        private TimeAndWeatherControlSystem _timeAndWeatherControlSystem;
         
         private const string MOD_ID = "TimeWeatherAnarchyUI";
-        private const string MAIN_PANNEL_OPEN = "MainPannelOpen";
+        private const string MAIN_PANEL_OPEN = "MainPanelOpen";
         private const string CURRENT_TIME = "CurrentTime";
         private const string CURRENT_TEMPERATURE = "CurrentTemperature";
         private const string TIME_OPTION = "TimeOption";
@@ -43,11 +43,11 @@ namespace TimeWeatherAnarchy.Code.System
         protected override void OnCreate()
         {
             base.OnCreate();
-            _timeControlSystem = World.GetOrCreateSystemManaged<TimeControlSystem>();
+            _timeAndWeatherControlSystem = World.GetOrCreateSystemManaged<TimeAndWeatherControlSystem>();
             
             // get bindings
-
-            _panelVisibleBinding = new ValueBinding<bool>(MOD_ID, MAIN_PANNEL_OPEN, false);
+            
+            _panelVisibleBinding = new ValueBinding<bool>(MOD_ID, MAIN_PANEL_OPEN, false);
             AddBinding(_panelVisibleBinding);
 
             _currentOverrideTime = new ValueBinding<int>(MOD_ID, CURRENT_TIME, Mod.m_Setting.CurrentTime);
@@ -94,7 +94,7 @@ namespace TimeWeatherAnarchy.Code.System
             
             // set bindings
 
-            AddBinding(new TriggerBinding<bool>(MOD_ID, MAIN_PANNEL_OPEN, SetPanelVisibility));
+            AddBinding(new TriggerBinding<bool>(MOD_ID, MAIN_PANEL_OPEN, SetPanelVisibility));
 
             AddBinding(new TriggerBinding<int>(MOD_ID, CURRENT_TIME, SetCurrentTime));
             
@@ -126,98 +126,100 @@ namespace TimeWeatherAnarchy.Code.System
         private void SetPanelVisibility(bool open)
         {
             _panelVisibleBinding.Update(open);
+            _timeAndWeatherControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateTime();
         }
 
         private void SetCurrentTime(int time)
         {
             _currentOverrideTime.Update(time);
             Mod.m_Setting.CurrentTime = time;
-            _timeControlSystem.UpdateTime();
+            _timeAndWeatherControlSystem.UpdateTime();
         }
         
         private void SetCurrentTemperature(int temperature)
         {
             _currentOverrideTemperature.Update(temperature);
             Mod.m_Setting.CurrentTemperature = temperature;
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
         
         private void SetTimeOption(int option)
         {
             _timeOption.Update(option);
             Mod.m_Setting.TimeOption = option;
-            _timeControlSystem.UpdateTime();
+            _timeAndWeatherControlSystem.UpdateTime();
         }
         
         private void SetWeatherOption(int option)
         {
             _weatherOption.Update(option);
             Mod.m_Setting.WeatherOption = option;
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
         
         private void SetEnableCustomPrecipitation(bool enabled)
         {
             _enableCustomPrecipitation.Update(enabled);
             Mod.m_Setting.EnableCustomPrecipitation = enabled;
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
         
         private void SetEnableCustomTemperature(bool enabled)
         {
             _enableCustomTemperature.Update(enabled);
             Mod.m_Setting.EnableCustomTemperature = enabled;
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
         
         private void SetEnableCustomClouds(bool enabled)
         {
             _enableCustomClouds.Update(enabled);
             Mod.m_Setting.EnableCustomClouds = enabled;
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
         
         private void SetEnableCustomAurora(bool enabled)
         {
             _enableCustomAurora.Update(enabled);
             Mod.m_Setting.EnableCustomAurora = enabled;
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
         
         private void SetCustomDayOfYear(int dayOfYear)
         {
             _currentDayOfTheYear.Update(dayOfYear);
             Mod.m_Setting.CurrentDayOfTheYear = dayOfYear;
-            _timeControlSystem.UpdateTime();
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateTime();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
         
         private void SetCustomClouds(float clouds)
         {
             _currentClouds.Update(clouds);
             Mod.m_Setting.CurrentClouds = clouds;
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
         
         private void SetCustomPrecipitation(float precipitation)
         {
             _currentPrecipitation.Update(precipitation);
             Mod.m_Setting.CurrentPrecipitation = precipitation;
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
         
         private void SetCustomAurora(float aurora)
         {
             _currentAurora.Update(aurora);
             Mod.m_Setting.CurrentAurora = aurora;
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
         
         private void SetCustomWeatherTime(float time)
         {
             _currentWeatherTime.Update(time);
             Mod.m_Setting.CurrentWeatherTime = time;
-            _timeControlSystem.UpdateWeather();
+            _timeAndWeatherControlSystem.UpdateWeather();
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿// Developed by Klyte45
 import { Component } from "react";
-import './form-line-style.module.scss'
+import styles from './form-line-style.module.scss'
 
 
-export class Cs2FormLine extends Component<{
+export class FormLine extends Component<{
     title: string | JSX.Element;
     onClick?: () => void;
     compact?: boolean
@@ -18,8 +18,8 @@ export class Cs2FormLine extends Component<{
     render() {
         return (
             <>
-                <div className={["cs2-fieldStyle2", (this.props.compact ? "cs2-fieldStyle-compact" : "cs2-fieldStyle"), this.props.className ?? ""].join(" ")} onClick={() => this.props.onClick?.()}>
-                    <div className="cs2-form-item-label cs2-form-item-label2">
+                <div className={[styles.cs2FieldStyle, (this.props.compact ? styles.cs2FieldStyle.compact : styles.cs2FieldStyle), this.props.className ?? ""].join(" ")} onClick={() => this.props.onClick?.()}>
+                    <div className={[styles.cs2FormItemLabel, styles.cs2FormItemLabel2].join(" ")}>
                         {this.props.title}
                         {this.props.subtitle}
                     </div>

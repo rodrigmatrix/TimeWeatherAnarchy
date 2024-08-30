@@ -1,0 +1,98 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 20rem;
+    text-transform: none;
+}
+
+.headerIcon {
+    width: 24rem;
+    height: 24rem;
+    margin-right: 4rem;
+    top: 8rem;
+    left: 10rem;
+}
+
+.headerText
+{
+    margin-left: 5rem;
+    font-size: xxx-large;
+}
+
+.sliderText
+{
+    margin-top: 5rem;
+}
+
+.optionHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: xxx-large;
+    font-weight: bold;
+    height: 20rem;
+    margin-bottom: 16rem;
+    text-transform: none;
+}
+
+.panel {
+    position: absolute;
+    width: 350rem;
+    height: 640rem;
+    top: 70rem;
+    right: 10rem;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--panelColorNormal);
+    backdrop-filter: var(--panelBlur);
+    border-radius: var(--panelRadius);
+
+    pointer-events: auto;
+
+    overflow: hidden;
+
+    animation: entry 0.2s;
+
+    .list {
+        margin: 6rem;
+        flex: 1;
+    }
+
+    .list > :first-child {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.optionsContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+.container {
+    background-color: rgba(5, 10, 20, 0.2);
+    border-radius: 10rem;
+    padding: 10rem;
+}
+.container:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.label {
+    flex: 1;
+    margin-right: 6rem;
+    max-height: 40rem;
+    coh-font-fit-mode: shrink5;
+}
+
+.colorPicker {
+    height: 30rem !important;
+}

@@ -42,8 +42,7 @@ namespace TimeWeatherAnarchy.Code
             );
 
             // Load system
-            updateSystem.UpdateAt<TimeControlSystem>(SystemUpdatePhase.MainLoop);
-            updateSystem.UpdateAt<TimeControlSystem>(SystemUpdatePhase.ApplyTool);
+            updateSystem.UpdateAfter<TimeAndWeatherControlSystem>(SystemUpdatePhase.LoadSimulation);
             updateSystem.UpdateAt<TimeWeatherAnarchyUISystem>(SystemUpdatePhase.UIUpdate);
         }
 

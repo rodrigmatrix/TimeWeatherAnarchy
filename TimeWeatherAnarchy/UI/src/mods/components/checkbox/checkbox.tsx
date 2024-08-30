@@ -1,69 +1,41 @@
-﻿// Developed by Klyte45
-import { Component } from "react";
-import { Cs2FormLine } from "../form-line/form-line";
+﻿import { FormLine } from "../form-line/form-line";
+import styles from '../form-line/form-line-style.module.scss'
+import { Icon } from "cs2/ui";
+import checkIcon from "../../../images/Checkmark.svg";
 
 export interface Cs2CheckboxProps {
     title: string;
-    isChecked: () => boolean;
+    isChecked: boolean;
     onValueToggle: (newVal: boolean) => void;
 }
 
-export class CheckBoxWithLine extends Component<Cs2CheckboxProps, {}> {
-    constructor(props: Cs2CheckboxProps) {
-        super(props);
-        this.state = {}
-    }
-    render() {
-        const { title, onValueToggle } = this.props;
-        const isChecked = this.props.isChecked();
-        return (
-            <Cs2FormLine title={title} onClick={() => onValueToggle(!isChecked)}>
-                <Cs2Checkbox isChecked={this.props.isChecked} onValueToggle={(x) => onValueToggle(x)} />
-            </Cs2FormLine>
-        );
-    }
+export const CheckBoxWithLine = (props: Cs2CheckboxProps) => {
+    const { title, onValueToggle } = props;
+    const isChecked = props.isChecked;
+    return (
+        <FormLine title={title} onClick={() => onValueToggle(!isChecked)}>
+            <Cs2Checkbox isChecked={props.isChecked} onValueToggle={(x) => onValueToggle(x)} />
+        </FormLine>
+    );
 }
 
 interface Cs2CheckboxTitleLessProps {
-    isChecked: () => boolean;
+    isChecked: boolean;
     onValueToggle: (newVal: boolean) => void;
 }
 
-export class Cs2Checkbox extends Component<Cs2CheckboxTitleLessProps, { checked: () => boolean }> {
-    constructor(props: Cs2CheckboxProps) {
-        super(props);
-        this.state = {
-            checked: props.isChecked
-        }
-    }
-    render() {
-        const { onValueToggle } = this.props;
-        const isChecked = this.state.checked();
-        return (<><div className={`cs2-toggle cs2-item-mouse-states cs2-toggle2 ${isChecked ? "checked" : "unchecked"}`} onClick={() => onValueToggle(!isChecked)}>
-            <div className={`cs2-checkmark ${isChecked ? "checked" : ""}`} ></div>
-        </div>
-        </>);
-    }
-}
+export const Cs2Checkbox = (props: Cs2CheckboxTitleLessProps) => {
+    const { onValueToggle } = props;
+    const isChecked = props.isChecked;
 
-export interface Cs2TriCheckboxProps {
-    isChecked: true | false | null;
-    onValueToggle: (newVal: true | false | null) => void;
-}
-
-export class CheckBox extends Component<Cs2TriCheckboxProps, {}> {
-    constructor(props: Cs2TriCheckboxProps) {
-        super(props);
-        this.state = {
-            checked: props.isChecked
-        }
-    }
-    render() {
-        const { onValueToggle, isChecked } = this.props;
-        const nextVal: true | false | null = isChecked == true ? null : isChecked !== null;
-        return (<><div className={`cs2-toggle cs2-item-mouse-states cs2-toggle2 ${isChecked == true ? "checked" : isChecked === null ? "forbid" : "unchecked"}`} onClick={() => onValueToggle(nextVal)}>
-            <div className={`cs2-checkmark ${isChecked == true ? "checked" : isChecked === null ? "forbid" : ""}`} ></div>
+    return (<>
+        <div className={[styles.cs2Toggle, styles.cs2ItemMouseStates].join(" ")} onClick={() => onValueToggle(!isChecked)}>
+            { isChecked ?
+                <Icon
+                    src={checkIcon}
+                    className={styles.cs2CheckmarkIcon}
+                    tinted={true}/> : null
+            }
         </div>
-        </>);
-    }
+    </>);
 }
