@@ -1,33 +1,81 @@
 ﻿<Publish>
 	<!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
-	<ModId Value="" />
+	<ModId Value="88893" />
 	<!--Name of the mod to display to players-->
-	<DisplayName Value="TimeWeatherAnarchy" />
+	<DisplayName Value="Time and Weather Anarchy" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="This is a short description" />
+	<ShortDescription Value="Override time and weather settings" />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
-This is a long description
+# Time and Weather Anarchy
+Tired of settings time and weather options in dev tools everytime you open the game? This is the mod for you. Override time and weather settings and keep it saved on game reload or save reload.
+
+# How to use it:
+You can change many settings here, and it's a very similar process to the developer tools mode but here, even when you close the game, your weather settings will stay, and you don't have to set them all over again.
+
+The icon to enable the tool is in the top right corner of the game. You can also set a custom keyboard key to open the weather and time panel in the mod settings.
+
+### Here are the settings you can change now:
+
+#### Time Settings
+- Default: It will use the default time from your save.
+- Day: This sets the time to 12PM. It will also enable the day of the year slider so you can change the day to match the day time you need.
+- Night: This sets the time to 22PM. Like the Day setting, this also enables the day of the year slider so you can change the day to match the nighttime you need.
+- Custom: You can select on a slider the custom time you need your game. It also enables the day of the year slider.
+
+#### Weather Settings
+- Default: It will use the default season from your save.
+- Spring: Sets the season to spring.
+- Summer: Sets the season to summer.
+- Fall: Sets the season to fall.
+- Winter: Sets the season to winter.
+- Custom: You can set a custom season selecting the value from the slider.
+
+##### Enable custom Temperature
+- Select the slider the temperature you want. If you change the temperature to a value bellow zero, you game can start snowing even if your season is not winter. Change this if you want to force snow combined with custom precipitation, otherwise, keep it disabled.
+
+##### Enable Custom Precipitation
+- Select the slider the value for how much precipitation is falling. If the temperature is bellow zero, it will be snow, if not, it will be rain.
+
+##### Enable Custom Clouds
+- Select the slider the value for clouds in the sky. If you don't see any clouds, check if you have clouds enabled on your game graphics settings.
+
+##### Enable Custom Aurora
+- Select the slider the value for the northern lights when your game is at night.
+
+#### All the weather and time changes here are only visual just like the dev tools. This won't impact your gameplay.
+
+#### This mod can conflict with other weather mods like WeatherPlus or NiceWeather, so I recommend you disable it if you want to use this. This will not conflict with Lumina.
+
+# Planned Features:
+- Add a few more custom weather options like fog.
+- Add translations.
 	</LongDescription>
 	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail.png" />
+	<Thumbnail Value="ParadoxRes/Thumbnail.png" />
 	<!--Screenshot, can be set multiple times-->
-	<Screenshot Value="" />
+	<Screenshot Value="ParadoxRes/Screenshot1.png" />
+	<Screenshot Value="ParadoxRes/Screenshot2.png" />
+	<Screenshot Value="ParadoxRes/Screenshot3.png" />
+	<Screenshot Value="ParadoxRes/Screenshot4.png" />
+	<Screenshot Value="ParadoxRes/Screenshot5.png" />
+	<Screenshot Value="ParadoxRes/Screenshot6.png" />
+	<Screenshot Value="ParadoxRes/Screenshot7.png" />
+	<Screenshot Value="ParadoxRes/Screenshot8.png" />
 	<!--Tag, can be set multiple times-->
-	<Tag Value="" />
+	<Tag Value="Code Mod" />
 	<!--Link to the forum post where the mod can be discussed-->
-	<ForumLink Value="" />
+	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/time-and-weather-anarchy-mod.1701564/" />
 	<!--Version of the mod-->
 	<ModVersion Value="1.0" />
 	<!--Recommended version of the base game to use the mod-->
-	<GameVersion Value="1.0.*" />
-	<!--Dependency for the mod, can be set multiple times-->
-	<Dependency Id="" />
+	<GameVersion Value="1.1.*" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog Value="" />
 	<!--ChangeLog>
 	</ChangeLog-->
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
-	<ExternalLink Type="" Url="" />
+	<ExternalLink Type="kofi" Url="https://ko-fi.com/rodrigmatrix" />
+	<ExternalLink Type="github" Url="https://github.com/rodrigmatrix/TimeWeatherAnarchy" />
 </Publish>

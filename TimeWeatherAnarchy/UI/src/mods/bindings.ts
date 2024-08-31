@@ -32,7 +32,7 @@ export const CUSTOM_CLOUDS = "CurrentClouds"
 export const CUSTOM_AURORA = "CurrentAurora"
 export const CUSTOM_WEATHER_TIME = "CurrentWeatherTime"
 
-export const MainPannelOpen = bindValue<boolean>(mod.id, MAIN_PANEL_OPEN);
+export const MainPanelOpen = bindValue<boolean>(mod.id, MAIN_PANEL_OPEN);
 export const CurrentTime = bindValue<number>(mod.id, CUSTOM_TIME);
 export const CurrentTemperature = bindValue<number>(mod.id, CUSTOM_TEMPERATURE);
 export const TimeOption = bindValue<number>(mod.id, TIME_OPTION);

@@ -21,8 +21,11 @@ namespace TimeWeatherAnarchy.Code.Settings
         {
             return new Dictionary<string, string>
             {
-                { m_Setting.GetSettingsLocaleID(), "TimeWeatherAnarchy" },
-                { m_Setting.GetOptionTabLocaleID(TimeWeatherAnarchySettings.kSection), "Main" },
+                { m_Setting.GetSettingsLocaleID(), "Time and Weather Anarchy" },
+                { m_Setting.GetOptionTabLocaleID(TimeWeatherAnarchySettings.MainSection), "Main" },
+                { m_Setting.GetOptionGroupLocaleID(TimeWeatherAnarchySettings.KeyBindingGroup), "Key Binding" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(TimeWeatherAnarchySettings.TriggerPanelToggle)), "Open Time And Weather Anarchy" },
+                { m_Setting.GetOptionDescLocaleID(nameof(TimeWeatherAnarchySettings.TriggerPanelToggle)), "Open or close the tool." },
             };
         }
 

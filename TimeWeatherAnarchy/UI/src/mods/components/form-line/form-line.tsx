@@ -4,7 +4,7 @@ import styles from './form-line-style.module.scss'
 
 
 export class FormLine extends Component<{
-    title: string | JSX.Element;
+    title: string | null | JSX.Element;
     onClick?: () => void;
     compact?: boolean
     className?: string

@@ -12,7 +12,7 @@ import {
 import modIcon from "images/mod_icon.svg";
 import styles from "./time-weather-panel.module.scss";
 import {
-    MainPannelOpen,
+    MainPanelOpen,
     CurrentTime,
     SetCurrentTime,
     TimeOption,
@@ -50,7 +50,7 @@ import { Section } from "../components/section/section";
 const DropdownStyle: Theme | any = getModule("game-ui/menu/themes/dropdown.module.scss", "classes");
 
 export const TimeWeatherPanel = () => {
-    const mainPannelOpen = useValue(MainPannelOpen);
+    const mainPannelOpen = useValue(MainPanelOpen);
     const currentTime = useValue(CurrentTime);
     const currentTemperature = useValue(CurrentTemperature);
     const currentDayOfTheYear = useValue(CurrentDayOfTheYear);
@@ -132,7 +132,7 @@ export const TimeWeatherPanel = () => {
                                onChange={value => {
                                    SetCurrentTime(value)
                                }}/>
-                           <span className={styles.sliderText}>Time: {currentTime}</span>
+                           <span className={styles.sliderText}>Hour of the day: {currentTime}</span>
                            <div style={({marginBottom: '16rem'})}/>
                        </> : null
                    }
@@ -165,7 +165,7 @@ export const TimeWeatherPanel = () => {
                        </DropdownToggle>
                    </Dropdown>
 
-                   {showCustomWeatherTime ?
+                   { showCustomWeatherTime ?
                        <>
                            <div style={({marginBottom: '16rem'})}/>
                            <Slider
@@ -214,7 +214,7 @@ export const TimeWeatherPanel = () => {
                                SetEnableCustomPrecipitation(value)
                            }}/>
 
-                       {enableCustomPrecipitation ?
+                       { enableCustomPrecipitation ?
                            <>
                                <div style={({marginBottom: '16rem'})}/>
                                <Slider

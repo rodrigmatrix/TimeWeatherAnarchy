@@ -4,7 +4,7 @@ import { Icon } from "cs2/ui";
 import checkIcon from "../../../images/Checkmark.svg";
 
 export interface Cs2CheckboxProps {
-    title: string;
+    title: string | null;
     isChecked: boolean;
     onValueToggle: (newVal: boolean) => void;
 }

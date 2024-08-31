@@ -73,6 +73,12 @@
 		<None Include="$(ModTargetsFile)" Link="Properties\Mod.targets" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<EmbeddedResource Include="Locale\*.json" />
+		<None Remove="Locale.json" />
+		<None Remove="Locale\*.json" />
+	</ItemGroup>
+
   <Target Name="BuildUI" AfterTargets="AfterBuild">
     <Exec Command="npm run build" WorkingDirectory="$(ProjectDir)/UI" />
   </Target>
