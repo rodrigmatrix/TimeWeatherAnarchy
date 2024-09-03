@@ -1,60 +1,73 @@
-import {
-    Button,
-    Dropdown,
-    DropdownItem, DropdownTheme, DropdownToggle,
-    FloatingButton, FOCUS_AUTO, Icon,
-    Panel,
-    PanelSection,
-    PanelSectionRow,
-    Portal,
-    Scrollable, Tooltip
-} from "cs2/ui";
+import {Dropdown, DropdownItem, DropdownToggle, FOCUS_AUTO, Icon, Panel, Scrollable} from "cs2/ui";
 import modIcon from "images/mod_icon.svg";
 import styles from "./time-weather-panel.module.scss";
 import {
-    MainPanelOpen,
+    CurrentAurora,
+    CurrentClouds,
+    CurrentDayOfTheYear,
+    CurrentPrecipitation,
+    CurrentTemperature,
     CurrentTime,
+    CurrentWeatherTime, CustomFog, CustomRainbow, CustomThunder,
+    EnableCustomAurora,
+    EnableCustomClouds, EnableCustomFog,
+    EnableCustomPrecipitation,
+    EnableCustomTemperature, EnableCustomThunder,
+    MainPanelOpen,
+    SetCurrentTemperature,
     SetCurrentTime,
+    SetCustomAurora,
+    SetCustomClouds,
+    SetCustomDayOfTheYear, SetCustomFog,
+    SetCustomPrecipitation, SetCustomRainbow, SetCustomThunder,
+    SetCustomWeatherTime,
+    SetEnableCustomAurora,
+    SetEnableCustomClouds, SetEnableCustomFog,
+    SetEnableCustomPrecipitation,
+    SetEnableCustomTemperature, SetEnableCustomThunder,
+    SetTimeOption,
+    SetWeatherOption,
     TimeOption,
     TimeOptions,
-    SetTimeOption,
-    CurrentTemperature,
-    SetCurrentTemperature,
-    WeatherOptions,
-    SetWeatherOption,
     WeatherOption,
-    EnableCustomPrecipitation,
-    SetCustomPrecipitation,
-    SetEnableCustomPrecipitation,
-    SetEnableCustomAurora,
-    EnableCustomAurora,
-    EnableCustomClouds,
-    CurrentPrecipitation,
-    CurrentClouds,
-    CurrentAurora,
-    CurrentDayOfTheYear,
-    SetCustomClouds,
-    SetEnableCustomClouds,
-    SetCustomAurora,
-    SetCustomDayOfTheYear,
-    EnableCustomTemperature,
-    CurrentWeatherTime, SetCustomWeatherTime, SetEnableCustomTemperature
+    WeatherOptions
 } from "mods/bindings";
-import { useValue } from "cs2/api";
+import {useValue} from "cs2/api";
 import * as React from 'react';
-import { getModule } from "cs2/modding";
-import { Theme } from "cs2/bindings";
-import { Slider } from "../components/slider/slider";
-import {CheckBoxWithLine, Cs2Checkbox} from "../components/checkbox/checkbox";
-import { Section } from "../components/section/section";
+import {getModule} from "cs2/modding";
+import {Theme} from "cs2/bindings";
+import {Slider} from "../components/slider/slider";
+import {CheckBoxWithLine} from "../components/checkbox/checkbox";
+import {Section} from "../components/section/section";
+import {useLocalization} from "cs2/l10n";
+import {FormLine} from "../components/form-line/form-line";
+
 const DropdownStyle: Theme | any = getModule("game-ui/menu/themes/dropdown.module.scss", "classes");
 
+const convertNumToTime = (number: number): string => {
+    let sign = (number >= 0) ? 1 : -1;
+    number = number * sign;
+    let hour = Math.floor(number);
+    let decPart = number - hour;
+    let min = 1 / 60;
+    decPart = min * Math.round(decPart / min);
+    let minute = Math.floor(decPart * 60) + '';
+    if (minute.length < 2) {
+        minute = '0' + minute;
+    }
+    return (sign == 1 ? '' : '-') + hour + ':' + minute;
+}
+
 export const TimeWeatherPanel = () => {
+    const { translate } = useLocalization();
     const mainPannelOpen = useValue(MainPanelOpen);
     const currentTime = useValue(CurrentTime);
     const currentTemperature = useValue(CurrentTemperature);
     const currentDayOfTheYear = useValue(CurrentDayOfTheYear);
     const currentPrecipitation = useValue(CurrentPrecipitation);
+    const customFog = useValue(CustomFog);
+    const customThunder = useValue(CustomThunder);
+    const customRainbow = useValue(CustomRainbow);
     const currentWeatherTime = useValue(CurrentWeatherTime);
     const currentClouds = useValue(CurrentClouds);
     const currentAurora = useValue(CurrentAurora);
@@ -64,9 +77,12 @@ export const TimeWeatherPanel = () => {
     const enableCustomClouds = useValue(EnableCustomClouds);
     const enableCustomAurora = useValue(EnableCustomAurora);
     const enableCustomTemperature = useValue(EnableCustomTemperature);
+    const enableCustomFog = useValue(EnableCustomFog);
+    const enableCustomThunder = useValue(EnableCustomThunder);
     const showCustomTime = selectedTimeOption == TimeOptions.Custom
     const showCustomDayOfYear = selectedTimeOption != TimeOptions.Default
     const showCustomWeatherTime = selectedWeatherOption == WeatherOptions.Custom
+
     if (!mainPannelOpen) {
         return(<></>)
     }
@@ -80,7 +96,7 @@ export const TimeWeatherPanel = () => {
                 closeOnSelect={true}
                 onChange={() => { SetTimeOption(value) }}
             >
-                {key}
+                {translate("TimeWeatherAnarchy." + key)}
             </DropdownItem>
         ))
     const weatherOptions = Object.keys(WeatherOptions)
@@ -92,7 +108,7 @@ export const TimeWeatherPanel = () => {
                 closeOnSelect={true}
                 onChange={() => { SetWeatherOption(value) }}
             >
-                {key}
+                {translate("TimeWeatherAnarchy." + key)}
             </DropdownItem>
         ))
 
@@ -105,20 +121,20 @@ export const TimeWeatherPanel = () => {
                        tinted={true}
                        src={modIcon}
                        className={styles.headerIcon}/>
-                   <span className={styles.headerText}>Time and Weather Anarchy</span>
+                   <span className={styles.headerText}>{translate("TimeWeatherAnarchy.ModName")}</span>
                </div>
            )}
            className={styles.panel}
        >
            <Scrollable>
                <Section>
-                   <span className={styles.optionHeader}>Time Options</span>
+                   <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.TimeOptions")}</span>
                    <Dropdown
                        theme={DropdownStyle}
                        content={timeOptions}
                    >
                        <DropdownToggle>
-                           {Object.keys(TimeOptions)[selectedTimeOption].valueOf()}
+                           {translate("TimeWeatherAnarchy." + Object.keys(TimeOptions)[selectedTimeOption].valueOf())}
                        </DropdownToggle>
                    </Dropdown>
                    <div style={({marginBottom: '16rem'})}/>
@@ -126,13 +142,13 @@ export const TimeWeatherPanel = () => {
                    { showCustomTime ?
                        <>
                            <Slider
-                               start={0}
-                               end={24}
+                               start={0.0}
+                               end={23.99}
                                value={currentTime}
                                onChange={value => {
                                    SetCurrentTime(value)
                                }}/>
-                           <span className={styles.sliderText}>Hour of the day: {currentTime}</span>
+                           <span className={styles.sliderText}>{translate("TimeWeatherAnarchy.HourOfTheDay")}: {convertNumToTime(currentTime)}</span>
                            <div style={({marginBottom: '16rem'})}/>
                        </> : null
                    }
@@ -146,7 +162,7 @@ export const TimeWeatherPanel = () => {
                                onChange={value => {
                                    SetCustomDayOfTheYear(value)
                                }}/>
-                           <span className={styles.sliderText}>Day of the year: {currentDayOfTheYear}</span>
+                           <span className={styles.sliderText}>{translate("TimeWeatherAnarchy.DayOfTheYear")}: {currentDayOfTheYear}</span>
 
                        </div> : null
                    }
@@ -154,18 +170,18 @@ export const TimeWeatherPanel = () => {
                </Section>
 
                <Section>
-                   <span className={styles.optionHeader}>Weather Options</span>
+                   <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.WeatherOptions")}</span>
 
                    <Dropdown
                        theme={DropdownStyle}
                        content={weatherOptions}
                    >
                        <DropdownToggle>
-                           {Object.keys(WeatherOptions)[selectedWeatherOption].valueOf()}
+                           {translate("TimeWeatherAnarchy." + Object.keys(WeatherOptions)[selectedWeatherOption].valueOf())}
                        </DropdownToggle>
                    </Dropdown>
 
-                   { showCustomWeatherTime ?
+                   {showCustomWeatherTime ?
                        <>
                            <div style={({marginBottom: '16rem'})}/>
                            <Slider
@@ -175,7 +191,8 @@ export const TimeWeatherPanel = () => {
                                onChange={value => {
                                    SetCustomWeatherTime(value)
                                }}/>
-                           <span className={styles.sliderText}>Weather Date: {currentWeatherTime.toFixed(3)}</span>
+                           <span
+                               className={styles.sliderText}>{translate("TimeWeatherAnarchy.WeatherDate")}: {currentWeatherTime.toFixed(3)}</span>
                        </> : null
                    }
 
@@ -183,13 +200,13 @@ export const TimeWeatherPanel = () => {
 
                    <div className={styles.container}>
                        <CheckBoxWithLine
-                           title={"Enable Custom Temperature"}
+                           title={translate("TimeWeatherAnarchy.EnableCustomTemperature")}
                            isChecked={enableCustomTemperature}
                            onValueToggle={(value) => {
                                SetEnableCustomTemperature(value)
                            }}/>
 
-                       { enableCustomTemperature ?
+                       {enableCustomTemperature ?
                            <>
                                <div style={({marginBottom: '16rem'})}/>
                                <Slider
@@ -199,7 +216,8 @@ export const TimeWeatherPanel = () => {
                                    onChange={value => {
                                        SetCurrentTemperature(value)
                                    }}/>
-                               <span className={styles.sliderText}>Temperature: {currentTemperature}</span>
+                               <span
+                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Temperature")}: {currentTemperature}</span>
                            </> : null
                        }
                    </div>
@@ -208,13 +226,13 @@ export const TimeWeatherPanel = () => {
 
                    <div className={styles.container}>
                        <CheckBoxWithLine
-                           title={"Enable Custom Precipitation"}
+                           title={translate("TimeWeatherAnarchy.EnableCustomPrecipitation")}
                            isChecked={enableCustomPrecipitation}
                            onValueToggle={(value) => {
                                SetEnableCustomPrecipitation(value)
                            }}/>
 
-                       { enableCustomPrecipitation ?
+                       {enableCustomPrecipitation ?
                            <>
                                <div style={({marginBottom: '16rem'})}/>
                                <Slider
@@ -225,16 +243,43 @@ export const TimeWeatherPanel = () => {
                                        SetCustomPrecipitation(value)
                                    }}/>
                                <span
-                                   className={styles.sliderText}>Precipitation: {currentPrecipitation.toFixed(3)}</span>
+                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Precipitation")}: {currentPrecipitation.toFixed(3)}</span>
                            </> : null
                        }
                    </div>
 
                    <div style={({marginBottom: '16rem'})}/>
 
+                   {/*<div className={styles.container}>*/}
+                   {/*    <CheckBoxWithLine*/}
+                   {/*        title={translate("TimeWeatherAnarchy.EnableCustomThunder")}*/}
+                   {/*        isChecked={enableCustomThunder}*/}
+                   {/*        onValueToggle={(value) => {*/}
+                   {/*            SetEnableCustomThunder(value)*/}
+                   {/*        }}/>*/}
+
+                   {/*    {enableCustomThunder ?*/}
+                   {/*        <>*/}
+                   {/*            <div style={({marginBottom: '16rem'})}/>*/}
+                   {/*            <Slider*/}
+                   {/*                start={0.0}*/}
+                   {/*                end={1.0}*/}
+                   {/*                value={customThunder}*/}
+                   {/*                onChange={value => {*/}
+                   {/*                    SetCustomThunder(value)*/}
+                   {/*                }}/>*/}
+                   {/*            <div style={({marginBottom: '4rem'})}/>*/}
+                   {/*            <span*/}
+                   {/*                className={styles.sliderText}>{translate("TimeWeatherAnarchy.Thunder")}: {customThunder.toFixed(3)}</span>*/}
+                   {/*        </> : null*/}
+                   {/*    }*/}
+                   {/*</div>*/}
+
+                   {/*<div style={({marginBottom: '16rem'})}/>*/}
+
                    <div className={styles.container}>
                        <CheckBoxWithLine
-                           title={"Enable Custom Clouds"}
+                           title={translate("TimeWeatherAnarchy.EnableCustomClouds")}
                            isChecked={enableCustomClouds}
                            onValueToggle={(value) => {
                                SetEnableCustomClouds(value)
@@ -250,7 +295,8 @@ export const TimeWeatherPanel = () => {
                                    onChange={value => {
                                        SetCustomClouds(value)
                                    }}/>
-                               <span className={styles.sliderText}>Clouds: {currentClouds.toFixed(3)}</span>
+                               <span
+                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Clouds")}: {currentClouds.toFixed(3)}</span>
                            </> : null
                        }
                    </div>
@@ -259,7 +305,7 @@ export const TimeWeatherPanel = () => {
 
                    <div className={styles.container}>
                        <CheckBoxWithLine
-                           title={"Enable Custom Aurora"}
+                           title={translate("TimeWeatherAnarchy.EnableCustomAurora")}
                            isChecked={enableCustomAurora}
                            onValueToggle={(value) => {
                                SetEnableCustomAurora(value)
@@ -276,10 +322,56 @@ export const TimeWeatherPanel = () => {
                                        SetCustomAurora(value)
                                    }}/>
                                <div style={({marginBottom: '4rem'})}/>
-                               <span className={styles.sliderText}>Aurora: {currentAurora.toFixed(3)}</span>
+                               <span
+                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Aurora")}: {currentAurora.toFixed(3)}</span>
                            </> : null
                        }
                    </div>
+
+                   <div style={({marginBottom: '16rem'})}/>
+
+                   {/*<div className={styles.container}>*/}
+                   {/*    <CheckBoxWithLine*/}
+                   {/*        title={translate("TimeWeatherAnarchy.EnableCustomFog")}*/}
+                   {/*        isChecked={enableCustomFog}*/}
+                   {/*        onValueToggle={(value) => {*/}
+                   {/*            SetEnableCustomFog(value)*/}
+                   {/*        }}/>*/}
+
+                   {/*    {enableCustomFog ?*/}
+                   {/*        <>*/}
+                   {/*            <div style={({marginBottom: '16rem'})}/>*/}
+                   {/*            <Slider*/}
+                   {/*                start={0.0}*/}
+                   {/*                end={1.0}*/}
+                   {/*                value={customFog}*/}
+                   {/*                onChange={value => {*/}
+                   {/*                    SetCustomFog(value)*/}
+                   {/*                }}/>*/}
+                   {/*            <div style={({marginBottom: '4rem'})}/>*/}
+                   {/*            <span*/}
+                   {/*                className={styles.sliderText}>{translate("TimeWeatherAnarchy.Fog")}: {customFog.toFixed(3)}</span>*/}
+                   {/*        </> : null*/}
+                   {/*    }*/}
+                   {/*</div>*/}
+
+                   {/*<div style={({marginBottom: '16rem'})}/>*/}
+
+                   {/*<div className={styles.container}>*/}
+                   {/*    <FormLine title={translate("TimeWeatherAnarchy.RainbowStrength")}/>*/}
+                   {/*    <div style={({marginBottom: '16rem'})}/>*/}
+                   {/*    <Slider*/}
+                   {/*        start={0.0}*/}
+                   {/*        end={1.0}*/}
+                   {/*        value={customRainbow}*/}
+                   {/*        onChange={value => {*/}
+                   {/*            SetCustomRainbow(value)*/}
+                   {/*        }}/>*/}
+                   {/*    <div style={({marginBottom: '4rem'})}/>*/}
+                   {/*    <span*/}
+                   {/*        className={styles.sliderText}>{translate("TimeWeatherAnarchy.Rainbow")}: {customRainbow.toFixed(3)}</span>*/}
+                   {/*</div>*/}
+
                </Section>
            </Scrollable>
        </Panel>

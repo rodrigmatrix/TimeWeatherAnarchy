@@ -10,7 +10,7 @@ namespace TimeWeatherAnarchy
 {
     public class Mod : IMod
     {
-        public static ILog log = LogManager.GetLogger($"{nameof(TimeWeatherAnarchy)}.{nameof(Mod)}").SetShowsErrorsInUI(false);
+        public static readonly ILog log = LogManager.GetLogger($"{nameof(TimeWeatherAnarchy)}.{nameof(Mod)}").SetShowsErrorsInUI(false);
         public static TimeWeatherAnarchySettings m_Setting { get; private set; }
 
         public void OnLoad(UpdateSystem updateSystem)
@@ -31,7 +31,6 @@ namespace TimeWeatherAnarchy
                 m_Setting,
                 new TimeWeatherAnarchySettings(this)
             );
-            
 
             // Load system
             updateSystem.UpdateAt<TimeAndWeatherControlSystem>(SystemUpdatePhase.MainLoop);

@@ -4,10 +4,11 @@
 		<OutputType>Library</OutputType>
 		<TargetFramework>net472</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
-    <LangVersion>12</LangVersion>
+    	<LangVersion>12</LangVersion>
 		
 		<!--The file where mod information which is required for publishing mod on PDX mods are stored-->
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
+		<AdditionalFilesDirectory>Resources</AdditionalFilesDirectory>
 	</PropertyGroup>
 	
 	<!--Imports must be after PropertyGroup block-->
@@ -82,5 +83,16 @@
   <Target Name="BuildUI" AfterTargets="AfterBuild">
     <Exec Command="npm run build" WorkingDirectory="$(ProjectDir)/UI" />
   </Target>
+
+	<ItemGroup>
+		<Folder Include="Resources\lang\" />
+	</ItemGroup>
+
+	<Target Name="GetAdditionalFiles" AfterTargets="DeployWIP">
+		<ItemGroup>
+			<AdditionalFilesToDeploy Include="$(AdditionalFilesDirectory)\**\*.*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(AdditionalFilesToDeploy)" DestinationFiles="@(AdditionalFilesToDeploy->'$(DeployDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
 
 </Project>

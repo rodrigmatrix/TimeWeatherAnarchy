@@ -9,7 +9,7 @@
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
 # Time and Weather Anarchy
-Tired of settings time and weather options in dev tools everytime you open the game? This is the mod for you. Override time and weather settings and keep it saved on game reload or save reload.
+Tired of setting time and weather options in dev tools everytime you open the game? This is the mod for you. Override time and weather settings and keep it saved on game reload or save reload.
 
 # How to use it:
 You can change many settings here, and it's a very similar process to the developer tools mode but here, even when you close the game, your weather settings will stay, and you don't have to set them all over again.
@@ -46,11 +46,13 @@ The icon to enable the tool is in the top right corner of the game. You can also
 
 #### All the weather and time changes here are only visual just like the dev tools. This won't impact your gameplay.
 
-#### This mod can conflict with other weather mods like WeatherPlus or NiceWeather, so I recommend you disable it if you want to use this. This will not conflict with Lumina.
+#### This mod can conflict with other weather mods like WeatherPlus, NiceWeather DayNight Switch, so I recommend you disable it if you want to use this to avoid any crashes. This will not conflict with Lumina but Lumina's time of day slider must be DISABLED.
 
 # Planned Features:
 - Add a few more custom weather options like fog.
 - Add translations.
+
+#### Thanks to Klyte45 and T.D.W. for their open source code. I used some of the react components they have created.
 	</LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="ParadoxRes/Thumbnail.png" />
@@ -68,11 +70,17 @@ The icon to enable the tool is in the top right corner of the game. You can also
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/time-and-weather-anarchy-mod.1701564/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.0" />
+	<ModVersion Value="1.0.1" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.1.*" />
+	<Dependency Id="75426"/>
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-	<ChangeLog Value="" />
+	<ChangeLog>
+# 1.0.1:
+- Added translation to pt-BR.
+- Custom time option can now change minutes.
+- Added new hotkey pref to switch from day or night time in settings.
+	</ChangeLog>
 	<!--ChangeLog>
 	</ChangeLog-->
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->

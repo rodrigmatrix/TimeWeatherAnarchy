@@ -18,15 +18,24 @@ namespace TimeWeatherAnarchy
 
         [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]
         public ProxyBinding TriggerPanelToggle { get; set; }
+        
+        [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]
+        public ProxyBinding TriggerDayNightToggle { get; set; }
 
         [SettingsUIHidden]
-        public int CurrentTime { get; set; }
+        public float Time { get; set; }
         
         [SettingsUIHidden]
-        public float CurrentWeatherTime { get; set; }
+        public float WeatherTime { get; set; }
         
         [SettingsUIHidden]
-        public int CurrentTemperature { get; set; }
+        public int Temperature { get; set; }
+        
+        [SettingsUIHidden]
+        public float Fog { get; set; }
+        
+        [SettingsUIHidden]
+        public float Thunder { get; set; }
         
         [SettingsUIHidden]
         public int TimeOption { get; set; }
@@ -47,16 +56,25 @@ namespace TimeWeatherAnarchy
         public bool EnableCustomAurora { get; set; }
         
         [SettingsUIHidden]
-        public float CurrentAurora { get; set; }
+        public bool EnableCustomFog { get; set; }
         
         [SettingsUIHidden]
-        public float CurrentClouds { get; set; }
+        public bool EnableCustomThunder { get; set; }
         
         [SettingsUIHidden]
-        public float CurrentPrecipitation { get; set; }
+        public float Rainbow { get; set; }
         
         [SettingsUIHidden]
-        public int CurrentDayOfTheYear { get; set; }
+        public float Aurora { get; set; }
+        
+        [SettingsUIHidden]
+        public float Clouds { get; set; }
+        
+        [SettingsUIHidden]
+        public float Precipitation { get; set; }
+        
+        [SettingsUIHidden]
+        public int DayOfTheYear { get; set; }
 
         public override void SetDefaults()
         {

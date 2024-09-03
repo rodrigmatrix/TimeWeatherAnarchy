@@ -26,11 +26,16 @@ export const ENABLE_CUSTOM_PRECIPITATION = "EnableCustomPrecipitation"
 export const ENABLE_CUSTOM_CLOUDS = "EnableCustomClouds"
 export const ENABLE_CUSTOM_AURORA = "EnableCustomAurora"
 export const ENABLE_CUSTOM_TEMPERATURE = "EnableCustomTemperature"
+export const ENABLE_CUSTOM_FOG = "EnableCustomFog"
+export const ENABLE_CUSTOM_THUNDER = "EnableCustomThunder"
 export const CUSTOM_DAY_OF_THE_YEAR = "CurrentDayOfTheYear"
 export const CUSTOM_PRECIPITATION = "CurrentPrecipitation"
 export const CUSTOM_CLOUDS = "CurrentClouds"
 export const CUSTOM_AURORA = "CurrentAurora"
 export const CUSTOM_WEATHER_TIME = "CurrentWeatherTime"
+export const CUSTOM_FOG = "CurrentFog"
+export const CUSTOM_THUNDER = "CurrentThunder"
+export const CUSTOM_RAINBOW = "CurrentRainbow"
 
 export const MainPanelOpen = bindValue<boolean>(mod.id, MAIN_PANEL_OPEN);
 export const CurrentTime = bindValue<number>(mod.id, CUSTOM_TIME);
@@ -40,11 +45,16 @@ export const WeatherOption = bindValue<number>(mod.id, WEATHER_OPTION);
 export const EnableCustomPrecipitation = bindValue<boolean>(mod.id, ENABLE_CUSTOM_PRECIPITATION);
 export const EnableCustomClouds = bindValue<boolean>(mod.id, ENABLE_CUSTOM_CLOUDS);
 export const EnableCustomAurora = bindValue<boolean>(mod.id, ENABLE_CUSTOM_AURORA);
+export const EnableCustomFog = bindValue<boolean>(mod.id, ENABLE_CUSTOM_FOG);
+export const EnableCustomThunder = bindValue<boolean>(mod.id, ENABLE_CUSTOM_THUNDER);
 export const CurrentDayOfTheYear = bindValue<number>(mod.id, CUSTOM_DAY_OF_THE_YEAR);
 export const CurrentPrecipitation = bindValue<number>(mod.id, CUSTOM_PRECIPITATION);
 export const CurrentClouds = bindValue<number>(mod.id, CUSTOM_CLOUDS);
 export const CurrentAurora = bindValue<number>(mod.id, CUSTOM_AURORA);
 export const CurrentWeatherTime = bindValue<number>(mod.id, CUSTOM_WEATHER_TIME);
+export const CustomFog = bindValue<number>(mod.id, CUSTOM_FOG);
+export const CustomThunder = bindValue<number>(mod.id, CUSTOM_THUNDER);
+export const CustomRainbow = bindValue<number>(mod.id, CUSTOM_RAINBOW);
 export const EnableCustomTemperature = bindValue<boolean>(mod.id, ENABLE_CUSTOM_TEMPERATURE);
 
 export const SetMainPanelOpen = (open: boolean) => trigger(mod.id, MAIN_PANEL_OPEN, open);
@@ -53,6 +63,8 @@ export const SetCurrentTemperature = (time: number) => trigger(mod.id, CUSTOM_TE
 export const SetTimeOption = (option: number) => trigger(mod.id, TIME_OPTION, option);
 export const SetWeatherOption = (option: number) => trigger(mod.id, WEATHER_OPTION, option);
 export const SetEnableCustomPrecipitation = (enabled: boolean) => trigger(mod.id, ENABLE_CUSTOM_PRECIPITATION, enabled);
+export const SetEnableCustomFog = (enabled: boolean) => trigger(mod.id, ENABLE_CUSTOM_FOG, enabled);
+export const SetEnableCustomThunder = (enabled: boolean) => trigger(mod.id, ENABLE_CUSTOM_THUNDER, enabled);
 export const SetCustomPrecipitation = (value: number) => trigger(mod.id, CUSTOM_PRECIPITATION, value);
 export const SetEnableCustomClouds = (enabled: boolean) => trigger(mod.id, ENABLE_CUSTOM_CLOUDS, enabled);
 export const SetCustomClouds = (value: number) => trigger(mod.id, CUSTOM_CLOUDS, value);
@@ -61,3 +73,6 @@ export const SetCustomAurora = (value: number) => trigger(mod.id, CUSTOM_AURORA,
 export const SetCustomDayOfTheYear = (value: number) => trigger(mod.id, CUSTOM_DAY_OF_THE_YEAR, value);
 export const SetEnableCustomTemperature = (enabled: boolean) => trigger(mod.id, ENABLE_CUSTOM_TEMPERATURE, enabled);
 export const SetCustomWeatherTime = (value: number) => trigger(mod.id, CUSTOM_WEATHER_TIME, value);
+export const SetCustomFog = (value: number) => trigger(mod.id, CUSTOM_FOG, value);
+export const SetCustomThunder = (value: number) => trigger(mod.id, CUSTOM_THUNDER, value);
+export const SetCustomRainbow = (value: number) => trigger(mod.id, CUSTOM_RAINBOW, value);
