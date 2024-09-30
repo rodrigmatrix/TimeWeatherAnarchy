@@ -49,11 +49,10 @@ The icon to enable the tool is in the top right corner of the game. You can also
 #### This mod can conflict with other weather mods like WeatherPlus, NiceWeather DayNight Switch, so I recommend you disable it if you want to use this to avoid any crashes. This will not conflict with Lumina but Lumina's time of day slider must be DISABLED.
 
 # Planned Features:
-- Add a few more custom weather options like fog.
-- Add translations.
+- Add more translations.
 
 #### Thanks to Klyte45 and T.D.W. for their open source code. I used some of the react components they have created.
-	</LongDescription>
+  </LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="ParadoxRes/Thumbnail.png" />
 	<!--Screenshot, can be set multiple times-->
@@ -70,16 +69,16 @@ The icon to enable the tool is in the top right corner of the game. You can also
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/time-and-weather-anarchy-mod.1701564/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.0.1" />
+	<ModVersion Value="1.0.2" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.1.*" />
 	<Dependency Id="75426"/>
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog>
-# 1.0.1:
-- Added translation to pt-BR.
-- Custom time option can now change minutes.
-- Added new hotkey pref to switch from day or night time in settings.
+# 1.0.2:
+- Fixed season updating to the oposite season on a few saves.
+- Fixed ui warning logs.
+- Updated Thumbnail.
 	</ChangeLog>
 	<!--ChangeLog>
 	</ChangeLog-->

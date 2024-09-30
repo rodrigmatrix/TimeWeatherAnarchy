@@ -219,42 +219,42 @@ namespace TimeWeatherAnarchy.Code.System
         {
             _currentOverrideTime.Update(time);
             Mod.m_Setting.Time = time;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdateTime();
         }
         
         private void SetCurrentTemperature(int temperature)
         {
             _currentOverrideTemperature.Update(temperature);
             Mod.m_Setting.Temperature = temperature;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdateTemperature();
         }
         
         private void SetTimeOption(int option)
         {
             _timeOption.Update(option);
             Mod.m_Setting.TimeOption = option;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdateTime();
         }
         
         private void SetWeatherOption(int option)
         {
             _weatherOption.Update(option);
             Mod.m_Setting.WeatherOption = option;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdateSeason();
         }
         
         private void SetEnableCustomPrecipitation(bool enabled)
         {
             _enableCustomPrecipitation.Update(enabled);
             Mod.m_Setting.EnableCustomPrecipitation = enabled;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdatePrecipitation();
         }
         
         private void SetEnableCustomTemperature(bool enabled)
         {
             _enableCustomTemperature.Update(enabled);
             Mod.m_Setting.EnableCustomTemperature = enabled;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdateTemperature();
         }
         
         private void SetEnableCustomFog(bool enabled)
@@ -275,42 +275,42 @@ namespace TimeWeatherAnarchy.Code.System
         {
             _enableCustomClouds.Update(enabled);
             Mod.m_Setting.EnableCustomClouds = enabled;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdateClouds();
         }
         
         private void SetEnableCustomAurora(bool enabled)
         {
             _enableCustomAurora.Update(enabled);
             Mod.m_Setting.EnableCustomAurora = enabled;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdateAurora();
         }
         
         private void SetCustomDayOfYear(int dayOfYear)
         {
             _currentDayOfTheYear.Update(dayOfYear);
             Mod.m_Setting.DayOfTheYear = dayOfYear;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdateTime();
         }
         
         private void SetCustomClouds(float clouds)
         {
             _currentClouds.Update(clouds);
             Mod.m_Setting.Clouds = clouds;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdateClouds();
         }
         
         private void SetCustomPrecipitation(float precipitation)
         {
             _currentPrecipitation.Update(precipitation);
             Mod.m_Setting.Precipitation = precipitation;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdatePrecipitation();
         }
         
         private void SetCustomAurora(float aurora)
         {
             _currentAurora.Update(aurora);
             Mod.m_Setting.Aurora = aurora;
-            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            _timeAndWeatherControlSystem.UpdateAurora();
         }
         
         private void SetCustomWeatherTime(float time)

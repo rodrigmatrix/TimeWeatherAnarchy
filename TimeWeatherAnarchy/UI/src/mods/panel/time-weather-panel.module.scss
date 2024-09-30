@@ -18,7 +18,7 @@
 .headerText
 {
     margin-left: 5rem;
-    font-size: xxx-large;
+    font-size: var(--fontSizeL);
 }
 
 .sliderText
@@ -31,7 +31,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    font-size: xxx-large;
+    font-size: var(--fontSizeL);
     font-weight: bold;
     height: 20rem;
     margin-bottom: 16rem;
@@ -50,7 +50,7 @@
 
     background-color: var(--panelColorNormal);
     backdrop-filter: var(--panelBlur);
-    border-radius: var(--panelRadius);
+    border-radius: 6rem;
 
     pointer-events: auto;
 
@@ -74,7 +74,6 @@
 .optionsContainer {
     display: flex;
     align-items: flex-start;
-    justify-content: space-evenly;
 }
 
 .container {
@@ -90,7 +89,6 @@
     flex: 1;
     margin-right: 6rem;
     max-height: 40rem;
-    coh-font-fit-mode: shrink5;
 }
 
 .colorPicker {
