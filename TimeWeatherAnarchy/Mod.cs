@@ -31,6 +31,7 @@ namespace TimeWeatherAnarchy
                 m_Setting,
                 new TimeWeatherAnarchySettings(this)
             );
+            m_Setting.InitializeProfiles();
 
             // Load system
             updateSystem.UpdateAt<TimeAndWeatherControlSystem>(SystemUpdatePhase.MainLoop);

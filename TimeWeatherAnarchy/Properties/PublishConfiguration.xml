@@ -2,13 +2,13 @@
 	<!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
 	<ModId Value="88893" />
 	<!--Name of the mod to display to players-->
-	<DisplayName Value="Time and Weather Anarchy" />
+	<DisplayName Value="Time &amp; Weather Anarchy" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Override time and weather settings" />
+	<ShortDescription Value="Override time &amp; weather settings" />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
-# Time and Weather Anarchy
+# Time &amp; Weather Anarchy
 Tired of setting time and weather options in dev tools everytime you open the game? This is the mod for you. Override time and weather settings and keep it saved on game reload or save reload.
 
 # How to use it:
@@ -17,6 +17,13 @@ You can change many settings here, and it's a very similar process to the develo
 The icon to enable the tool is in the top right corner of the game. You can also set a custom keyboard key to open the weather and time panel in the mod settings.
 
 ### Here are the settings you can change now:
+
+### Profiles
+- Create time and weather profiles that can be changed with a hotkey set in game preferences or using the panel.
+- Profiles that are created are saved as a json file in pathToYourUser\AppData\LocalLow\Colossal Order\Cities Skylines II\ModsSettings\TimeWeatherAnarchy\Profiles
+They can be copied and shared with other people. Just paste the profile and reload your save.
+- By default, all your current preferences will be copied to the Main profile if you already have the mod installed.
+- If you delete all the profiles in the file explorer, a new main profile will be created inside the game.
 
 #### Time Settings
 - Default: It will use the default time from your save.
@@ -69,17 +76,32 @@ The icon to enable the tool is in the top right corner of the game. You can also
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/time-and-weather-anarchy-mod.1701564/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.0.2" />
+	<ModVersion Value="2.0" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.1.*" />
 	<Dependency Id="75426"/>
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog>
-# 1.0.2:
-- Fixed season updating to the oposite season on a few saves.
-- Fixed ui warning logs.
-- Updated Thumbnail.
-	</ChangeLog>
+# Release 2.0
+
+### Time and Weather Profiles.
+- Create time and weather profiles that can be changed with a hotkey set in preferences or using the panel.
+- Profiles that are created are saved as a json file in pathToYourUser\AppData\LocalLow\Colossal Order\Cities Skylines II\ModsSettings\TimeWeatherAnarchy\Profiles
+They can be copied and shared with other people. Just paste the profile and reload your save.
+- By default, all your current preferences will be copied to the Main profile if you already have the mod installed.
+- If you delete all the profiles in the file explorer, a new main profile will be created inside the game.
+    
+### Translations
+#### Added translations to:
+- German
+- Italian
+- Spanish
+- French
+- Chinese Tradicional
+- Chinese Simplified
+- Russian
+- Ukranian
+  </ChangeLog>
 	<!--ChangeLog>
 	</ChangeLog-->
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->

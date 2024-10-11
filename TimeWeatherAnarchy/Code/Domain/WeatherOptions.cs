@@ -1,4 +1,4 @@
-﻿namespace TimeWeatherAnarchy.Code.Settings
+﻿namespace TimeWeatherAnarchy.Code.Domain
 {
     public enum WeatherOptions
     {

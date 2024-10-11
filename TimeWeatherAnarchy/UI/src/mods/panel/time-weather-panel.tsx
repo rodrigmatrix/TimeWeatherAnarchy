@@ -1,36 +1,35 @@
-import {Dropdown, DropdownItem, DropdownToggle, FOCUS_AUTO, Icon, Panel, Scrollable} from "cs2/ui";
+import {Button, Dropdown, DropdownItem, DropdownToggle, FOCUS_AUTO, Icon, Panel, Scrollable, Tooltip} from "cs2/ui";
 import modIcon from "images/mod_icon.svg";
 import styles from "./time-weather-panel.module.scss";
 import {
+    CreateProfile,
     CurrentAurora,
     CurrentClouds,
     CurrentDayOfTheYear,
     CurrentPrecipitation,
     CurrentTemperature,
     CurrentTime,
-    CurrentWeatherTime, CustomFog, CustomRainbow, CustomThunder,
+    CurrentWeatherTime, CustomFog, CustomLatitude, CustomLongitude, CustomRainbow, CustomThunder, DeleteProfile,
     EnableCustomAurora,
     EnableCustomClouds, EnableCustomFog,
     EnableCustomPrecipitation,
     EnableCustomTemperature, EnableCustomThunder,
-    MainPanelOpen,
+    MainPanelOpen, Profiles, SelectedProfile,
     SetCurrentTemperature,
     SetCurrentTime,
     SetCustomAurora,
     SetCustomClouds,
-    SetCustomDayOfTheYear, SetCustomFog,
+    SetCustomDayOfTheYear, SetCustomFog, SetCustomLatitude, SetCustomLongitude,
     SetCustomPrecipitation, SetCustomRainbow, SetCustomThunder,
     SetCustomWeatherTime,
     SetEnableCustomAurora,
     SetEnableCustomClouds, SetEnableCustomFog,
     SetEnableCustomPrecipitation,
-    SetEnableCustomTemperature, SetEnableCustomThunder,
+    SetEnableCustomTemperature, SetEnableCustomThunder, SetSelectedProfile,
     SetTimeOption,
     SetWeatherOption,
-    TimeOption,
-    TimeOptions,
-    WeatherOption,
-    WeatherOptions
+    TimeOption, UpdateProfile,
+    WeatherOption
 } from "mods/bindings";
 import {useValue} from "cs2/api";
 import * as React from 'react';
@@ -41,6 +40,13 @@ import {CheckBoxWithLine} from "../components/checkbox/checkbox";
 import {Section} from "../components/section/section";
 import {useLocalization} from "cs2/l10n";
 import {FormLine} from "../components/form-line/form-line";
+import {WeatherOptions} from "../domain/weatherOptions";
+import {TimeOptions} from "../domain/timeOptions";
+import {TextInput} from "../components/text-input/text-input";
+import {useState} from "react";
+import editIcon from "images/Edit.svg"
+
+const DEFAULT_PROFILE = "default_profile"
 
 const DropdownStyle: Theme | any = getModule("game-ui/menu/themes/dropdown.module.scss", "classes");
 
@@ -60,11 +66,15 @@ const convertNumToTime = (number: number): string => {
 
 export const TimeWeatherPanel = () => {
     const { translate } = useLocalization();
-    const mainPannelOpen = useValue(MainPanelOpen);
+    const profilesList = useValue(Profiles);
+    const selectedProfile = useValue(SelectedProfile);
+    const mainPanelOpen = useValue(MainPanelOpen);
     const currentTime = useValue(CurrentTime);
     const currentTemperature = useValue(CurrentTemperature);
     const currentDayOfTheYear = useValue(CurrentDayOfTheYear);
     const currentPrecipitation = useValue(CurrentPrecipitation);
+    const customLatitude = useValue(CustomLatitude);
+    const customLongitude = useValue(CustomLongitude);
     const customFog = useValue(CustomFog);
     const customThunder = useValue(CustomThunder);
     const customRainbow = useValue(CustomRainbow);
@@ -82,30 +92,96 @@ export const TimeWeatherPanel = () => {
     const showCustomTime = selectedTimeOption == TimeOptions.Custom
     const showCustomDayOfYear = selectedTimeOption != TimeOptions.Default
     const showCustomWeatherTime = selectedWeatherOption == WeatherOptions.Custom
+    const [isCreatingProfile, setIsCreatingProfile] = useState<boolean>(false);
+    const [isEditingProfile, setIsEditingProfile] = useState<boolean>(false);
+    const [copyCurrentProfile, setCopyCurrentProfile] = useState<boolean>(false);
+    const [profileEditId, setProfileEditId] = useState<string>("");
+    const [profileQuery, setProfileQuery] = useState<string>("");
+    const updateProfile = () => {
+        if (profileQuery.length > 0) {
+            UpdateProfile(profileEditId, profileQuery)
+            setIsCreatingProfile(false)
+            setIsEditingProfile(false)
+            setCopyCurrentProfile(false)
+            setProfileEditId("")
+            setProfileQuery("")
+        }
+    }
+    const updateIsCreatingProfile = () => {
+        if (profileQuery.length > 0) {
+            CreateProfile(profileQuery, copyCurrentProfile)
+            setIsCreatingProfile(false)
+            setIsEditingProfile(false)
+            setCopyCurrentProfile(false)
+            setProfileEditId("")
+            setProfileQuery("")
+        }
+    };
 
-    if (!mainPannelOpen) {
+    if (!mainPanelOpen) {
         return(<></>)
     }
-
+    const profileOptions = profilesList
+        .sort((a, b) => {
+            if(a.Index > b.Index) {
+                return 1;
+            } else if(a.Index < b.Index) {
+                return -1;
+            } else {
+                return 0;
+            }
+        })
+        .map(item => (
+            <div className={ item.Id == selectedProfile ? styles.selectedDropdownProfileItem : styles.profileBox}>
+                <DropdownItem
+                    theme={DropdownStyle}
+                    value={item.Name}
+                    closeOnSelect={true}
+                    onChange={() => { SetSelectedProfile(item.Id) }}
+                    className={styles.dropdownName}>
+                    <div>
+                        { (item.Id == DEFAULT_PROFILE) ? translate("TimeWeatherAnarchy.Main", "Main") : item.Name }
+                    </div>
+                </DropdownItem>
+                {item.Id != DEFAULT_PROFILE ?
+                    <div>
+                        <Tooltip
+                            tooltip={translate("TimeWeatherAnarchy.Edit")}>
+                            <img
+                                src={editIcon}
+                                className={styles.editButton}
+                                onClick={() => {
+                                    setProfileEditId(item.Id)
+                                    setProfileQuery(item.Name)
+                                    setIsEditingProfile(true)
+                                }}/>
+                        </Tooltip>
+                    </div> : null
+                }
+            </div>
+        ))
     const timeOptions = Object.keys(TimeOptions)
         .map((key, value) => (
             <DropdownItem
                 theme={DropdownStyle}
-                focusKey={FOCUS_AUTO}
                 value={value}
                 closeOnSelect={true}
-                onChange={() => { SetTimeOption(value) }}
+                className={value == selectedTimeOption ? styles.selectedDropdownItem : styles.box}
+                onChange={() => {
+                    SetTimeOption(value)
+                }}
             >
                 {translate("TimeWeatherAnarchy." + key)}
             </DropdownItem>
         ))
+    const profile = profilesList.find(item => item.Id == selectedProfile) ?? profilesList[0];
     const weatherOptions = Object.keys(WeatherOptions)
         .map((key, value) => (
             <DropdownItem
                 theme={DropdownStyle}
-                focusKey={FOCUS_AUTO}
                 value={value}
                 closeOnSelect={true}
+                className={ value == selectedWeatherOption ? styles.selectedDropdownItem : styles.box}
                 onChange={() => { SetWeatherOption(value) }}
             >
                 {translate("TimeWeatherAnarchy." + key)}
@@ -128,11 +204,111 @@ export const TimeWeatherPanel = () => {
        >
            <Scrollable>
                <Section>
-                   <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.TimeOptions")}</span>
+                   <div>
+                       {isCreatingProfile ?
+                           <span
+                               className={styles.optionHeader}>{translate("TimeWeatherAnarchy.CreateProfile")}</span> :
+
+                           isEditingProfile ?
+                               <span
+                                   className={styles.optionHeader}>{translate("TimeWeatherAnarchy.EditProfile")}</span> :
+                               <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.ProfileOptions")}</span>
+                       }
+
+                       {isCreatingProfile || isEditingProfile ? null :
+                           <span className={styles.label}>{translate("TimeWeatherAnarchy.ProfileOptionsDescription")}</span>
+                       }
+
+                       {isEditingProfile ?
+                           <span className={styles.label}>{
+                               translate(
+                                   "TimeWeatherAnarchy.EditingProfile"
+                               )  + ": " + profilesList.find(profile => profile.Id == profileEditId)?.Name ?? ""
+                           }</span> : null
+                       }
+
+                       <div style={({marginBottom: '16rem'})}/>
+                   </div>
+
+                   {isCreatingProfile || isEditingProfile ?
+                       <>
+                           <TextInput
+                               value={profileQuery}
+                               placeholder={ isEditingProfile ?
+                                   translate("TimeWeatherAnarchy.TypeUpdatedProfileName") ?? "" :
+                                   translate("TimeWeatherAnarchy.TypeProfileName") ?? ""
+                                }
+                               onChange={setProfileQuery}/>
+                           { !isEditingProfile ?
+                               <CheckBoxWithLine
+                                   title={translate("TimeWeatherAnarchy.CopyCurrentProfile")}
+                                   isChecked={copyCurrentProfile}
+                                   onValueToggle={(value) => {
+                                       setCopyCurrentProfile(value)
+                                   }}/> : null
+                           }
+                       </>
+                       : <div>
+                           <Dropdown
+                               theme={DropdownStyle}
+                               content={profileOptions}>
+                               <DropdownToggle>
+                                   { (profile.Id == DEFAULT_PROFILE) ? translate("TimeWeatherAnarchy.Main") : profile.Name }
+                               </DropdownToggle>
+                           </Dropdown>
+                       </div>
+                   }
+
+                   <div className={styles.row} style={({marginTop: '8rem'})}>
+
+                       {isCreatingProfile || isEditingProfile ?
+                           <div className={styles.button}>
+                               <Button
+                                   onSelect={() => {
+                                       setIsCreatingProfile(false)
+                                       setIsEditingProfile(false)
+                                       setProfileQuery("")
+                                       setProfileEditId("")
+                                   }
+                               }>
+                                   {translate("TimeWeatherAnarchy.Cancel")}
+                               </Button>
+                           </div> : ( selectedProfile != DEFAULT_PROFILE ?
+                               <div className={styles.button}>
+                                   <Button
+                                       onSelect={() => {
+                                           DeleteProfile(selectedProfile)
+                                       }}>
+                                       {translate("TimeWeatherAnarchy.Delete")}
+                                   </Button>
+                               </div> : null
+                           )
+                       }
+
+                       <div className={styles.button}>
+                           <Button
+                               onSelect={
+                               isEditingProfile ?
+                                   updateProfile :
+                                   (isCreatingProfile ? updateIsCreatingProfile : () => setIsCreatingProfile(true))
+                           }>
+                               {
+                                   isEditingProfile ?
+                                       translate("TimeWeatherAnarchy.UpdateProfile")
+                                     :
+                                       (isCreatingProfile ? translate("TimeWeatherAnarchy.Save") : translate("TimeWeatherAnarchy.NewProfile"))
+                               }
+                           </Button>
+                       </div>
+                   </div>
+
+               </Section>
+
+               <Section>
+               <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.TimeOptions")}</span>
                    <Dropdown
                        theme={DropdownStyle}
-                       content={timeOptions}
-                   >
+                       content={timeOptions}>
                        <DropdownToggle>
                            {translate("TimeWeatherAnarchy." + Object.keys(TimeOptions)[selectedTimeOption].valueOf())}
                        </DropdownToggle>
@@ -162,7 +338,32 @@ export const TimeWeatherPanel = () => {
                                onChange={value => {
                                    SetCustomDayOfTheYear(value)
                                }}/>
-                           <span className={styles.sliderText}>{translate("TimeWeatherAnarchy.DayOfTheYear")}: {currentDayOfTheYear}</span>
+                           <span
+                               className={styles.sliderText}>{translate("TimeWeatherAnarchy.DayOfTheYear")}: {currentDayOfTheYear}</span>
+
+                           <div style={({marginBottom: '16rem'})}/>
+
+                           {/*<Slider*/}
+                           {/*    start={-90.0}*/}
+                           {/*    end={90.0}*/}
+                           {/*    value={customLatitude}*/}
+                           {/*    onChange={value => {*/}
+                           {/*        SetCustomLatitude(value)*/}
+                           {/*    }}/>*/}
+                           {/*<span*/}
+                           {/*    className={styles.sliderText}>{translate("TimeWeatherAnarchy.Latitude")}: {customLatitude.toFixed(2)}</span>*/}
+
+                           {/*<div style={({marginBottom: '16rem'})}/>*/}
+
+                           {/*<Slider*/}
+                           {/*    start={-180.0}*/}
+                           {/*    end={180.0}*/}
+                           {/*    value={customLongitude}*/}
+                           {/*    onChange={value => {*/}
+                           {/*        SetCustomLongitude(value)*/}
+                           {/*    }}/>*/}
+                           {/*<span*/}
+                           {/*    className={styles.sliderText}>{translate("TimeWeatherAnarchy.Longitude")}: {customLongitude.toFixed(2)}</span>*/}
 
                        </div> : null
                    }

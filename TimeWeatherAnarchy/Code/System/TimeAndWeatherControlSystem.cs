@@ -3,6 +3,7 @@ using System.Threading;
 using Colossal.Serialization.Entities;
 using Game;
 using Game.Simulation;
+using TimeWeatherAnarchy.Code.Domain;
 using TimeWeatherAnarchy.Code.Settings;
 using Unity.Entities;
 using UnityEngine;
@@ -80,37 +81,47 @@ namespace TimeWeatherAnarchy.Code.System
             //_climateSystem.fog.overrideState = Mod.m_Setting.EnableCustomFog;
             //_climateSystem.thunder.overrideState = Mod.m_Setting.EnableCustomThunder;
         }
+
+        private void UpdateLatitude()
+        {
+            _planetarySystem.latitude = Mod.m_Setting.Profile.Latitude;
+        }
+
+        private void UpdateLongitude()
+        {
+            _planetarySystem.longitude = Mod.m_Setting.Profile.Longitude;
+        }
         
         public void UpdateAurora()
         {
-            _climateSystem.aurora.overrideValue = Mod.m_Setting.Aurora;
-            _climateSystem.aurora.overrideState = Mod.m_Setting.EnableCustomAurora;
+            _climateSystem.aurora.overrideValue = Mod.m_Setting.Profile.Aurora;
+            _climateSystem.aurora.overrideState = Mod.m_Setting.Profile.EnableCustomAurora;
         }
         
         public void UpdateTemperature()
         {
-            _climateSystem.temperature.overrideValue = Mod.m_Setting.Temperature;
-            _climateSystem.temperature.overrideState = Mod.m_Setting.EnableCustomTemperature;
+            _climateSystem.temperature.overrideValue = Mod.m_Setting.Profile.Temperature;
+            _climateSystem.temperature.overrideState = Mod.m_Setting.Profile.EnableCustomTemperature;
         }
         
         public void UpdateClouds()
         {
-            _climateSystem.cloudiness.overrideValue = Mod.m_Setting.Clouds;
-            _climateSystem.cloudiness.overrideState = Mod.m_Setting.EnableCustomClouds;
+            _climateSystem.cloudiness.overrideValue = Mod.m_Setting.Profile.Clouds;
+            _climateSystem.cloudiness.overrideState = Mod.m_Setting.Profile.EnableCustomClouds;
         }
 
 
         public void UpdatePrecipitation()
         {
-            _climateSystem.precipitation.overrideValue = Mod.m_Setting.Precipitation;
-            _climateSystem.precipitation.overrideState = Mod.m_Setting.EnableCustomPrecipitation;
+            _climateSystem.precipitation.overrideValue = Mod.m_Setting.Profile.Precipitation;
+            _climateSystem.precipitation.overrideState = Mod.m_Setting.Profile.EnableCustomPrecipitation;
         }
 
 
         public void UpdateSeason()
         {
             SetSeason();
-            _climateSystem.currentDate.overrideState = Mod.m_Setting.WeatherOption != (int) WeatherOptions.Default;
+            _climateSystem.currentDate.overrideState = Mod.m_Setting.Profile.WeatherOption != (int) WeatherOptions.Default;
             _seasonSet = false;
             _time = 0f;
         }
@@ -119,7 +130,7 @@ namespace TimeWeatherAnarchy.Code.System
         private bool CheckIfInvertSeason()
         {
             var invertSeason = false;
-            switch (Mod.m_Setting.WeatherOption)
+            switch (Mod.m_Setting.Profile.WeatherOption)
             {
                 case ((int)WeatherOptions.Default):
                     invertSeason = false;
@@ -157,7 +168,7 @@ namespace TimeWeatherAnarchy.Code.System
 
         private void SetSeason()
         {
-            switch (Mod.m_Setting.WeatherOption)
+            switch (Mod.m_Setting.Profile.WeatherOption)
             {
                 case ((int)WeatherOptions.Default):
                    
@@ -176,14 +187,14 @@ namespace TimeWeatherAnarchy.Code.System
                     _climateSystem.currentDate.overrideValue = 1f;
                     break;
                 case ((int)WeatherOptions.Custom):
-                    _climateSystem.currentDate.overrideValue = Mod.m_Setting.WeatherTime;
+                    _climateSystem.currentDate.overrideValue = Mod.m_Setting.Profile.WeatherTime;
                     break;
             };
         }
 
         private void SetInvertedSeason()
         {
-            switch (Mod.m_Setting.WeatherOption)
+            switch (Mod.m_Setting.Profile.WeatherOption)
             {
                 case ((int)WeatherOptions.Default):
                     _climateSystem.currentDate.overrideState = false;
@@ -201,7 +212,7 @@ namespace TimeWeatherAnarchy.Code.System
                     _climateSystem.currentDate.overrideValue = 0.500f;
                     break;
                 case ((int)WeatherOptions.Custom):
-                    _climateSystem.currentDate.overrideValue = Mod.m_Setting.WeatherTime;
+                    _climateSystem.currentDate.overrideValue = Mod.m_Setting.Profile.WeatherTime;
                     break;
             };
         }
@@ -209,15 +220,17 @@ namespace TimeWeatherAnarchy.Code.System
         public void UpdateTime()
         {
             if (_isEditor) return;
-            _planetarySystem.overrideTime = Mod.m_Setting.TimeOption != (int) TimeOptions.Default;
-            _planetarySystem.dayOfYear = Mod.m_Setting.DayOfTheYear;
-            _currentTime = Mod.m_Setting.TimeOption switch
+            _planetarySystem.overrideTime = Mod.m_Setting.Profile.TimeOption != (int) TimeOptions.Default;
+            _planetarySystem.dayOfYear = Mod.m_Setting.Profile.DayOfTheYear;
+            //UpdateLatitude();
+            //UpdateLongitude();
+            _currentTime = Mod.m_Setting.Profile.TimeOption switch
             {
                 ((int) TimeOptions.Default) => 0,
                 ((int) TimeOptions.Day) => 12,
                 ((int) TimeOptions.Night) => 1,
-                ((int) TimeOptions.Custom) => Mod.m_Setting.Time,
-                _ => Mod.m_Setting.Time,
+                ((int) TimeOptions.Custom) => Mod.m_Setting.Profile.Time,
+                _ => Mod.m_Setting.Profile.Time,
             };
             _planetarySystem.time = _currentTime;
         }

@@ -29,6 +29,8 @@ namespace TimeWeatherAnarchy.Code.Settings
                 { _mSetting.GetOptionLabelLocaleID(nameof(TimeWeatherAnarchySettings.TriggerDayNightToggle)), "Switch Day or Night Time Hotkey" },
                 { _mSetting.GetOptionDescLocaleID(nameof(TimeWeatherAnarchySettings.TriggerPanelToggle)), "Open or close the tool." },
                 { _mSetting.GetOptionDescLocaleID(nameof(TimeWeatherAnarchySettings.TriggerDayNightToggle)), "Switch between day or night time when pressing this toggle." },
+                { _mSetting.GetOptionLabelLocaleID(nameof(TimeWeatherAnarchySettings.TriggerNextProfileToggle)), "Go to the next settings profile Hotkey" },
+                { _mSetting.GetOptionDescLocaleID(nameof(TimeWeatherAnarchySettings.TriggerNextProfileToggle)), "Change your settings profile to the next one." },
                 { "TimeWeatherAnarchy.ModName", "Time and Weather Anarchy" },
                 { "TimeWeatherAnarchy.ModIconTooltip", "Time and Weather Anarchy" },
                 { "TimeWeatherAnarchy.Default", "Default" },

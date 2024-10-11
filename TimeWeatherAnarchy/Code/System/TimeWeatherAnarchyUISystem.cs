@@ -1,15 +1,23 @@
-﻿using Colossal.UI.Binding;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Colossal.UI.Binding;
 using Game.Input;
-using Game.UI;
+using TimeWeatherAnarchy.Code.Domain;
 using TimeWeatherAnarchy.Code.Settings;
+using TimeWeatherAnarchy.Code.Utils;
 
 namespace TimeWeatherAnarchy.Code.System
 {
-    internal partial class TimeWeatherAnarchyUISystem : UISystemBase
+    internal partial class TimeWeatherAnarchyUISystem : ExtendedUISystemBase
     {
         private TimeAndWeatherControlSystem _timeAndWeatherControlSystem;
         
         private const string ModID = "TimeWeatherAnarchy";
+        private const string Profiles = "Profiles";
+        private const string SelectedProfile = "SelectedProfile";
+        private const string UpdateProfile = "UpdateProfile";
+        private const string CreateProfile = "CreateProfile";
+        private const string DeleteProfile = "DeleteProfile";
         private const string MainPanelOpen = "MainPanelOpen";
         private const string CurrentTime = "CurrentTime";
         private const string Temperature = "CurrentTemperature";
@@ -29,7 +37,11 @@ namespace TimeWeatherAnarchy.Code.System
         private const string Thunder = "CurrentThunder";
         private const string Rainbow = "CurrentRainbow";
         private const string WeatherTime = "CurrentWeatherTime";
+        private const string CustomLatitude = "CustomLatitude";
+        private const string CustomLongitude = "CustomLongitude";
         
+        private ValueBindingHelper<string> _selectedProfile;
+        private ValueBindingHelper<List<TimeWeatherProfileUI>> _profiles;
         private ValueBinding<bool> _panelVisibleBinding;
         private ValueBinding<float> _currentOverrideTime;
         private ValueBinding<int> _currentOverrideTemperature;
@@ -49,8 +61,11 @@ namespace TimeWeatherAnarchy.Code.System
         private ValueBinding<float> _currentRainbow;
         private ValueBinding<int> _currentDayOfTheYear;
         private ValueBinding<float> _currentWeatherTime;
+        private ValueBindingHelper<float> _currentLatitude;
+        private ValueBindingHelper<float> _currentLongitude;
         private ProxyAction _toggleMainPanelBinding;
         private ProxyAction _toggleDayNightTimeBinding;
+        private ProxyAction _toggleNextProfileBinding;
 
         protected override void OnCreate()
         {
@@ -63,75 +78,92 @@ namespace TimeWeatherAnarchy.Code.System
             _toggleDayNightTimeBinding = Mod.m_Setting.GetAction(nameof(TimeWeatherAnarchySettings.TriggerDayNightToggle));
             _toggleDayNightTimeBinding.shouldBeEnabled = true;
             
+            _toggleNextProfileBinding = Mod.m_Setting.GetAction(nameof(TimeWeatherAnarchySettings.TriggerNextProfileToggle));
+            _toggleNextProfileBinding.shouldBeEnabled = true;
+            
             // set bindings
             _panelVisibleBinding = new ValueBinding<bool>(ModID, MainPanelOpen, false);
             AddBinding(_panelVisibleBinding);
 
-            _currentOverrideTime = new ValueBinding<float>(ModID, CurrentTime, Mod.m_Setting.Time);
+            _currentOverrideTime = new ValueBinding<float>(ModID, CurrentTime, Mod.m_Setting.Profile.Time);
             AddBinding(_currentOverrideTime);
             
-            _currentOverrideTemperature = new ValueBinding<int>(ModID, Temperature, Mod.m_Setting.Temperature);
+            _currentOverrideTemperature = new ValueBinding<int>(ModID, Temperature, Mod.m_Setting.Profile.Temperature);
             AddBinding(_currentOverrideTemperature);
             
-            _timeOption = new ValueBinding<int>(ModID, TimeOption, Mod.m_Setting.TimeOption);
+            _timeOption = new ValueBinding<int>(ModID, TimeOption, Mod.m_Setting.Profile.TimeOption);
             AddBinding(_timeOption);
             
-            _weatherOption = new ValueBinding<int>(ModID, WeatherOption, Mod.m_Setting.WeatherOption);
+            _weatherOption = new ValueBinding<int>(ModID, WeatherOption, Mod.m_Setting.Profile.WeatherOption);
             AddBinding(_weatherOption);
             
-            _enableCustomPrecipitation = new ValueBinding<bool>(ModID, EnableCustomPrecipitation, Mod.m_Setting.EnableCustomPrecipitation);
+            _enableCustomPrecipitation = new ValueBinding<bool>(ModID, EnableCustomPrecipitation, Mod.m_Setting.Profile.EnableCustomPrecipitation);
             AddBinding(_enableCustomPrecipitation);
             
-            _enableCustomClouds = new ValueBinding<bool>(ModID, EnableCustomClouds, Mod.m_Setting.EnableCustomClouds);
+            _enableCustomClouds = new ValueBinding<bool>(ModID, EnableCustomClouds, Mod.m_Setting.Profile.EnableCustomClouds);
             AddBinding(_enableCustomClouds);
             
-            _enableCustomAurora = new ValueBinding<bool>(ModID, EnableCustomAurora, Mod.m_Setting.EnableCustomAurora);
+            _enableCustomAurora = new ValueBinding<bool>(ModID, EnableCustomAurora, Mod.m_Setting.Profile.EnableCustomAurora);
             AddBinding(_enableCustomAurora);
             
-            _currentPrecipitation = new ValueBinding<float>(ModID, Precipitation, Mod.m_Setting.Precipitation);
+            _currentPrecipitation = new ValueBinding<float>(ModID, Precipitation, Mod.m_Setting.Profile.Precipitation);
             AddBinding(_currentPrecipitation);
             
-            _currentClouds = new ValueBinding<float>(ModID, Clouds, Mod.m_Setting.Clouds);
+            _currentClouds = new ValueBinding<float>(ModID, Clouds, Mod.m_Setting.Profile.Clouds);
             AddBinding(_currentClouds);
             
-            _currentAurora = new ValueBinding<float>(ModID, Aurora, Mod.m_Setting.Aurora);
+            _currentAurora = new ValueBinding<float>(ModID, Aurora, Mod.m_Setting.Profile.Aurora);
             AddBinding(_currentAurora);
             
-            _currentDayOfTheYear = new ValueBinding<int>(ModID, DayOfTheYear, Mod.m_Setting.DayOfTheYear);
+            _currentDayOfTheYear = new ValueBinding<int>(ModID, DayOfTheYear, Mod.m_Setting.Profile.DayOfTheYear);
             AddBinding(_currentDayOfTheYear);
             
-            _currentDayOfTheYear = new ValueBinding<int>(ModID, DayOfTheYear, Mod.m_Setting.DayOfTheYear);
+            _currentDayOfTheYear = new ValueBinding<int>(ModID, DayOfTheYear, Mod.m_Setting.Profile.DayOfTheYear);
             AddBinding(_currentDayOfTheYear);
             
-            _currentWeatherTime = new ValueBinding<float>(ModID, WeatherTime, Mod.m_Setting.WeatherTime);
+            _currentWeatherTime = new ValueBinding<float>(ModID, WeatherTime, Mod.m_Setting.Profile.WeatherTime);
             AddBinding(_currentWeatherTime);
             
-            _enableCustomTemperature = new ValueBinding<bool>(ModID, EnableCustomTemperature, Mod.m_Setting.EnableCustomTemperature);
+            _enableCustomTemperature = new ValueBinding<bool>(ModID, EnableCustomTemperature, Mod.m_Setting.Profile.EnableCustomTemperature);
             AddBinding(_enableCustomTemperature);
             
-            _currentDayOfTheYear = new ValueBinding<int>(ModID, DayOfTheYear, Mod.m_Setting.DayOfTheYear);
+            _currentDayOfTheYear = new ValueBinding<int>(ModID, DayOfTheYear, Mod.m_Setting.Profile.DayOfTheYear);
             AddBinding(_currentDayOfTheYear);
             
-            _currentWeatherTime = new ValueBinding<float>(ModID, WeatherTime, Mod.m_Setting.WeatherTime);
+            _currentWeatherTime = new ValueBinding<float>(ModID, WeatherTime, Mod.m_Setting.Profile.WeatherTime);
             AddBinding(_currentWeatherTime);
             
-            _currentFog = new ValueBinding<float>(ModID, Fog, Mod.m_Setting.Fog);
+            _currentFog = new ValueBinding<float>(ModID, Fog, Mod.m_Setting.Profile.Fog);
             AddBinding(_currentFog);
             
-            _currentThunder = new ValueBinding<float>(ModID, Thunder, Mod.m_Setting.Thunder);
+            _currentThunder = new ValueBinding<float>(ModID, Thunder, Mod.m_Setting.Profile.Thunder);
             AddBinding(_currentThunder);
             
-            _currentRainbow = new ValueBinding<float>(ModID, Rainbow, Mod.m_Setting.Rainbow);
+            _currentRainbow = new ValueBinding<float>(ModID, Rainbow, Mod.m_Setting.Profile.Rainbow);
             AddBinding(_currentRainbow);
             
-            _enableCustomTemperature = new ValueBinding<bool>(ModID, EnableCustomTemperature, Mod.m_Setting.EnableCustomTemperature);
+            _enableCustomTemperature = new ValueBinding<bool>(ModID, EnableCustomTemperature, Mod.m_Setting.Profile.EnableCustomTemperature);
             AddBinding(_enableCustomTemperature);
             
-            _enableCustomFog = new ValueBinding<bool>(ModID, EnableCustomFog, Mod.m_Setting.EnableCustomFog);
+            _enableCustomFog = new ValueBinding<bool>(ModID, EnableCustomFog, Mod.m_Setting.Profile.EnableCustomFog);
             AddBinding(_enableCustomFog);
             
-            _enableCustomThunder = new ValueBinding<bool>(ModID, EnableCustomThunder, Mod.m_Setting.EnableCustomThunder);
+            _enableCustomThunder = new ValueBinding<bool>(ModID, EnableCustomThunder, Mod.m_Setting.Profile.EnableCustomThunder);
             AddBinding(_enableCustomThunder);
+            
+            _selectedProfile = CreateBinding(SelectedProfile, Mod.m_Setting.SelectedProfile);
+            
+            _profiles = CreateBinding(Profiles, Mod.m_Setting.Profiles.ToUI());
+            
+            _currentLatitude = CreateBinding(CustomLatitude, Mod.m_Setting.Profile.Latitude);
+            
+            _currentLongitude = CreateBinding(CustomLongitude, Mod.m_Setting.Profile.Longitude);
+            
+            CreateTrigger<string>(SelectedProfile, SetProfile);
+            
+            CreateTrigger<float>(CustomLatitude, SetCustomLatitude);
+            
+            CreateTrigger<float>(CustomLongitude, SetCustomLongitude);
             
             // set triggers
             AddBinding(new TriggerBinding<bool>(ModID, MainPanelOpen, SetPanelVisibility));
@@ -175,6 +207,14 @@ namespace TimeWeatherAnarchy.Code.System
             AddBinding(new TriggerBinding<float>(ModID, Thunder, SetCustomThunder));
             
             AddBinding(new TriggerBinding<float>(ModID, Rainbow, SetCustomRainbow));
+            
+            //AddBinding(new TriggerBinding<List<TimeWeatherProfile>>(ModID, Profiles, SetProfilesList));
+            
+            AddBinding(new TriggerBinding<string, bool>(ModID, CreateProfile, OnCreateProfile));
+            
+            AddBinding(new TriggerBinding<string, string>(ModID, UpdateProfile, OnUpdateProfile));
+            
+            AddBinding(new TriggerBinding<string>(ModID, DeleteProfile, OnDeleteProfile));
         }
         
         protected override void OnUpdate()
@@ -188,6 +228,11 @@ namespace TimeWeatherAnarchy.Code.System
             {
                 OnDayNightToolTrigger();
             }
+            
+            if (_toggleNextProfileBinding.WasPerformedThisFrame())
+            {
+                OnNextProfileClickedTrigger();
+            }
 
             base.OnUpdate();
         }
@@ -195,6 +240,7 @@ namespace TimeWeatherAnarchy.Code.System
         private void SetPanelVisibility(bool open)
         {
             _panelVisibleBinding.Update(open);
+            Mod.m_Setting.InitializeProfiles();
             _timeAndWeatherControlSystem.UpdateTimeAndWeather();
         }
         
@@ -214,131 +260,220 @@ namespace TimeWeatherAnarchy.Code.System
                 SetTimeOption((int) TimeOptions.Day);
             }
         }
+        
+        private void OnNextProfileClickedTrigger()
+        {
+            Mod.m_Setting.SelectedProfile = Mod.m_Setting.Profiles.Next(Mod.m_Setting.Profile).Id;
+            UpdateUIFields();
+            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+        }
 
         private void SetCurrentTime(float time)
         {
             _currentOverrideTime.Update(time);
-            Mod.m_Setting.Time = time;
+            Mod.m_Setting.Profile.Time = time;
             _timeAndWeatherControlSystem.UpdateTime();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetCurrentTemperature(int temperature)
         {
             _currentOverrideTemperature.Update(temperature);
-            Mod.m_Setting.Temperature = temperature;
+            Mod.m_Setting.Profile.Temperature = temperature;
             _timeAndWeatherControlSystem.UpdateTemperature();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetTimeOption(int option)
         {
             _timeOption.Update(option);
-            Mod.m_Setting.TimeOption = option;
+            Mod.m_Setting.Profile.TimeOption = option;
             _timeAndWeatherControlSystem.UpdateTime();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetWeatherOption(int option)
         {
             _weatherOption.Update(option);
-            Mod.m_Setting.WeatherOption = option;
+            Mod.m_Setting.Profile.WeatherOption = option;
             _timeAndWeatherControlSystem.UpdateSeason();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetEnableCustomPrecipitation(bool enabled)
         {
             _enableCustomPrecipitation.Update(enabled);
-            Mod.m_Setting.EnableCustomPrecipitation = enabled;
+            Mod.m_Setting.Profile.EnableCustomPrecipitation = enabled;
             _timeAndWeatherControlSystem.UpdatePrecipitation();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetEnableCustomTemperature(bool enabled)
         {
             _enableCustomTemperature.Update(enabled);
-            Mod.m_Setting.EnableCustomTemperature = enabled;
+            Mod.m_Setting.Profile.EnableCustomTemperature = enabled;
             _timeAndWeatherControlSystem.UpdateTemperature();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetEnableCustomFog(bool enabled)
         {
             _enableCustomFog.Update(enabled);
-            Mod.m_Setting.EnableCustomFog = enabled;
+            Mod.m_Setting.Profile.EnableCustomFog = enabled;
             _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetEnableCustomThunder(bool enabled)
         {
             _enableCustomThunder.Update(enabled);
-            Mod.m_Setting.EnableCustomThunder = enabled;
+            Mod.m_Setting.Profile.EnableCustomThunder = enabled;
             _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetEnableCustomClouds(bool enabled)
         {
             _enableCustomClouds.Update(enabled);
-            Mod.m_Setting.EnableCustomClouds = enabled;
+            Mod.m_Setting.Profile.EnableCustomClouds = enabled;
             _timeAndWeatherControlSystem.UpdateClouds();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetEnableCustomAurora(bool enabled)
         {
             _enableCustomAurora.Update(enabled);
-            Mod.m_Setting.EnableCustomAurora = enabled;
+            Mod.m_Setting.Profile.EnableCustomAurora = enabled;
             _timeAndWeatherControlSystem.UpdateAurora();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetCustomDayOfYear(int dayOfYear)
         {
             _currentDayOfTheYear.Update(dayOfYear);
-            Mod.m_Setting.DayOfTheYear = dayOfYear;
+            Mod.m_Setting.Profile.DayOfTheYear = dayOfYear;
             _timeAndWeatherControlSystem.UpdateTime();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetCustomClouds(float clouds)
         {
             _currentClouds.Update(clouds);
-            Mod.m_Setting.Clouds = clouds;
+            Mod.m_Setting.Profile.Clouds = clouds;
             _timeAndWeatherControlSystem.UpdateClouds();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetCustomPrecipitation(float precipitation)
         {
             _currentPrecipitation.Update(precipitation);
-            Mod.m_Setting.Precipitation = precipitation;
+            Mod.m_Setting.Profile.Precipitation = precipitation;
             _timeAndWeatherControlSystem.UpdatePrecipitation();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetCustomAurora(float aurora)
         {
             _currentAurora.Update(aurora);
-            Mod.m_Setting.Aurora = aurora;
+            Mod.m_Setting.Profile.Aurora = aurora;
             _timeAndWeatherControlSystem.UpdateAurora();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetCustomWeatherTime(float time)
         {
             _currentWeatherTime.Update(time);
-            Mod.m_Setting.WeatherTime = time;
+            Mod.m_Setting.Profile.WeatherTime = time;
             _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetCustomFog(float fog)
         {
             _currentFog.Update(fog);
-            Mod.m_Setting.Fog = fog;
+            Mod.m_Setting.Profile.Fog = fog;
             _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
+        }
+        
+        private void SetCustomLatitude(float latitude)
+        {
+            _currentLatitude.Value = latitude;
+            Mod.m_Setting.Profile.Latitude = latitude;
+            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
+        }
+        
+        private void SetCustomLongitude(float longitude)
+        {
+            _currentLongitude.Value = longitude;
+            Mod.m_Setting.Profile.Longitude = longitude;
+            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetCustomThunder(float thunder)
         {
             _currentThunder.Update(thunder);
-            Mod.m_Setting.Thunder = thunder;
+            Mod.m_Setting.Profile.Thunder = thunder;
             _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
         }
         
         private void SetCustomRainbow(float rainbow)
         {
             _currentRainbow.Update(rainbow);
-            Mod.m_Setting.Rainbow = rainbow;
+            Mod.m_Setting.Profile.Rainbow = rainbow;
             _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
+        }
+        
+        private void SetProfile(string id)
+        {
+            Mod.m_Setting.SelectedProfile = id;
+            UpdateUIFields();
+            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+        }
+        
+        private void OnCreateProfile(string name, bool copyCurrentProfile)
+        {
+            Mod.m_Setting.CreateProfile(name, copyCurrentProfile);
+            UpdateUIFields();
+            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+        }
+        
+        private void OnDeleteProfile(string id)
+        {
+            Mod.m_Setting.DeleteProfile(id);
+            UpdateUIFields();
+            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+        }
+
+        private void OnUpdateProfile(string id, string name)
+        {
+            Mod.m_Setting.UpdateProfile(id, name);  
+            UpdateUIFields();
+            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+        }
+
+        private void UpdateUIFields()
+        {
+            var profile = Mod.m_Setting.Profile;
+            _currentOverrideTime.Update(profile.Time);
+            _currentOverrideTemperature.Update(profile.Temperature);
+            _currentClouds.Update(profile.Clouds);
+            _currentPrecipitation.Update(profile.Precipitation);
+            _currentAurora.Update(profile.Aurora);
+            _timeOption.Update(profile.TimeOption);
+            _weatherOption.Update(profile.WeatherOption);
+            _enableCustomThunder.Update(profile.EnableCustomThunder);
+            _enableCustomClouds.Update(profile.EnableCustomClouds);
+            _enableCustomTemperature.Update(profile.EnableCustomTemperature);
+            _enableCustomPrecipitation.Update(profile.EnableCustomPrecipitation);
+            _enableCustomAurora.Update(profile.EnableCustomAurora);
+            _currentDayOfTheYear.Update(profile.DayOfTheYear);
+            _profiles.Value = Mod.m_Setting.Profiles.ToUI();
+            _selectedProfile.Value = Mod.m_Setting.SelectedProfile;
         }
     }
 }

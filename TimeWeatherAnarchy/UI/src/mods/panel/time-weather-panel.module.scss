@@ -1,3 +1,5 @@
+@use "../base.scss" as _base;
+
 .header {
     display: flex;
     flex-direction: row;
@@ -41,7 +43,7 @@
 .panel {
     position: absolute;
     width: 350rem;
-    height: 640rem;
+    height: 880rem;
     top: 70rem;
     right: 10rem;
     z-index: 0;
@@ -93,4 +95,70 @@
 
 .colorPicker {
     height: 30rem !important;
+}
+
+.editButton {
+    height: 24rem;
+    width: 24rem;
+    flex: 1 1 auto;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.45);
+    }
+}
+
+.button {
+    padding-left: 8rem;
+
+    Button {
+        @include _base.basicButton();
+
+        height: 32rem;
+        font-size: 16rem;
+        text-transform: uppercase;
+        font-weight: bold;
+        background-color: var(--menuPanel2);
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.45);
+        }
+    }
+}
+
+.row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.profileBox {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.dropdownName {
+    flex: 1;
+}
+
+.selectedDropdownProfileItem {
+    background-color: rgba(5, 10, 20, 0.2);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.selectedDropdownItem {
+    background-color: rgba(5, 10, 20, 0.2);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.dropdownScroll {
+    max-height: 100rem;
 }
