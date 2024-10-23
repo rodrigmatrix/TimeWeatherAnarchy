@@ -1,8 +1,9 @@
 import { Button, Tooltip, Icon } from "cs2/ui";
-import modIcon from "images/mod_icon.svg";
+import modIcon from "images/mod-icon.png";
 import { SetMainPanelOpen } from "mods/bindings";
 import { MainPanelOpen } from "mods/bindings";
 import { useValue } from "cs2/api";
+import styles from "./mod-button.module.scss"
 
 export const ModIconButton = () => {
 	const getMainPanelState = useValue(MainPanelOpen);
@@ -14,7 +15,8 @@ export const ModIconButton = () => {
 				variant="floating"
 				onClick={() => { SetMainPanelOpen(!getMainPanelState) }}>
         		<Icon
-					tinted={true}
+					tinted={false}
+					className={styles.icon}
 					src={modIcon}/>
 			</Button>
 		</Tooltip>

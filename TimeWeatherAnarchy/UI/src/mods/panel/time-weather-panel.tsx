@@ -1,5 +1,5 @@
 import {Button, Dropdown, DropdownItem, DropdownToggle, FOCUS_AUTO, Icon, Panel, Scrollable, Tooltip} from "cs2/ui";
-import modIcon from "images/mod_icon.svg";
+import modIcon from "images/mod-icon.png";
 import styles from "./time-weather-panel.module.scss";
 import {
     CreateProfile,
@@ -194,7 +194,7 @@ export const TimeWeatherPanel = () => {
            header={(
                <div className={styles.header}>
                    <Icon
-                       tinted={true}
+                       tinted={false}
                        src={modIcon}
                        className={styles.headerIcon}/>
                    <span className={styles.headerText}>{translate("TimeWeatherAnarchy.ModName")}</span>

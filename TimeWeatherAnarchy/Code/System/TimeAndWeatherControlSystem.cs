@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Threading;
 using Colossal.Serialization.Entities;
 using Game;
 using Game.Simulation;
 using TimeWeatherAnarchy.Code.Domain;
-using TimeWeatherAnarchy.Code.Settings;
 using Unity.Entities;
-using UnityEngine;
 
 namespace TimeWeatherAnarchy.Code.System
 {

@@ -76,13 +76,18 @@ They can be copied and shared with other people. Just paste the profile and relo
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/time-and-weather-anarchy-mod.1701564/" />
 	<!--Version of the mod-->
-	<ModVersion Value="2.0" />
+	<ModVersion Value="2.0.1" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.1.*" />
 	<Dependency Id="75426"/>
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog>
-# Release 2.0
+# Release 2.0.1
+
+- Updated for new game version 1.1.10f1
+- Changed mod icon at TopBar
+
+# Changes from 2.0
 
 ### Time and Weather Profiles.
 - Create time and weather profiles that can be changed with a hotkey set in preferences or using the panel.
@@ -90,17 +95,17 @@ They can be copied and shared with other people. Just paste the profile and relo
 They can be copied and shared with other people. Just paste the profile and reload your save.
 - By default, all your current preferences will be copied to the Main profile if you already have the mod installed.
 - If you delete all the profiles in the file explorer, a new main profile will be created inside the game.
-    
+
 ### Translations
 #### Added translations to:
 - German
 - Italian
 - Spanish
 - French
-- Chinese Tradicional
+- Chinese Traditional
 - Chinese Simplified
 - Russian
-- Ukranian
+- Ukrainian
   </ChangeLog>
 	<!--ChangeLog>
 	</ChangeLog-->
