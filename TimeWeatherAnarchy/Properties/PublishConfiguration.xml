@@ -76,16 +76,15 @@ They can be copied and shared with other people. Just paste the profile and relo
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/time-and-weather-anarchy-mod.1701564/" />
 	<!--Version of the mod-->
-	<ModVersion Value="2.0.1" />
+	<ModVersion Value="2.0.2" />
 	<!--Recommended version of the base game to use the mod-->
-	<GameVersion Value="1.1.*" />
+	<GameVersion Value="1.*" />
 	<Dependency Id="75426"/>
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog>
-# Release 2.0.1
+# Release 2.0.2
 
-- Updated for new game version 1.1.10f1
-- Changed mod icon at TopBar
+- Updated for new game version
 
 # Changes from 2.0
 
