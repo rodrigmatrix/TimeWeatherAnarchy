@@ -18,7 +18,7 @@
   "TimeWeatherAnarchy.Main": "Pricipal",
   "TimeWeatherAnarchy.Custom": "Customizada",
   "TimeWeatherAnarchy.TimeOptions": "Opções de tempo",
-  "TimeWeatherAnarchy.ProfileOptions": "Perfils",
+  "TimeWeatherAnarchy.ProfileOptions": "Perfil",
   "TimeWeatherAnarchy.Create": "Criar",
   "TimeWeatherAnarchy.NewProfile": "Novo Perfil",
   "TimeWeatherAnarchy.Latitude": "Sun Latitude",
@@ -57,5 +57,7 @@
   "TimeWeatherAnarchy.Temperature": "Temperatura",
   "TimeWeatherAnarchy.Fog": "Nevoa",
   "TimeWeatherAnarchy.Thunder": "Trovoes",
-  "TimeWeatherAnarchy.Rainbow": "Arco-Iris"
+  "TimeWeatherAnarchy.Rainbow": "Arco-Iris",
+  "TimeWeatherAnarchy.DeleteProfileConfirmation": "Tem certeza que deseja deletar este perfil?",
+  "TimeWeatherAnarchy.DeleteProfile": "Deletar Perfil"
 }

@@ -58,5 +58,7 @@
   "TimeWeatherAnarchy.Temperature": "Температура",
   "TimeWeatherAnarchy.Fog": "Туман",
   "TimeWeatherAnarchy.Thunder": "Гроза",
-  "TimeWeatherAnarchy.Rainbow": "Веселка"
+  "TimeWeatherAnarchy.Rainbow": "Веселка",
+  "TimeWeatherAnarchy.DeleteProfileConfirmation": "Ви впевнені, що хочете видалити цей профіль?",
+  "TimeWeatherAnarchy.DeleteProfile": "Видалити профіль"
 }

@@ -58,5 +58,7 @@
   "TimeWeatherAnarchy.Temperature": "Temperature",
   "TimeWeatherAnarchy.Fog": "Fog",
   "TimeWeatherAnarchy.Thunder": "Thunder",
-  "TimeWeatherAnarchy.Rainbow": "Rainbow"
+  "TimeWeatherAnarchy.Rainbow": "Rainbow",      
+  "TimeWeatherAnarchy.DeleteProfileConfirmation": "Are you sure you want to delete this profile?",
+  "TimeWeatherAnarchy.DeleteProfile": "Delete Profile"
 }

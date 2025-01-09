@@ -58,5 +58,7 @@
   "TimeWeatherAnarchy.Temperature": "溫度",
   "TimeWeatherAnarchy.Fog": "霧",
   "TimeWeatherAnarchy.Thunder": "雷電",
-  "TimeWeatherAnarchy.Rainbow": "彩虹"
+  "TimeWeatherAnarchy.Rainbow": "彩虹",
+  "TimeWeatherAnarchy.DeleteProfileConfirmation": "您確定要刪除此配置檔嗎？",
+  "TimeWeatherAnarchy.DeleteProfile": "刪除配置檔"
 }

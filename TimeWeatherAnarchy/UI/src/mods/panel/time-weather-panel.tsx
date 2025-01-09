@@ -1,4 +1,15 @@
-import {Button, Dropdown, DropdownItem, DropdownToggle, FOCUS_AUTO, Icon, Panel, Scrollable, Tooltip} from "cs2/ui";
+import {
+    Button,
+    ConfirmationDialog,
+    Dropdown,
+    DropdownItem,
+    DropdownToggle,
+    FOCUS_AUTO,
+    Icon,
+    Panel, Portal,
+    Scrollable,
+    Tooltip
+} from "cs2/ui";
 import modIcon from "images/mod-icon.png";
 import styles from "./time-weather-panel.module.scss";
 import {
@@ -97,6 +108,8 @@ export const TimeWeatherPanel = () => {
     const [copyCurrentProfile, setCopyCurrentProfile] = useState<boolean>(false);
     const [profileEditId, setProfileEditId] = useState<string>("");
     const [profileQuery, setProfileQuery] = useState<string>("");
+    const [isDeletingProfile, setIsDeletingProfile] = useState<boolean>(false);
+    
     const updateProfile = () => {
         if (profileQuery.length > 0) {
             UpdateProfile(profileEditId, profileQuery)
@@ -189,7 +202,7 @@ export const TimeWeatherPanel = () => {
         ))
 
     return (
-        <div>
+        <>
        <Panel
            header={(
                <div className={styles.header}>
@@ -277,7 +290,7 @@ export const TimeWeatherPanel = () => {
                                <div className={styles.button}>
                                    <Button
                                        onSelect={() => {
-                                           DeleteProfile(selectedProfile)
+                                           setIsDeletingProfile(true)
                                        }}>
                                        {translate("TimeWeatherAnarchy.Delete")}
                                    </Button>
@@ -575,7 +588,23 @@ export const TimeWeatherPanel = () => {
 
                </Section>
            </Scrollable>
+           { isDeletingProfile ?
+               <Portal>
+                   <ConfirmationDialog
+                       onConfirm={() => {
+                           setIsDeletingProfile(false)
+                           DeleteProfile(selectedProfile)
+                       }}
+                       onCancel={() => setIsDeletingProfile(false)}
+                       cancellable={true}
+                       dismissable={true}
+                       cancel={translate("TimeWeatherAnarchy.Cancel")}
+                       title={translate("TimeWeatherAnarchy.DeleteProfile") + " " + profile.Name}
+                       message={translate("TimeWeatherAnarchy.DeleteProfileConfirmation")}
+                       confirm={translate("TimeWeatherAnarchy.Delete")} />
+               </Portal> : null }
        </Panel>
-        </div>
+           
+        </>
     )
 }

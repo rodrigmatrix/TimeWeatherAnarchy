@@ -59,7 +59,25 @@ namespace TimeWeatherAnarchy.Code.Settings
                 { "TimeWeatherAnarchy.Temperature", "Temperature" },
                 { "TimeWeatherAnarchy.Fog", "Fog" },
                 { "TimeWeatherAnarchy.Thunder", "Thunder" },
-                { "TimeWeatherAnarchy.Rainbow", "Rainbow" }
+                { "TimeWeatherAnarchy.Cancel", "Cancel" },
+                { "TimeWeatherAnarchy.Edit", "Edit" },
+                { "TimeWeatherAnarchy.Save", "Save" },
+                { "TimeWeatherAnarchy.CopyCurrentProfile", "Copy preferences from current profile" },
+                { "TimeWeatherAnarchy.ProfileOptionsDescription", "Create profiles that save all your preferences and select them" },
+                {"TimeWeatherAnarchy.ProfileOptions", "Profiles" },
+                {"TimeWeatherAnarchy.Create", "Create" },
+                {"TimeWeatherAnarchy.NewProfile", "New Profile" },
+                {"TimeWeatherAnarchy.Latitude", "Sun Latitude" },
+                {"TimeWeatherAnarchy.Longitude", "Sun Longitude" },
+                {"TimeWeatherAnarchy.Delete", "Delete" },
+                {"TimeWeatherAnarchy.CreateProfile", "Create Profile" },
+                {"TimeWeatherAnarchy.UpdateProfile", "Update Profile" },
+                {"TimeWeatherAnarchy.EditProfile", "Edit Profile" },
+                {"TimeWeatherAnarchy.EditingProfile", "Editing Profile" },
+                {"TimeWeatherAnarchy.TypeProfileName", "Profile Name..." },
+                {"TimeWeatherAnarchy.TypeUpdatedProfileName", "Updated Profile Name..." },
+                { "TimeWeatherAnarchy.DeleteProfileConfirmation", "Are you sure you want to delete this profile?" },
+                { "TimeWeatherAnarchy.DeleteProfile", "Delete Profile" },
             };
         }
 

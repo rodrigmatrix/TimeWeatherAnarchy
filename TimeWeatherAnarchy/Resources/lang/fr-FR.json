@@ -58,5 +58,7 @@
   "TimeWeatherAnarchy.Temperature": "Température",
   "TimeWeatherAnarchy.Fog": "Brouillard",
   "TimeWeatherAnarchy.Thunder": "Éclair",
-  "TimeWeatherAnarchy.Rainbow": "Arc-en-ciel"
+  "TimeWeatherAnarchy.Rainbow": "Arc-en-ciel",
+  "TimeWeatherAnarchy.DeleteProfileConfirmation": "Êtes-vous sûr de vouloir supprimer ce profil ?",
+  "TimeWeatherAnarchy.DeleteProfile": "Supprimer le profil"
 }

@@ -58,5 +58,7 @@
   "TimeWeatherAnarchy.Temperature": "Temperatur",
   "TimeWeatherAnarchy.Fog": "Nebel",
   "TimeWeatherAnarchy.Thunder": "Donner",
-  "TimeWeatherAnarchy.Rainbow": "Regenbogen"
+  "TimeWeatherAnarchy.Rainbow": "Regenbogen",
+  "TimeWeatherAnarchy.DeleteProfileConfirmation": "Sind Sie sicher, dass Sie dieses Profil löschen möchten?",
+  "TimeWeatherAnarchy.DeleteProfile": "Profil löschen"
 }
