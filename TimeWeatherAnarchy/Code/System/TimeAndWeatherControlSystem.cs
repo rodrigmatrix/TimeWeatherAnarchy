@@ -11,12 +11,14 @@ namespace TimeWeatherAnarchy.Code.System
     {
         private ClimateSystem _climateSystem;
         private PlanetarySystem _planetarySystem;
+        private SimulationSystem _simulationSystem;
         private float _currentTime;
         private bool _isEditor;
         private bool _gameLoaded;
         private float _time;
         private readonly float _timeDelay = 0.2f;
         private bool _seasonSet;
+        private bool _isPaused;
 
         private const string SPRING_SEASON = "Climate.SEASON[Spring]";
         private const string SUMMER_SEASON = "Climate.SEASON[Summer]";
@@ -28,6 +30,7 @@ namespace TimeWeatherAnarchy.Code.System
             base.OnCreate();
             _climateSystem = World.GetOrCreateSystemManaged<ClimateSystem>();
             _planetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
+            _simulationSystem = World.GetOrCreateSystemManaged<SimulationSystem>();
         }
 
         protected override void OnGameLoaded(Context serializationContext)
@@ -234,8 +237,14 @@ namespace TimeWeatherAnarchy.Code.System
 
         protected override void OnUpdate()
         {
-            _time = _time + 1f * SystemAPI.Time.DeltaTime;
-            if ((_time >= _timeDelay) && !_seasonSet)
+            var currentIsPaused = _simulationSystem.selectedSpeed == 0;
+            if (currentIsPaused != _isPaused)
+            {
+                _seasonSet = false;
+            }
+            _isPaused = currentIsPaused;
+            if (_seasonSet || _isPaused) return;
+            if (_time >= _timeDelay)
             {
                 _seasonSet = true;
                 _time = 0f;
@@ -245,6 +254,7 @@ namespace TimeWeatherAnarchy.Code.System
                     SetInvertedSeason();
                 }
             }
+            _time += 1f * SystemAPI.Time.DeltaTime;
             if (!_gameLoaded) return;
             
             _gameLoaded = false;

@@ -76,16 +76,15 @@ They can be copied and shared with other people. Just paste the profile and relo
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/time-and-weather-anarchy-mod.1701564/" />
 	<!--Version of the mod-->
-	<ModVersion Value="2.0.3" />
+	<ModVersion Value="2.0.4" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.*" />
 	<Dependency Id="75426"/>
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog>
-# Release 2.0.3
+# Release 2.0.4
 
-- Added confirmation dialog when trying to delete a profile.
-- Fixed default english locale for users that don't have I18n EveryWhere installed.
+- Fixed an issue where seasons didn't update on game load for users with the Start Paused option enabled.
 
 # Changes from 2.0
 

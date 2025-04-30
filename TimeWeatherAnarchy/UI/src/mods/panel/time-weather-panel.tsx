@@ -599,7 +599,7 @@ export const TimeWeatherPanel = () => {
                        cancellable={true}
                        dismissable={true}
                        cancel={translate("TimeWeatherAnarchy.Cancel")}
-                       title={translate("TimeWeatherAnarchy.DeleteProfile") + " " + profile.Name}
+                       title={translate("TimeWeatherAnarchy.DeleteProfile") + ": " + profile.Name}
                        message={translate("TimeWeatherAnarchy.DeleteProfileConfirmation")}
                        confirm={translate("TimeWeatherAnarchy.Delete")} />
                </Portal> : null }
