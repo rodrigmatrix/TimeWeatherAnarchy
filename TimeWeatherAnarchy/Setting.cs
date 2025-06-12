@@ -16,7 +16,7 @@ namespace TimeWeatherAnarchy
     [FileLocation("ModsSettings/" + nameof(TimeWeatherAnarchy))]
     [SettingsUIGroupOrder(KeyBindingGroup)]
     [SettingsUIShowGroupName(KeyBindingGroup)]
-    public class TimeWeatherAnarchySettings(IMod mod) : ModSetting(mod)
+    public class TimeWeatherAnarchySettings : ModSetting
     {
         public const string MainSection = "Main";
 
@@ -26,7 +26,12 @@ namespace TimeWeatherAnarchy
         public TimeWeatherProfile Profile => Profiles.Find((p) => p.Id == SelectedProfile) ?? ProfileUtils.CreateDefault(this);
         
         [Exclude]
-        public List<TimeWeatherProfile> Profiles { get; private set; } = [];
+        public List<TimeWeatherProfile> Profiles { get; private set; } = new();
+
+        public TimeWeatherAnarchySettings(IMod imod) : base(imod)
+        {
+            
+        }
 
         public void InitializeProfiles()
         {

@@ -8,8 +8,9 @@ using Colossal.Json;
 using Colossal.PSI.Environment;
 using TimeWeatherAnarchy.Code.Domain;
 
-namespace TimeWeatherAnarchy.Code.Settings;
-
+namespace TimeWeatherAnarchy.Code.Settings
+{
+    
 public static class ProfileUtils
 {
     
@@ -141,4 +142,5 @@ public static class ProfileUtils
             EnsureDataDirectory();
             SaveText(profile.Id + ".json", JSON.Dump(profile));
         }
+}
 }

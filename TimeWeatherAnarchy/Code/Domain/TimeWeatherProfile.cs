@@ -2,7 +2,7 @@
 
 namespace TimeWeatherAnarchy.Code.Domain
 {
-    public class TimeWeatherProfile()
+    public class TimeWeatherProfile
     {
         public const string DefaultID = "default_profile";
         public string Id { get; set; }
@@ -53,7 +53,12 @@ namespace TimeWeatherAnarchy.Code.Domain
 
         public static TimeWeatherProfile Create(string name, int index) => new(Guid.NewGuid(), index, name);
 
-        private TimeWeatherProfile(Guid id, int index, string name) : this()
+        public TimeWeatherProfile()
+        {
+            
+        }
+        
+        private TimeWeatherProfile(Guid id, int index, string name)
         {
             Id = id.ToString();
             Index = index;

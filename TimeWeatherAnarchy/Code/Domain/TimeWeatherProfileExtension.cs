@@ -1,21 +1,23 @@
 ﻿using System.Collections.Generic;
 
-namespace TimeWeatherAnarchy.Code.Domain;
-
-public static class TimeWeatherProfileExtension
+namespace TimeWeatherAnarchy.Code.Domain
 {
-    public static TimeWeatherProfileUI ToUI(this TimeWeatherProfile profile)
+    public static class TimeWeatherProfileExtension
     {
-        return new TimeWeatherProfileUI
+        public static TimeWeatherProfileUI ToUI(this TimeWeatherProfile profile)
         {
-            Id = profile.Id,
-            Index = profile.Index,
-            Name = profile.Name
-        };
-    }
+            return new TimeWeatherProfileUI
+            {
+                Id = profile.Id,
+                Index = profile.Index,
+                Name = profile.Name
+            };
+        }
     
-    public static List<TimeWeatherProfileUI> ToUI(this List<TimeWeatherProfile> profiles)
-    {
-        return profiles.ConvertAll(profile => profile.ToUI());
+        public static List<TimeWeatherProfileUI> ToUI(this List<TimeWeatherProfile> profiles)
+        {
+            return profiles.ConvertAll(profile => profile.ToUI());
+        }
     }
 }
+    

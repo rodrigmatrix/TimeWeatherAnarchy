@@ -243,7 +243,7 @@ export const TimeWeatherPanel = () => {
                        <div style={({marginBottom: '16rem'})}/>
                    </div>
 
-                   {isCreatingProfile || isEditingProfile ?
+                   { isCreatingProfile || isEditingProfile ?
                        <>
                            <TextInput
                                value={profileQuery}
@@ -597,7 +597,6 @@ export const TimeWeatherPanel = () => {
                        }}
                        onCancel={() => setIsDeletingProfile(false)}
                        cancellable={true}
-                       dismissable={true}
                        cancel={translate("TimeWeatherAnarchy.Cancel")}
                        title={translate("TimeWeatherAnarchy.DeleteProfile") + ": " + profile.Name}
                        message={translate("TimeWeatherAnarchy.DeleteProfileConfirmation")}
