@@ -59,6 +59,18 @@
   "TimeWeatherAnarchy.Fog": "Туман",
   "TimeWeatherAnarchy.Thunder": "Гроза",
   "TimeWeatherAnarchy.Rainbow": "Веселка",
+  "TimeWeatherAnarchy.January": "Січень",
+  "TimeWeatherAnarchy.February": "Лютий",
+  "TimeWeatherAnarchy.March": "Березень",
+  "TimeWeatherAnarchy.April": "Квітень",
+  "TimeWeatherAnarchy.May": "Травень",
+  "TimeWeatherAnarchy.June": "Червень",
+  "TimeWeatherAnarchy.July": "Липень",
+  "TimeWeatherAnarchy.August": "Серпень",
+  "TimeWeatherAnarchy.September": "Вересень",
+  "TimeWeatherAnarchy.October": "Жовтень",
+  "TimeWeatherAnarchy.November": "Листопад",
+  "TimeWeatherAnarchy.December": "Грудень",
   "TimeWeatherAnarchy.DeleteProfileConfirmation": "Ви впевнені, що хочете видалити цей профіль?",
   "TimeWeatherAnarchy.DeleteProfile": "Видалити профіль"
 }

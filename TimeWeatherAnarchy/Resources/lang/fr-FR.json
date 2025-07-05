@@ -59,6 +59,18 @@
   "TimeWeatherAnarchy.Fog": "Brouillard",
   "TimeWeatherAnarchy.Thunder": "Éclair",
   "TimeWeatherAnarchy.Rainbow": "Arc-en-ciel",
+  "TimeWeatherAnarchy.January": "Janvier",
+  "TimeWeatherAnarchy.February": "Février",
+  "TimeWeatherAnarchy.March": "Mars",
+  "TimeWeatherAnarchy.April": "Avril",
+  "TimeWeatherAnarchy.May": "Mai",
+  "TimeWeatherAnarchy.June": "Juin",
+  "TimeWeatherAnarchy.July": "Juillet",
+  "TimeWeatherAnarchy.August": "Août",
+  "TimeWeatherAnarchy.September": "Septembre",
+  "TimeWeatherAnarchy.October": "Octobre",
+  "TimeWeatherAnarchy.November": "Novembre",
+  "TimeWeatherAnarchy.December": "Décembre",
   "TimeWeatherAnarchy.DeleteProfileConfirmation": "Êtes-vous sûr de vouloir supprimer ce profil ?",
   "TimeWeatherAnarchy.DeleteProfile": "Supprimer le profil"
 }

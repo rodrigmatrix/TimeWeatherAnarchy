@@ -29,6 +29,9 @@ export const CUSTOM_RAINBOW = "CurrentRainbow"
 export const CUSTOM_LATITUDE = "CustomLatitude"
 export const CUSTOM_LONGITUDE = "CustomLongitude"
 
+export const TIME_PREFERENCE = "TimePreference"
+export const TEMPERATURE_PREFERENCE = "TemperaturePreference"
+
 export const MainPanelOpen = bindValue<boolean>(mod.id, MAIN_PANEL_OPEN);
 export const CurrentTime = bindValue<number>(mod.id, CUSTOM_TIME);
 export const Profiles = bindValue<TimeWeatherProfile[]>(mod.id, PROFILES);
@@ -52,6 +55,9 @@ export const CustomRainbow = bindValue<number>(mod.id, CUSTOM_RAINBOW);
 export const EnableCustomTemperature = bindValue<boolean>(mod.id, ENABLE_CUSTOM_TEMPERATURE);
 export const CustomLatitude = bindValue<number>(mod.id, CUSTOM_LATITUDE);
 export const CustomLongitude = bindValue<number>(mod.id, CUSTOM_LONGITUDE);
+
+export const TemperaturePreferenceValueBinding = bindValue<number>(mod.id, TEMPERATURE_PREFERENCE)
+export const TimePreferenceValueBinding = bindValue<number>(mod.id, TIME_PREFERENCE)
 
 export const SetMainPanelOpen = (open: boolean) => trigger(mod.id, MAIN_PANEL_OPEN, open);
 export const SetCurrentTime = (time: number) => trigger(mod.id, CUSTOM_TIME, time);

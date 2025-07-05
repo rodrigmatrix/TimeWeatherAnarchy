@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Colossal.UI.Binding;
+using Game;
 using Game.Input;
+using Game.SceneFlow;
+using Game.Settings;
 using TimeWeatherAnarchy.Code.Domain;
 using TimeWeatherAnarchy.Code.Settings;
 using TimeWeatherAnarchy.Code.Utils;
@@ -39,6 +42,8 @@ namespace TimeWeatherAnarchy.Code.System
         private const string WeatherTime = "CurrentWeatherTime";
         private const string CustomLatitude = "CustomLatitude";
         private const string CustomLongitude = "CustomLongitude";
+        private const string TimePreference = "TimePreference";
+        private const string TemperaturePreference = "TemperaturePreference";
         
         private ValueBindingHelper<string> _selectedProfile;
         private ValueBindingHelper<List<TimeWeatherProfileUI>> _profiles;
@@ -63,6 +68,8 @@ namespace TimeWeatherAnarchy.Code.System
         private ValueBinding<float> _currentWeatherTime;
         private ValueBindingHelper<float> _currentLatitude;
         private ValueBindingHelper<float> _currentLongitude;
+        private ValueBinding<int> _timePreference;
+        private ValueBinding<int> _temperaturePreference;
         private ProxyAction _toggleMainPanelBinding;
         private ProxyAction _toggleDayNightTimeBinding;
         private ProxyAction _toggleNextProfileBinding;
@@ -151,6 +158,12 @@ namespace TimeWeatherAnarchy.Code.System
             _enableCustomThunder = new ValueBinding<bool>(ModID, EnableCustomThunder, Mod.m_Setting.Profile.EnableCustomThunder);
             AddBinding(_enableCustomThunder);
             
+            _timePreference = new ValueBinding<int>(ModID, TimePreference, GetTimePreference());
+            AddBinding(_timePreference);
+            
+            _temperaturePreference = new ValueBinding<int>(ModID, TemperaturePreference, GetTemperaturePreference());
+            AddBinding(_temperaturePreference);
+            
             _selectedProfile = CreateBinding(SelectedProfile, Mod.m_Setting.SelectedProfile);
             
             _profiles = CreateBinding(Profiles, Mod.m_Setting.Profiles.ToUI());
@@ -215,6 +228,12 @@ namespace TimeWeatherAnarchy.Code.System
             AddBinding(new TriggerBinding<string, string>(ModID, UpdateProfile, OnUpdateProfile));
             
             AddBinding(new TriggerBinding<string>(ModID, DeleteProfile, OnDeleteProfile));
+
+            GameManager.instance.settings.userInterface.onSettingsApplied += _ =>
+            {
+                _temperaturePreference.Update(GetTemperaturePreference());
+                _timePreference.Update(GetTimePreference());
+            };
         }
         
         protected override void OnUpdate()
@@ -235,6 +254,32 @@ namespace TimeWeatherAnarchy.Code.System
             }
 
             base.OnUpdate();
+        }
+
+        private int GetTimePreference()
+        {
+            var timePreference = Domain.TimePreference.TwentyFourHours;
+            timePreference = GameManager.instance.settings.userInterface.timeFormat switch
+            {
+                InterfaceSettings.TimeFormat.TwentyFourHours => Domain.TimePreference.TwentyFourHours,
+                InterfaceSettings.TimeFormat.TwelveHours => Domain.TimePreference.TwelveHours,
+                _ => timePreference
+            };
+            return (int) timePreference;
+        }
+        
+        private int GetTemperaturePreference()
+        {
+            var temperaturePreference = Domain.TemperaturePreference.Celsius;
+            temperaturePreference = GameManager.instance.settings.userInterface.temperatureUnit switch
+            {
+                InterfaceSettings.TemperatureUnit.Celsius => Domain.TemperaturePreference.Celsius,
+                InterfaceSettings.TemperatureUnit.Fahrenheit => Domain.TemperaturePreference.Fahrenheit,
+                InterfaceSettings.TemperatureUnit.Kelvin => Domain.TemperaturePreference.Kelvin,
+                _ => temperaturePreference
+            };
+
+            return (int) temperaturePreference;
         }
 
         private void SetPanelVisibility(bool open)

@@ -59,6 +59,18 @@
   "TimeWeatherAnarchy.Fog": "雾",
   "TimeWeatherAnarchy.Thunder": "雷电",
   "TimeWeatherAnarchy.Rainbow": "彩虹",
+  "TimeWeatherAnarchy.January": "一月",
+  "TimeWeatherAnarchy.February": "二月",
+  "TimeWeatherAnarchy.March": "三月",
+  "TimeWeatherAnarchy.April": "四月",
+  "TimeWeatherAnarchy.May": "五月",
+  "TimeWeatherAnarchy.June": "六月",
+  "TimeWeatherAnarchy.July": "七月",
+  "TimeWeatherAnarchy.August": "八月",
+  "TimeWeatherAnarchy.September": "九月",
+  "TimeWeatherAnarchy.October": "十月",
+  "TimeWeatherAnarchy.November": "十一月",
+  "TimeWeatherAnarchy.December": "十二月",
   "TimeWeatherAnarchy.DeleteProfileConfirmation": "您确定要删除此配置文件吗？",
   "TimeWeatherAnarchy.DeleteProfile": "删除配置文件"
 }

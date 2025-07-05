@@ -38,8 +38,8 @@ import {
     SetEnableCustomPrecipitation,
     SetEnableCustomTemperature, SetEnableCustomThunder, SetSelectedProfile,
     SetTimeOption,
-    SetWeatherOption,
-    TimeOption, UpdateProfile,
+    SetWeatherOption, TemperaturePreferenceValueBinding,
+    TimeOption, TimePreferenceValueBinding, UpdateProfile,
     WeatherOption
 } from "mods/bindings";
 import {useValue} from "cs2/api";
@@ -49,10 +49,12 @@ import {Theme} from "cs2/bindings";
 import {Slider} from "../components/slider/slider";
 import {CheckBoxWithLine} from "../components/checkbox/checkbox";
 import {Section} from "../components/section/section";
-import {useLocalization} from "cs2/l10n";
+import {Localization, useLocalization} from "cs2/l10n";
 import {FormLine} from "../components/form-line/form-line";
 import {WeatherOptions} from "../domain/weatherOptions";
 import {TimeOptions} from "../domain/timeOptions";
+import {TimePreference} from "../domain/TimePreference";
+import {TemperaturePreference} from "../domain/TemperaturePreference";
 import {TextInput} from "../components/text-input/text-input";
 import {useState} from "react";
 import editIcon from "images/Edit.svg"
@@ -61,7 +63,7 @@ const DEFAULT_PROFILE = "default_profile"
 
 const DropdownStyle: Theme | any = getModule("game-ui/menu/themes/dropdown.module.scss", "classes");
 
-const convertNumToTime = (number: number): string => {
+const convertNumToTime = (number: number, timePreference: number): string => {
     let sign = (number >= 0) ? 1 : -1;
     number = number * sign;
     let hour = Math.floor(number);
@@ -72,7 +74,76 @@ const convertNumToTime = (number: number): string => {
     if (minute.length < 2) {
         minute = '0' + minute;
     }
+    
+    if (timePreference === TimePreference.TwelveHours) {
+        const period = hour >= 12 ? 'PM' : 'AM';
+        const displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour);
+        return (sign == 1 ? '' : '-') + displayHour + ':' + minute + ' ' + period;
+    }
+    
     return (sign == 1 ? '' : '-') + hour + ':' + minute;
+}
+
+const convertDayOfYearToDate = (
+    dayOfYear: number,
+    translate: (id: string, fallback?: string | null) => string | null,
+    timePreference: number,
+): string => {
+    try {
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        
+        const date = new Date(Date.UTC(2024, 0, dayOfYear + 1));
+
+        const monthName = months[date.getUTCMonth()];
+        const month = translate("TimeWeatherAnarchy." + monthName, monthName);
+        const day = date.getUTCDate();
+
+        if (timePreference === TimePreference.TwelveHours) {
+            return `${month} ${day}`;
+        } else {
+            return `${day} ${month}`;
+        }
+    } catch (error) {
+        return dayOfYear.toString();
+    }
+};
+
+const convertWeatherTimeToDate = (
+    weatherTime: number,
+    translate: (id: string, fallback?: string | null) => string | null,
+    timePreference: number,
+): string => {
+    return convertDayOfYearToDate(Math.round(weatherTime * 365), translate, timePreference);
+}
+
+const convertTemperature = (celsius: number, temperaturePreference: number): string => {
+    let convertedTemp: number;
+    let unit: string;
+    
+    switch (temperaturePreference) {
+        case TemperaturePreference.Fahrenheit:
+            convertedTemp = (celsius * 9/5) + 32;
+            unit = '°F';
+            break;
+        case TemperaturePreference.Kelvin:
+            convertedTemp = celsius + 273.15;
+            unit = 'K';
+            break;
+        case TemperaturePreference.Celsius:
+        default:
+            convertedTemp = celsius;
+            unit = '°C';
+            break;
+    }
+    
+    return `${Math.round(convertedTemp)}${unit}`;
+}
+
+const convertToPercentage = (value: number): string => {
+    return `${Math.round(value * 100)}%`;
 }
 
 export const TimeWeatherPanel = () => {
@@ -109,7 +180,8 @@ export const TimeWeatherPanel = () => {
     const [profileEditId, setProfileEditId] = useState<string>("");
     const [profileQuery, setProfileQuery] = useState<string>("");
     const [isDeletingProfile, setIsDeletingProfile] = useState<boolean>(false);
-    
+    const timePreference = useValue(TimePreferenceValueBinding);
+    const temperaturePreference = useValue(TemperaturePreferenceValueBinding);
     const updateProfile = () => {
         if (profileQuery.length > 0) {
             UpdateProfile(profileEditId, profileQuery)
@@ -337,7 +409,7 @@ export const TimeWeatherPanel = () => {
                                onChange={value => {
                                    SetCurrentTime(value)
                                }}/>
-                           <span className={styles.sliderText}>{translate("TimeWeatherAnarchy.HourOfTheDay")}: {convertNumToTime(currentTime)}</span>
+                           <span className={styles.sliderText}>{translate("TimeWeatherAnarchy.HourOfTheDay")}: {convertNumToTime(currentTime, timePreference)}</span>
                            <div style={({marginBottom: '16rem'})}/>
                        </> : null
                    }
@@ -352,7 +424,7 @@ export const TimeWeatherPanel = () => {
                                    SetCustomDayOfTheYear(value)
                                }}/>
                            <span
-                               className={styles.sliderText}>{translate("TimeWeatherAnarchy.DayOfTheYear")}: {currentDayOfTheYear}</span>
+                               className={styles.sliderText}>{translate("TimeWeatherAnarchy.DayOfTheYear")}: {convertDayOfYearToDate(currentDayOfTheYear, translate, timePreference)}</span>
 
                            <div style={({marginBottom: '16rem'})}/>
 
@@ -406,7 +478,7 @@ export const TimeWeatherPanel = () => {
                                    SetCustomWeatherTime(value)
                                }}/>
                            <span
-                               className={styles.sliderText}>{translate("TimeWeatherAnarchy.WeatherDate")}: {currentWeatherTime.toFixed(3)}</span>
+                               className={styles.sliderText}>{translate("TimeWeatherAnarchy.WeatherDate")}: {convertWeatherTimeToDate(currentWeatherTime, translate, timePreference)}</span>
                        </> : null
                    }
 
@@ -431,7 +503,7 @@ export const TimeWeatherPanel = () => {
                                        SetCurrentTemperature(value)
                                    }}/>
                                <span
-                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Temperature")}: {currentTemperature}</span>
+                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Temperature")}: {convertTemperature(currentTemperature, temperaturePreference)}</span>
                            </> : null
                        }
                    </div>
@@ -457,7 +529,7 @@ export const TimeWeatherPanel = () => {
                                        SetCustomPrecipitation(value)
                                    }}/>
                                <span
-                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Precipitation")}: {currentPrecipitation.toFixed(3)}</span>
+                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Precipitation")}: {convertToPercentage(currentPrecipitation)}</span>
                            </> : null
                        }
                    </div>
@@ -510,7 +582,7 @@ export const TimeWeatherPanel = () => {
                                        SetCustomClouds(value)
                                    }}/>
                                <span
-                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Clouds")}: {currentClouds.toFixed(3)}</span>
+                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Clouds")}: {convertToPercentage(currentClouds)}</span>
                            </> : null
                        }
                    </div>
@@ -537,7 +609,7 @@ export const TimeWeatherPanel = () => {
                                    }}/>
                                <div style={({marginBottom: '4rem'})}/>
                                <span
-                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Aurora")}: {currentAurora.toFixed(3)}</span>
+                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Aurora")}: {convertToPercentage(currentAurora)}</span>
                            </> : null
                        }
                    </div>
