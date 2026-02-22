@@ -21,6 +21,7 @@ import {
     CurrentTemperature,
     CurrentTime,
     AttachedSavesBinding,
+    AttachedSaveNamesBinding,
     CurrentSaveAttachedBinding,
     CurrentSaveNameBinding,
     CurrentWeatherTime, CustomFog, CustomLatitude, CustomLongitude, CustomRainbow, CustomThunder, DeleteProfile,
@@ -44,7 +45,8 @@ import {
     SetTimeOption,
     SetWeatherOption, TemperaturePreferenceValueBinding,
     TimeOption, TimePreferenceValueBinding, UpdateProfile,
-    WeatherOption
+    WeatherOption,
+    RemoveSnow
 } from "mods/bindings";
 import { useValue } from "cs2/api";
 import * as React from 'react';
@@ -190,7 +192,8 @@ export const TimeWeatherPanel = () => {
     const temperaturePreference = useValue(TemperaturePreferenceValueBinding);
     const selectedProfileActiveTime = useValue(ProfileActiveTimeBinding);
     const currentSaveAttached = useValue(CurrentSaveAttachedBinding);
-    const attachedSaves = useValue(AttachedSavesBinding) ?? [];
+    const attachedSaves = useValue(AttachedSavesBinding) ?? [];        // GUIDs
+    const attachedSaveNames = useValue(AttachedSaveNamesBinding) ?? []; // display names (same order)
     const profileActiveTimeDisabled = selectedTimeOption !== TimeOptions.Default;
     const updateProfile = () => {
         if (profileQuery.length > 0) {
@@ -442,10 +445,10 @@ export const TimeWeatherPanel = () => {
                                 )}
 
                                 <div style={{ marginTop: '16rem' }} />
-                                {/* <CheckBoxWithLine
+                                <CheckBoxWithLine
                                     title={translate("TimeWeatherAnarchy.AttachToCurrentSave")}
                                     isChecked={currentSaveAttached}
-                                    onValueToggle={(value) => SetSaveAttached(value)} /> */}
+                                    onValueToggle={(value) => SetSaveAttached(value)} />
 
                                 {attachedSaves.length > 0 && (
                                     <>
@@ -453,14 +456,14 @@ export const TimeWeatherPanel = () => {
                                         <span className={styles.label}>
                                             {translate("TimeWeatherAnarchy.AlsoAttachedTo")}
                                         </span>
-                                        {attachedSaves.map(saveName => (
-                                            <div key={saveName} className={styles.attachedSaveRow}>
-                                                <span>{saveName}</span>
+                                        {attachedSaves.map((guid, i) => (
+                                            <div key={guid} className={styles.attachedSaveRow}>
+                                                <span>{attachedSaveNames[i] ?? guid}</span>
                                                 <Tooltip tooltip={translate("TimeWeatherAnarchy.DetachSave")}>
                                                     <img
                                                         src={removeIcon}
                                                         className={styles.detachButton}
-                                                        onClick={() => DetachSave(saveName)} />
+                                                        onClick={() => DetachSave(guid)} />
                                                 </Tooltip>
                                             </div>
                                         ))}
@@ -620,6 +623,13 @@ export const TimeWeatherPanel = () => {
                                         className={styles.sliderText}>{translate("TimeWeatherAnarchy.Precipitation")}: {convertToPercentage(currentPrecipitation)}</span>
                                 </> : null
                             }
+                            <div className={styles.row} style={{ marginTop: '8rem' }}>
+                                <div className={styles.button}>
+                                    <Button onSelect={() => RemoveSnow()}>
+                                        {translate("TimeWeatherAnarchy.RemoveSnow")}
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
 
                         <div style={({ marginBottom: '16rem' })} />

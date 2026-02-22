@@ -5,6 +5,7 @@ using Game;
 using Game.Input;
 using Game.SceneFlow;
 using Game.Settings;
+using Game.Simulation;
 using TimeWeatherAnarchy.Code.Domain;
 using TimeWeatherAnarchy.Code.Settings;
 using TimeWeatherAnarchy.Code.Utils;
@@ -48,6 +49,8 @@ namespace TimeWeatherAnarchy.Code.System
         private const string CurrentSaveName = "CurrentSaveName";
         private const string CurrentSaveAttached = "CurrentSaveAttached";
         private const string AttachedSaves = "AttachedSaves";
+        private const string AttachedSaveNames = "AttachedSaveNames";
+        private const string RemoveSnow = "RemoveSnow";
         
         private ValueBindingHelper<string> _selectedProfile;
         private ValueBindingHelper<List<TimeWeatherProfileUI>> _profiles;
@@ -78,6 +81,7 @@ namespace TimeWeatherAnarchy.Code.System
         private ValueBindingHelper<string> _currentSaveName;
         private ValueBinding<bool> _currentSaveAttached;
         private ValueBindingHelper<List<string>> _attachedSaves;
+        private ValueBindingHelper<List<string>> _attachedSaveNames;
         private ProxyAction _toggleMainPanelBinding;
         private ProxyAction _toggleDayNightTimeBinding;
         private ProxyAction _toggleNextProfileBinding;
@@ -193,13 +197,14 @@ namespace TimeWeatherAnarchy.Code.System
             AddBinding(_currentSaveAttached);
 
             _attachedSaves = CreateBinding(AttachedSaves, GetAttachedSaves());
-
+            _attachedSaveNames = CreateBinding(AttachedSaveNames, GetAttachedSaveNames());
             CreateTrigger<string>(SelectedProfile, SetProfile);
             CreateTrigger<float>(CustomLatitude, SetCustomLatitude);
             CreateTrigger<float>(CustomLongitude, SetCustomLongitude);
             CreateTrigger<int>(ProfileActiveTime, SetProfileActiveTime);
             CreateTrigger<bool>(CurrentSaveAttached, SetSaveAttached);
             CreateTrigger<string>(AttachedSaves, DetachSave);
+            CreateTrigger(RemoveSnow, OnRemoveSnow);
             
             AddBinding(new TriggerBinding<bool>(ModID, MainPanelOpen, SetPanelVisibility));
 
@@ -280,18 +285,18 @@ namespace TimeWeatherAnarchy.Code.System
                 OnPreviousProfileClickedTrigger();
             }
 
-            var latestSaveName = _timeAndWeatherControlSystem.CurrentSaveName;
+            var latestGuid = _timeAndWeatherControlSystem.CurrentSaveGuid;
             var latestAttached = GetCurrentSaveAttached();
-            if (latestSaveName != _currentSaveName.Value)
+            if (latestGuid != _currentSaveName.Value)
             {
-                _currentSaveName.Value = latestSaveName;
+                _currentSaveName.Value = _timeAndWeatherControlSystem.CurrentSaveName;
                 _currentSaveAttached.Update(latestAttached);
-                _attachedSaves.Value = GetAttachedSaves();
+                RefreshAttachedSaves();
             }
             else if (latestAttached != _currentSaveAttached.value)
             {
                 _currentSaveAttached.Update(latestAttached);
-                _attachedSaves.Value = GetAttachedSaves();
+                RefreshAttachedSaves();
             }
 
             base.OnUpdate();
@@ -327,6 +332,7 @@ namespace TimeWeatherAnarchy.Code.System
         {
             _panelVisibleBinding.Update(open);
             Mod.m_Setting.InitializeProfiles();
+            _timeAndWeatherControlSystem.UpdateSaveInfo();
             _timeAndWeatherControlSystem.UpdateTimeAndWeather();
         }
         
@@ -515,40 +521,58 @@ namespace TimeWeatherAnarchy.Code.System
 
         private bool GetCurrentSaveAttached()
         {
-            var saveName = _timeAndWeatherControlSystem.CurrentSaveName;
-            if (string.IsNullOrEmpty(saveName)) return false;
-            var linked = Mod.m_Setting.GetLinkedProfile(saveName);
-            return linked == Mod.m_Setting.SelectedProfile;
+            var guid = _timeAndWeatherControlSystem.CurrentSaveGuid;
+            if (string.IsNullOrEmpty(guid)) return false;
+            return Mod.m_Setting.GetLinkedProfile(guid) == Mod.m_Setting.SelectedProfile;
         }
 
         private List<string> GetAttachedSaves()
         {
-            var currentSave = _timeAndWeatherControlSystem.CurrentSaveName;
+            var currentGuid = _timeAndWeatherControlSystem.CurrentSaveGuid;
             var profileId = Mod.m_Setting.SelectedProfile;
             return Mod.m_Setting.SaveGameLinks
-                .Where(kv => kv.Value == profileId && kv.Key != currentSave)
+                .Where(kv => kv.Value == profileId && kv.Key != currentGuid)
                 .Select(kv => kv.Key)
                 .ToList();
         }
 
-        private void SetSaveAttached(bool attach)
+        private List<string> GetAttachedSaveNames()
         {
-            var saveName = _timeAndWeatherControlSystem.CurrentSaveName;
-            if (string.IsNullOrEmpty(saveName)) return;
-            if (attach)
-                Mod.m_Setting.AttachSave(saveName, Mod.m_Setting.SelectedProfile);
-            else
-                Mod.m_Setting.DetachSave(saveName);
-            _currentSaveAttached.Update(GetCurrentSaveAttached());
-            _attachedSaves.Value = GetAttachedSaves();
+            return GetAttachedSaves()
+                .Select(guid => Mod.m_Setting.GetDisplayName(guid))
+                .ToList();
         }
 
-        private void DetachSave(string saveName)
+        private void RefreshAttachedSaves()
         {
-            Mod.m_Setting.DetachSave(saveName);
-            _currentSaveAttached.Update(GetCurrentSaveAttached());
             _attachedSaves.Value = GetAttachedSaves();
+            _attachedSaveNames.Value = GetAttachedSaveNames();
         }
+
+        private void SetSaveAttached(bool attach)
+        {
+            var guid = _timeAndWeatherControlSystem.CurrentSaveGuid;
+            if (string.IsNullOrEmpty(guid)) return;
+            if (attach)
+                Mod.m_Setting.AttachSave(guid, _timeAndWeatherControlSystem.CurrentSaveName, Mod.m_Setting.SelectedProfile);
+            else
+                Mod.m_Setting.DetachSave(guid);
+            _currentSaveAttached.Update(GetCurrentSaveAttached());
+            RefreshAttachedSaves();
+        }
+
+        private void DetachSave(string guid)
+        {
+            Mod.m_Setting.DetachSave(guid);
+            _currentSaveAttached.Update(GetCurrentSaveAttached());
+            RefreshAttachedSaves();
+        }
+
+        private void OnRemoveSnow()
+        {
+            World.GetOrCreateSystemManaged<SnowSystem>().DebugReset();
+        }
+
         private void SetCustomThunder(float thunder)
         {
             _currentThunder.Update(thunder);
@@ -611,7 +635,7 @@ namespace TimeWeatherAnarchy.Code.System
             _currentDayOfTheYear.Update(profile.DayOfTheYear);
             _profileActiveTime.Update(profile.ProfileActiveTime);
             _currentSaveAttached.Update(GetCurrentSaveAttached());
-            _attachedSaves.Value = GetAttachedSaves();
+            RefreshAttachedSaves();
             _profiles.Value = Mod.m_Setting.Profiles.ToUI();
             _selectedProfile.Value = Mod.m_Setting.SelectedProfile;
         }

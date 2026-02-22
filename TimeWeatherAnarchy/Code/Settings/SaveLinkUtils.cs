@@ -9,20 +9,18 @@ namespace TimeWeatherAnarchy.Code.Settings
 {
     public static class SaveLinkUtils
     {
-        private static readonly string FilePath = Path.Combine(
-            EnvPath.kUserDataPath,
-            "ModsSettings",
-            nameof(TimeWeatherAnarchy),
-            "save_links.json"
-        );
+        private static readonly string LinksPath = Path.Combine(
+            EnvPath.kUserDataPath, "ModsSettings", nameof(TimeWeatherAnarchy), "save_links.json");
 
-        public static Dictionary<string, string> Load()
+        private static readonly string NamesPath = Path.Combine(
+            EnvPath.kUserDataPath, "ModsSettings", nameof(TimeWeatherAnarchy), "save_names.json");
+
+        private static Dictionary<string, string> LoadFile(string path)
         {
-            if (!File.Exists(FilePath))
-                return new Dictionary<string, string>();
+            if (!File.Exists(path)) return new Dictionary<string, string>();
             try
             {
-                var json = File.ReadAllText(FilePath);
+                var json = File.ReadAllText(path);
                 return JSON.MakeInto<Dictionary<string, string>>(JSON.Load(json))
                        ?? new Dictionary<string, string>();
             }
@@ -32,12 +30,17 @@ namespace TimeWeatherAnarchy.Code.Settings
             }
         }
 
-        public static void Save(Dictionary<string, string> links)
+        private static void SaveFile(string path, Dictionary<string, string> dict)
         {
-            var dir = Path.GetDirectoryName(FilePath);
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-            File.WriteAllText(FilePath, JSON.Dump(links));
+            var dir = Path.GetDirectoryName(path);
+            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            File.WriteAllText(path, JSON.Dump(dict));
         }
+
+        public static Dictionary<string, string> LoadLinks() => LoadFile(LinksPath);
+        public static Dictionary<string, string> LoadNames() => LoadFile(NamesPath);
+
+        public static void SaveLinks(Dictionary<string, string> links) => SaveFile(LinksPath, links);
+        public static void SaveNames(Dictionary<string, string> names) => SaveFile(NamesPath, names);
     }
 }

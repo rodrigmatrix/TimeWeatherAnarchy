@@ -1,5 +1,6 @@
 ﻿using System;
 using Colossal.IO.AssetDatabase;
+using Colossal.Json;
 using Colossal.Serialization.Entities;
 using Game;
 using Game.Assets;
@@ -24,8 +25,10 @@ namespace TimeWeatherAnarchy.Code.System
         private bool _seasonSet;
         private bool _isPaused;
         private string _currentSaveName = string.Empty;
+        private string _currentSaveGuid = string.Empty;
 
         public string CurrentSaveName => _currentSaveName;
+        public string CurrentSaveGuid => _currentSaveGuid;
 
         private const string SPRING_SEASON = "SeasonSpring";
         private const string SUMMER_SEASON = "SeasonSummer";
@@ -38,15 +41,6 @@ namespace TimeWeatherAnarchy.Code.System
             _climateSystem = World.GetOrCreateSystemManaged<ClimateSystem>();
             _planetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
             _simulationSystem = World.GetOrCreateSystemManaged<SimulationSystem>();
-
-            GameManager.instance.onGameSaveLoad += (saveName, previewUri, start, success) =>
-            {
-                if (!start && success)
-                {
-                    _currentSaveName = saveName ?? string.Empty;
-                    ApplyLinkedProfile(_currentSaveName);
-                }
-            };
         }
 
         protected override void OnGameLoaded(Context serializationContext)
@@ -66,27 +60,28 @@ namespace TimeWeatherAnarchy.Code.System
 
             _gameLoaded = true;
 
-            var loadSystem = World.GetOrCreateSystemManaged<LoadGameSystem>();
+            UpdateSaveInfo();
+            UpdateTimeAndWeather();
+        }
 
-            var activeGuid = loadSystem.context.instigatorGuid;
-        
-
+        public void UpdateSaveInfo()
+        {
             try
             {
-                var meta = GameManager.instance.settings?.userState?.lastSaveGameMetadata;
-                if (meta != null)
-                {
-                    var name = meta.name;
-                    if (!string.IsNullOrEmpty(name))
-                    {
-                        _currentSaveName = name;
-                        ApplyLinkedProfile(_currentSaveName);
-                    }
-                }
-            }
-            catch { }
+                var loadSystem = World.GetOrCreateSystemManaged<LoadGameSystem>();
+                var activeGuid = loadSystem.context.instigatorGuid;
+                if (!AssetDatabase.global.TryGetAsset(activeGuid, out SaveGameMetadata saveMetadata))
+                    return;
 
-            UpdateTimeAndWeather();
+                _currentSaveGuid = saveMetadata.target.sessionGuid.ToString();
+                _currentSaveName = $"{saveMetadata.target.cityName} - Population: {saveMetadata.target.population:N0}";
+                Mod.m_Setting.UpdateSaveDisplayName(_currentSaveGuid, _currentSaveName);
+                ApplyLinkedProfile(_currentSaveGuid);
+            }
+            catch (Exception e)
+            {
+                Mod.log.Info(e + " error occurred while reading save info.");
+            }
         }
 
         private void ApplyLinkedProfile(string saveName)

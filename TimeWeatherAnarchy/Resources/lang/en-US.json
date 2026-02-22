@@ -87,5 +87,6 @@
   "TimeWeatherAnarchy.AttachToCurrentSave": "Attach this profile to current save",
   "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "Load a save game to enable this option.",
   "TimeWeatherAnarchy.AlsoAttachedTo": "Also attached to:",
-  "TimeWeatherAnarchy.DetachSave": "Detach from this save"
+  "TimeWeatherAnarchy.DetachSave": "Detach from this save",
+  "TimeWeatherAnarchy.RemoveSnow": "Remove Snow"
 }

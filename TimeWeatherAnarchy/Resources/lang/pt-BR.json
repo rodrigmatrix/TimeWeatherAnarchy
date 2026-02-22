@@ -86,5 +86,6 @@
   "TimeWeatherAnarchy.AttachToCurrentSave": "Anexar este perfil ao save atual",
   "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "Carregue um save para ativar esta opção.",
   "TimeWeatherAnarchy.AlsoAttachedTo": "Também anexado a:",
-  "TimeWeatherAnarchy.DetachSave": "Desanexar deste save"
+  "TimeWeatherAnarchy.DetachSave": "Desanexar deste save",
+  "TimeWeatherAnarchy.RemoveSnow": "Remover Neve"
 }

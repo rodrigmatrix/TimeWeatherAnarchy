@@ -33,6 +33,9 @@ namespace TimeWeatherAnarchy
         [Exclude]
         public Dictionary<string, string> SaveGameLinks { get; private set; } = new();
 
+        [Exclude]
+        public Dictionary<string, string> SaveGameNames { get; private set; } = new();
+
         public TimeWeatherAnarchySettings(IMod imod) : base(imod)
         {
             
@@ -42,7 +45,8 @@ namespace TimeWeatherAnarchy
         {
             var profiles = ProfileUtils.LoadProfiles(this);
             Profiles = profiles;
-            SaveGameLinks = SaveLinkUtils.Load();
+            SaveGameLinks = SaveLinkUtils.LoadLinks();
+            SaveGameNames = SaveLinkUtils.LoadNames();
         }
         
         public void CreateProfile(string profileName, bool copyCurrentProfile)
@@ -82,25 +86,39 @@ namespace TimeWeatherAnarchy
             ProfileUtils.Delete(profileId);
             var linksToRemove = SaveGameLinks.Where(kv => kv.Value == profileId).Select(kv => kv.Key).ToList();
             foreach (var key in linksToRemove) SaveGameLinks.Remove(key);
-            SaveLinkUtils.Save(SaveGameLinks);
+            SaveLinkUtils.SaveLinks(SaveGameLinks);
             InitializeProfiles();
         }
 
-        public void AttachSave(string saveName, string profileId)
+        public void AttachSave(string guid, string displayName, string profileId)
         {
-            SaveGameLinks[saveName] = profileId;
-            SaveLinkUtils.Save(SaveGameLinks);
+            SaveGameLinks[guid] = profileId;
+            SaveGameNames[guid] = displayName;
+            SaveLinkUtils.SaveLinks(SaveGameLinks);
+            SaveLinkUtils.SaveNames(SaveGameNames);
         }
 
-        public void DetachSave(string saveName)
+        public void UpdateSaveDisplayName(string guid, string displayName)
         {
-            SaveGameLinks.Remove(saveName);
-            SaveLinkUtils.Save(SaveGameLinks);
+            if (string.IsNullOrEmpty(guid)) return;
+            SaveGameNames[guid] = displayName;
+            SaveLinkUtils.SaveNames(SaveGameNames);
         }
 
-        public string GetLinkedProfile(string saveName)
+        public void DetachSave(string guid)
         {
-            return SaveGameLinks.TryGetValue(saveName, out var profileId) ? profileId : null;
+            SaveGameLinks.Remove(guid);
+            SaveLinkUtils.SaveLinks(SaveGameLinks);
+        }
+
+        public string GetLinkedProfile(string guid)
+        {
+            return SaveGameLinks.TryGetValue(guid, out var profileId) ? profileId : null;
+        }
+
+        public string GetDisplayName(string guid)
+        {
+            return SaveGameNames.TryGetValue(guid, out var name) ? name : guid;
         }
 
         [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]

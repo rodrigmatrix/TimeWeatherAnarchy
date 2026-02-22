@@ -87,5 +87,6 @@
   "TimeWeatherAnarchy.AttachToCurrentSave": "將此設定檔附加到當前存檔",
   "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "請載入存檔以啟用此選項。",
   "TimeWeatherAnarchy.AlsoAttachedTo": "也附加到：",
-  "TimeWeatherAnarchy.DetachSave": "從此存檔移除附加"
+  "TimeWeatherAnarchy.DetachSave": "從此存檔移除附加",
+  "TimeWeatherAnarchy.RemoveSnow": "移除積雪"
 }

@@ -87,5 +87,6 @@
   "TimeWeatherAnarchy.AttachToCurrentSave": "Прикрепить этот профиль к текущему сохранению",
   "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "Загрузите сохранение, чтобы активировать эту опцию.",
   "TimeWeatherAnarchy.AlsoAttachedTo": "Также прикреплено к:",
-  "TimeWeatherAnarchy.DetachSave": "Открепить от этого сохранения"
+  "TimeWeatherAnarchy.DetachSave": "Открепить от этого сохранения",
+  "TimeWeatherAnarchy.RemoveSnow": "Убрать снег"
 }

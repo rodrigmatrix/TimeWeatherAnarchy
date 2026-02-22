@@ -32,6 +32,8 @@ export const PROFILE_ACTIVE_TIME = "ProfileActiveTime"
 export const CURRENT_SAVE_NAME = "CurrentSaveName"
 export const CURRENT_SAVE_ATTACHED = "CurrentSaveAttached"
 export const ATTACHED_SAVES = "AttachedSaves"
+export const ATTACHED_SAVE_NAMES = "AttachedSaveNames"
+export const REMOVE_SNOW = "RemoveSnow"
 
 export const TIME_PREFERENCE = "TimePreference"
 export const TEMPERATURE_PREFERENCE = "TemperaturePreference"
@@ -63,6 +65,7 @@ export const ProfileActiveTimeBinding = bindValue<number>(mod.id, PROFILE_ACTIVE
 export const CurrentSaveNameBinding = bindValue<string>(mod.id, CURRENT_SAVE_NAME);
 export const CurrentSaveAttachedBinding = bindValue<boolean>(mod.id, CURRENT_SAVE_ATTACHED);
 export const AttachedSavesBinding = bindValue<string[]>(mod.id, ATTACHED_SAVES);
+export const AttachedSaveNamesBinding = bindValue<string[]>(mod.id, ATTACHED_SAVE_NAMES);
 
 export const TemperaturePreferenceValueBinding = bindValue<number>(mod.id, TEMPERATURE_PREFERENCE)
 export const TimePreferenceValueBinding = bindValue<number>(mod.id, TIME_PREFERENCE)
@@ -95,3 +98,4 @@ export const SetCustomLongitude = (value: number) => trigger(mod.id, CUSTOM_LONG
 export const SetProfileActiveTime = (value: number) => trigger(mod.id, PROFILE_ACTIVE_TIME, value);
 export const SetSaveAttached = (value: boolean) => trigger(mod.id, CURRENT_SAVE_ATTACHED, value);
 export const DetachSave = (saveName: string) => trigger(mod.id, ATTACHED_SAVES, saveName);
+export const RemoveSnow = () => trigger(mod.id, REMOVE_SNOW);
