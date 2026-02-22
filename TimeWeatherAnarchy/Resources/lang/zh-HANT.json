@@ -83,5 +83,9 @@
   "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayStartHour]": "白天開始於",
   "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayStartHour]": "白天開始的遊戲內小時，用於設定檔活躍時間檢查。",
   "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "白天結束於",
-  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "夜晚開始的遊戲內小時，用於設定檔活躍時間檢查。"
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "夜晚開始的遊戲內小時，用於設定檔活躍時間檢查。",
+  "TimeWeatherAnarchy.AttachToCurrentSave": "將此設定檔附加到當前存檔",
+  "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "請載入存檔以啟用此選項。",
+  "TimeWeatherAnarchy.AlsoAttachedTo": "也附加到：",
+  "TimeWeatherAnarchy.DetachSave": "從此存檔移除附加"
 }

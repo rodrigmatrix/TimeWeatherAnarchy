@@ -82,5 +82,9 @@
   "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayStartHour]": "Dia começa às",
   "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayStartHour]": "Hora do jogo em que o Dia começa para verificações de tempo ativo do perfil.",
   "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "Dia termina às",
-  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "Hora do jogo em que a Noite começa para verificações de tempo ativo do perfil."
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "Hora do jogo em que a Noite começa para verificações de tempo ativo do perfil.",
+  "TimeWeatherAnarchy.AttachToCurrentSave": "Anexar este perfil ao save atual",
+  "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "Carregue um save para ativar esta opção.",
+  "TimeWeatherAnarchy.AlsoAttachedTo": "Também anexado a:",
+  "TimeWeatherAnarchy.DetachSave": "Desanexar deste save"
 }

@@ -29,6 +29,9 @@ export const CUSTOM_RAINBOW = "CurrentRainbow"
 export const CUSTOM_LATITUDE = "CustomLatitude"
 export const CUSTOM_LONGITUDE = "CustomLongitude"
 export const PROFILE_ACTIVE_TIME = "ProfileActiveTime"
+export const CURRENT_SAVE_NAME = "CurrentSaveName"
+export const CURRENT_SAVE_ATTACHED = "CurrentSaveAttached"
+export const ATTACHED_SAVES = "AttachedSaves"
 
 export const TIME_PREFERENCE = "TimePreference"
 export const TEMPERATURE_PREFERENCE = "TemperaturePreference"
@@ -57,6 +60,9 @@ export const EnableCustomTemperature = bindValue<boolean>(mod.id, ENABLE_CUSTOM_
 export const CustomLatitude = bindValue<number>(mod.id, CUSTOM_LATITUDE);
 export const CustomLongitude = bindValue<number>(mod.id, CUSTOM_LONGITUDE);
 export const ProfileActiveTimeBinding = bindValue<number>(mod.id, PROFILE_ACTIVE_TIME);
+export const CurrentSaveNameBinding = bindValue<string>(mod.id, CURRENT_SAVE_NAME);
+export const CurrentSaveAttachedBinding = bindValue<boolean>(mod.id, CURRENT_SAVE_ATTACHED);
+export const AttachedSavesBinding = bindValue<string[]>(mod.id, ATTACHED_SAVES);
 
 export const TemperaturePreferenceValueBinding = bindValue<number>(mod.id, TEMPERATURE_PREFERENCE)
 export const TimePreferenceValueBinding = bindValue<number>(mod.id, TIME_PREFERENCE)
@@ -87,3 +93,5 @@ export const UpdateProfile = (id: string, name: string) => trigger(mod.id, UPDAT
 export const SetCustomLatitude = (value: number) => trigger(mod.id, CUSTOM_LATITUDE, value);
 export const SetCustomLongitude = (value: number) => trigger(mod.id, CUSTOM_LONGITUDE, value);
 export const SetProfileActiveTime = (value: number) => trigger(mod.id, PROFILE_ACTIVE_TIME, value);
+export const SetSaveAttached = (value: boolean) => trigger(mod.id, CURRENT_SAVE_ATTACHED, value);
+export const DetachSave = (saveName: string) => trigger(mod.id, ATTACHED_SAVES, saveName);

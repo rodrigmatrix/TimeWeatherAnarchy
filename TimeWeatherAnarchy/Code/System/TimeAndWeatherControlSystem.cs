@@ -1,6 +1,10 @@
 ﻿using System;
+using Colossal.IO.AssetDatabase;
 using Colossal.Serialization.Entities;
 using Game;
+using Game.Assets;
+using Game.SceneFlow;
+using Game.Serialization;
 using Game.Simulation;
 using TimeWeatherAnarchy.Code.Domain;
 using Unity.Entities;
@@ -19,7 +23,9 @@ namespace TimeWeatherAnarchy.Code.System
         private readonly float _timeDelay = 0.2f;
         private bool _seasonSet;
         private bool _isPaused;
+        private string _currentSaveName = string.Empty;
 
+        public string CurrentSaveName => _currentSaveName;
 
         private const string SPRING_SEASON = "SeasonSpring";
         private const string SUMMER_SEASON = "SeasonSummer";
@@ -32,6 +38,15 @@ namespace TimeWeatherAnarchy.Code.System
             _climateSystem = World.GetOrCreateSystemManaged<ClimateSystem>();
             _planetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
             _simulationSystem = World.GetOrCreateSystemManaged<SimulationSystem>();
+
+            GameManager.instance.onGameSaveLoad += (saveName, previewUri, start, success) =>
+            {
+                if (!start && success)
+                {
+                    _currentSaveName = saveName ?? string.Empty;
+                    ApplyLinkedProfile(_currentSaveName);
+                }
+            };
         }
 
         protected override void OnGameLoaded(Context serializationContext)
@@ -45,14 +60,43 @@ namespace TimeWeatherAnarchy.Code.System
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
         {
             base.OnGameLoadingComplete(purpose, mode);
-   
+
             _isEditor = mode.IsEditor();
-            if (_isEditor)
-            {
-                return;
-            }
+            if (_isEditor) return;
+
             _gameLoaded = true;
+
+            var loadSystem = World.GetOrCreateSystemManaged<LoadGameSystem>();
+
+            var activeGuid = loadSystem.context.instigatorGuid;
+        
+
+            try
+            {
+                var meta = GameManager.instance.settings?.userState?.lastSaveGameMetadata;
+                if (meta != null)
+                {
+                    var name = meta.name;
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        _currentSaveName = name;
+                        ApplyLinkedProfile(_currentSaveName);
+                    }
+                }
+            }
+            catch { }
+
             UpdateTimeAndWeather();
+        }
+
+        private void ApplyLinkedProfile(string saveName)
+        {
+            if (string.IsNullOrEmpty(saveName)) return;
+            var linkedProfileId = Mod.m_Setting.GetLinkedProfile(saveName);
+            if (string.IsNullOrEmpty(linkedProfileId)) return;
+            var linked = Mod.m_Setting.Profiles.Find(p => p.Id == linkedProfileId);
+            if (linked != null)
+                Mod.m_Setting.SelectedProfile = linked.Id;
         }
 
         public void UpdateTimeAndWeather()

@@ -20,7 +20,11 @@ import {
     CurrentPrecipitation,
     CurrentTemperature,
     CurrentTime,
+    AttachedSavesBinding,
+    CurrentSaveAttachedBinding,
+    CurrentSaveNameBinding,
     CurrentWeatherTime, CustomFog, CustomLatitude, CustomLongitude, CustomRainbow, CustomThunder, DeleteProfile,
+    DetachSave,
     EnableCustomAurora,
     EnableCustomClouds, EnableCustomFog,
     EnableCustomPrecipitation,
@@ -36,7 +40,7 @@ import {
     SetEnableCustomAurora,
     SetEnableCustomClouds, SetEnableCustomFog,
     SetEnableCustomPrecipitation,
-    SetEnableCustomTemperature, SetEnableCustomThunder, SetProfileActiveTime, SetSelectedProfile,
+    SetEnableCustomTemperature, SetEnableCustomThunder, SetProfileActiveTime, SetSaveAttached, SetSelectedProfile,
     SetTimeOption,
     SetWeatherOption, TemperaturePreferenceValueBinding,
     TimeOption, TimePreferenceValueBinding, UpdateProfile,
@@ -59,6 +63,7 @@ import { TemperaturePreference } from "../domain/TemperaturePreference";
 import { TextInput } from "../components/text-input/text-input";
 import { useState } from "react";
 import editIcon from "images/Edit.svg"
+import removeIcon from "images/RB_ArrowLeftClear.svg"
 
 const DEFAULT_PROFILE = "default_profile"
 
@@ -184,6 +189,8 @@ export const TimeWeatherPanel = () => {
     const timePreference = useValue(TimePreferenceValueBinding);
     const temperaturePreference = useValue(TemperaturePreferenceValueBinding);
     const selectedProfileActiveTime = useValue(ProfileActiveTimeBinding);
+    const currentSaveAttached = useValue(CurrentSaveAttachedBinding);
+    const attachedSaves = useValue(AttachedSavesBinding) ?? [];
     const profileActiveTimeDisabled = selectedTimeOption !== TimeOptions.Default;
     const updateProfile = () => {
         if (profileQuery.length > 0) {
@@ -432,6 +439,32 @@ export const TimeWeatherPanel = () => {
                                             {translate("TimeWeatherAnarchy.ProfileActiveTime." + Object.keys(ProfileActiveTime)[selectedProfileActiveTime])}
                                         </DropdownToggle>
                                     </Dropdown>
+                                )}
+
+                                <div style={{ marginTop: '16rem' }} />
+                                {/* <CheckBoxWithLine
+                                    title={translate("TimeWeatherAnarchy.AttachToCurrentSave")}
+                                    isChecked={currentSaveAttached}
+                                    onValueToggle={(value) => SetSaveAttached(value)} /> */}
+
+                                {attachedSaves.length > 0 && (
+                                    <>
+                                        <div style={{ marginTop: '8rem' }} />
+                                        <span className={styles.label}>
+                                            {translate("TimeWeatherAnarchy.AlsoAttachedTo")}
+                                        </span>
+                                        {attachedSaves.map(saveName => (
+                                            <div key={saveName} className={styles.attachedSaveRow}>
+                                                <span>{saveName}</span>
+                                                <Tooltip tooltip={translate("TimeWeatherAnarchy.DetachSave")}>
+                                                    <img
+                                                        src={removeIcon}
+                                                        className={styles.detachButton}
+                                                        onClick={() => DetachSave(saveName)} />
+                                                </Tooltip>
+                                            </div>
+                                        ))}
+                                    </>
                                 )}
                             </> : null
                         }

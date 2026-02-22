@@ -30,6 +30,9 @@ namespace TimeWeatherAnarchy
         [Exclude]
         public List<TimeWeatherProfile> Profiles { get; private set; } = new();
 
+        [Exclude]
+        public Dictionary<string, string> SaveGameLinks { get; private set; } = new();
+
         public TimeWeatherAnarchySettings(IMod imod) : base(imod)
         {
             
@@ -39,6 +42,7 @@ namespace TimeWeatherAnarchy
         {
             var profiles = ProfileUtils.LoadProfiles(this);
             Profiles = profiles;
+            SaveGameLinks = SaveLinkUtils.Load();
         }
         
         public void CreateProfile(string profileName, bool copyCurrentProfile)
@@ -76,7 +80,27 @@ namespace TimeWeatherAnarchy
             var profile = Profiles.Find((p) => p.Id == profileId);
             SelectedProfile = Profiles.Prev(profile).Id;
             ProfileUtils.Delete(profileId);
+            var linksToRemove = SaveGameLinks.Where(kv => kv.Value == profileId).Select(kv => kv.Key).ToList();
+            foreach (var key in linksToRemove) SaveGameLinks.Remove(key);
+            SaveLinkUtils.Save(SaveGameLinks);
             InitializeProfiles();
+        }
+
+        public void AttachSave(string saveName, string profileId)
+        {
+            SaveGameLinks[saveName] = profileId;
+            SaveLinkUtils.Save(SaveGameLinks);
+        }
+
+        public void DetachSave(string saveName)
+        {
+            SaveGameLinks.Remove(saveName);
+            SaveLinkUtils.Save(SaveGameLinks);
+        }
+
+        public string GetLinkedProfile(string saveName)
+        {
+            return SaveGameLinks.TryGetValue(saveName, out var profileId) ? profileId : null;
         }
 
         [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]
@@ -84,12 +108,12 @@ namespace TimeWeatherAnarchy
         
         [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]
         public ProxyBinding TriggerDayNightToggle { get; set; }
-        
-        [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]
-        public ProxyBinding TriggerNextProfileToggle { get; set; }
 
         [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]
         public ProxyBinding TriggerPreviousProfileToggle { get; set; }
+        
+        [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]
+        public ProxyBinding TriggerNextProfileToggle { get; set; }
         
         [SettingsUIHidden]
         public string SelectedProfile { get; set; } = TimeWeatherProfile.DefaultID;
