@@ -7,6 +7,8 @@
   "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.TriggerDayNightToggle]": "Переключение между днем и ночью при нажатии этой клавиши.",
   "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod/TriggerNextProfileToggle/binding]": "Горячая клавиша для перехода к следующему профилю настроек",
   "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.TriggerNextProfileToggle]": "Переключение на следующий профиль настроек.",
+  "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod/TriggerPreviousProfileToggle/binding]": "Горячая клавиша для перехода к предыдущему профилю настроек",
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.TriggerPreviousProfileToggle]": "Переключение на предыдущий профиль настроек.",
   "Options.SECTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod]": "Анархия времени и погоды",
   "Options.TAB[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "Основные настройки",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "Основные настройки",

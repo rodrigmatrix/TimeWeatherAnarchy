@@ -87,6 +87,9 @@ namespace TimeWeatherAnarchy
         
         [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]
         public ProxyBinding TriggerNextProfileToggle { get; set; }
+
+        [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]
+        public ProxyBinding TriggerPreviousProfileToggle { get; set; }
         
         [SettingsUIHidden]
         public string SelectedProfile { get; set; } = TimeWeatherProfile.DefaultID;

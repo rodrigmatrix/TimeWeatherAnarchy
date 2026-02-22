@@ -7,6 +7,8 @@
   "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.TriggerDayNightToggle]": "Switch between day or night time when pressing this toggle.",
   "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod/TriggerNextProfileToggle/binding]": "Go to the next settings profile Hotkey",
   "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.TriggerNextProfileToggle]": "Change your settings profile to the next one.",
+  "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod/TriggerPreviousProfileToggle/binding]": "Go to the previous settings profile Hotkey",
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.TriggerPreviousProfileToggle]": "Change your settings profile to the previous one.",
   "Options.SECTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod]": "Time & Weather Anarchy",
   "Options.TAB[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "General Settings",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "General Settings",

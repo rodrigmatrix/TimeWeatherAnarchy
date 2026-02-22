@@ -7,6 +7,8 @@
   "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.TriggerDayNightToggle]": "按下此開關在白天和夜晚之間切換。",
   "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod/TriggerNextProfileToggle/binding]": "切換到下一個設定檔快捷鍵",
   "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.TriggerNextProfileToggle]": "將設定檔更改為下一個。",
+  "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod/TriggerPreviousProfileToggle/binding]": "切換到上一個設定檔快捷鍵",
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.TriggerPreviousProfileToggle]": "將設定檔更改為上一個。",
   "Options.SECTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod]": "時間與天氣混亂",
   "Options.TAB[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "常規設置",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "常規設置",

@@ -75,6 +75,7 @@ namespace TimeWeatherAnarchy.Code.System
         private ProxyAction _toggleMainPanelBinding;
         private ProxyAction _toggleDayNightTimeBinding;
         private ProxyAction _toggleNextProfileBinding;
+        private ProxyAction _togglePreviousProfileBinding;
 
         protected override void OnCreate()
         {
@@ -89,6 +90,9 @@ namespace TimeWeatherAnarchy.Code.System
             
             _toggleNextProfileBinding = Mod.m_Setting.GetAction(nameof(TimeWeatherAnarchySettings.TriggerNextProfileToggle));
             _toggleNextProfileBinding.shouldBeEnabled = true;
+
+            _togglePreviousProfileBinding = Mod.m_Setting.GetAction(nameof(TimeWeatherAnarchySettings.TriggerPreviousProfileToggle));
+            _togglePreviousProfileBinding.shouldBeEnabled = true;
             
             // set bindings
             _panelVisibleBinding = new ValueBinding<bool>(ModID, MainPanelOpen, false);
@@ -259,6 +263,11 @@ namespace TimeWeatherAnarchy.Code.System
                 OnNextProfileClickedTrigger();
             }
 
+            if (_togglePreviousProfileBinding.WasPerformedThisFrame())
+            {
+                OnPreviousProfileClickedTrigger();
+            }
+
             base.OnUpdate();
         }
 
@@ -315,6 +324,13 @@ namespace TimeWeatherAnarchy.Code.System
         private void OnNextProfileClickedTrigger()
         {
             Mod.m_Setting.SelectedProfile = Mod.m_Setting.Profiles.Next(Mod.m_Setting.Profile).Id;
+            UpdateUIFields();
+            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+        }
+
+        private void OnPreviousProfileClickedTrigger()
+        {
+            Mod.m_Setting.SelectedProfile = Mod.m_Setting.Profiles.Prev(Mod.m_Setting.Profile).Id;
             UpdateUIFields();
             _timeAndWeatherControlSystem.UpdateTimeAndWeather();
         }
