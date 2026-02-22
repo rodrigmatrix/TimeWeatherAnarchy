@@ -11,7 +11,6 @@
   "Options.TAB[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "Основные настройки",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "Основные настройки",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.KeyBindingGroup]": "Назначение клавиш",
-
   "TimeWeatherAnarchy.ModName": "Анархия времени и погоды",
   "TimeWeatherAnarchy.ModIconTooltip": "Анархия времени и погоды",
   "TimeWeatherAnarchy.Default": "По умолчанию",
@@ -21,8 +20,8 @@
   "TimeWeatherAnarchy.ProfileOptions": "Профили",
   "TimeWeatherAnarchy.Create": "Создать",
   "TimeWeatherAnarchy.NewProfile": "Новый профиль",
-  "TimeWeatherAnarchy.Latitude": "Широта солнца",
-  "TimeWeatherAnarchy.Longitude": "Долгота солнца",
+  "TimeWeatherAnarchy.Latitude": "Широта",
+  "TimeWeatherAnarchy.Longitude": "Долгота",
   "TimeWeatherAnarchy.Delete": "Удалить",
   "TimeWeatherAnarchy.CreateProfile": "Создать профиль",
   "TimeWeatherAnarchy.UpdateProfile": "Обновить профиль",

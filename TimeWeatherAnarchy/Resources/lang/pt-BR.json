@@ -11,7 +11,6 @@
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.KeyBindingGroup]": "Atalhos",
   "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod/TriggerNextProfileToggle/binding]": "Alterar para o próximo perfil",
   "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.TriggerNextProfileToggle]": "Alterar entre perfis criados ao pessionar este botão.",
-  
   "TimeWeatherAnarchy.ModName": "Time & Weather Anarchy",
   "TimeWeatherAnarchy.ModIconTooltip": "Time & Weather Anarchy",
   "TimeWeatherAnarchy.Default": "Padrão",
@@ -21,8 +20,8 @@
   "TimeWeatherAnarchy.ProfileOptions": "Perfil",
   "TimeWeatherAnarchy.Create": "Criar",
   "TimeWeatherAnarchy.NewProfile": "Novo Perfil",
-  "TimeWeatherAnarchy.Latitude": "Sun Latitude",
-  "TimeWeatherAnarchy.Longitude": "Sun Longitude",
+  "TimeWeatherAnarchy.Latitude": "Latitude",
+  "TimeWeatherAnarchy.Longitude": "Longitude",
   "TimeWeatherAnarchy.Delete": "Deletar",
   "TimeWeatherAnarchy.CreateProfile": "Criar Perfil",
   "TimeWeatherAnarchy.UpdateProfile": "Salvar alterações",

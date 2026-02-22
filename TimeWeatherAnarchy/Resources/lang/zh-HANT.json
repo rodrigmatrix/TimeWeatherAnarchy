@@ -11,7 +11,6 @@
   "Options.TAB[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "常規設置",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "常規設置",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.KeyBindingGroup]": "鍵位綁定",
-
   "TimeWeatherAnarchy.ModName": "時間與天氣混亂",
   "TimeWeatherAnarchy.ModIconTooltip": "時間與天氣混亂",
   "TimeWeatherAnarchy.Default": "預設",
@@ -21,8 +20,8 @@
   "TimeWeatherAnarchy.ProfileOptions": "設定檔",
   "TimeWeatherAnarchy.Create": "創建",
   "TimeWeatherAnarchy.NewProfile": "新設定檔",
-  "TimeWeatherAnarchy.Latitude": "太陽緯度",
-  "TimeWeatherAnarchy.Longitude": "太陽經度",
+  "TimeWeatherAnarchy.Latitude": "緯度",
+  "TimeWeatherAnarchy.Longitude": "經度",
   "TimeWeatherAnarchy.Delete": "刪除",
   "TimeWeatherAnarchy.CreateProfile": "創建設定檔",
   "TimeWeatherAnarchy.UpdateProfile": "更新設定檔",

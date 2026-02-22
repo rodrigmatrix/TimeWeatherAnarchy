@@ -11,7 +11,6 @@
   "Options.TAB[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "Основні налаштування",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "Основні налаштування",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.KeyBindingGroup]": "Призначення клавіш",
-
   "TimeWeatherAnarchy.ModName": "Анархія часу і погоди",
   "TimeWeatherAnarchy.ModIconTooltip": "Анархія часу і погоди",
   "TimeWeatherAnarchy.Default": "За замовчуванням",
@@ -21,8 +20,8 @@
   "TimeWeatherAnarchy.ProfileOptions": "Профілі",
   "TimeWeatherAnarchy.Create": "Створити",
   "TimeWeatherAnarchy.NewProfile": "Новий профіль",
-  "TimeWeatherAnarchy.Latitude": "Широта сонця",
-  "TimeWeatherAnarchy.Longitude": "Довгота сонця",
+  "TimeWeatherAnarchy.Latitude": "Широта",
+  "TimeWeatherAnarchy.Longitude": "Довгота",
   "TimeWeatherAnarchy.Delete": "Видалити",
   "TimeWeatherAnarchy.CreateProfile": "Створити профіль",
   "TimeWeatherAnarchy.UpdateProfile": "Оновити профіль",

@@ -11,7 +11,6 @@
   "Options.TAB[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "Impostazioni generali",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "Impostazioni generali",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.KeyBindingGroup]": "Assegnazione tasti",
-
   "TimeWeatherAnarchy.ModName": "Time & Weather Anarchy",
   "TimeWeatherAnarchy.ModIconTooltip": "Time & Weather Anarchy",
   "TimeWeatherAnarchy.Default": "Predefinito",
@@ -21,8 +20,8 @@
   "TimeWeatherAnarchy.ProfileOptions": "Profili",
   "TimeWeatherAnarchy.Create": "Crea",
   "TimeWeatherAnarchy.NewProfile": "Nuovo profilo",
-  "TimeWeatherAnarchy.Latitude": "Latitudine del sole",
-  "TimeWeatherAnarchy.Longitude": "Longitudine del sole",
+  "TimeWeatherAnarchy.Latitude": "Latitudine",
+  "TimeWeatherAnarchy.Longitude": "Longitudine",
   "TimeWeatherAnarchy.Delete": "Elimina",
   "TimeWeatherAnarchy.CreateProfile": "Crea profilo",
   "TimeWeatherAnarchy.UpdateProfile": "Aggiorna profilo",

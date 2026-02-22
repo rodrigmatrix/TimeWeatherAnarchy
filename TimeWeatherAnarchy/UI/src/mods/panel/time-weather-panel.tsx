@@ -42,21 +42,21 @@ import {
     TimeOption, TimePreferenceValueBinding, UpdateProfile,
     WeatherOption
 } from "mods/bindings";
-import {useValue} from "cs2/api";
+import { useValue } from "cs2/api";
 import * as React from 'react';
-import {getModule} from "cs2/modding";
-import {Theme} from "cs2/bindings";
-import {Slider} from "../components/slider/slider";
-import {CheckBoxWithLine} from "../components/checkbox/checkbox";
-import {Section} from "../components/section/section";
-import {Localization, useLocalization} from "cs2/l10n";
-import {FormLine} from "../components/form-line/form-line";
-import {WeatherOptions} from "../domain/weatherOptions";
-import {TimeOptions} from "../domain/timeOptions";
-import {TimePreference} from "../domain/TimePreference";
-import {TemperaturePreference} from "../domain/TemperaturePreference";
-import {TextInput} from "../components/text-input/text-input";
-import {useState} from "react";
+import { getModule } from "cs2/modding";
+import { Theme } from "cs2/bindings";
+import { Slider } from "../components/slider/slider";
+import { CheckBoxWithLine } from "../components/checkbox/checkbox";
+import { Section } from "../components/section/section";
+import { Localization, useLocalization } from "cs2/l10n";
+import { FormLine } from "../components/form-line/form-line";
+import { WeatherOptions } from "../domain/weatherOptions";
+import { TimeOptions } from "../domain/timeOptions";
+import { TimePreference } from "../domain/TimePreference";
+import { TemperaturePreference } from "../domain/TemperaturePreference";
+import { TextInput } from "../components/text-input/text-input";
+import { useState } from "react";
 import editIcon from "images/Edit.svg"
 
 const DEFAULT_PROFILE = "default_profile"
@@ -74,13 +74,13 @@ const convertNumToTime = (number: number, timePreference: number): string => {
     if (minute.length < 2) {
         minute = '0' + minute;
     }
-    
+
     if (timePreference === TimePreference.TwelveHours) {
         const period = hour >= 12 ? 'PM' : 'AM';
         const displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour);
         return (sign == 1 ? '' : '-') + displayHour + ':' + minute + ' ' + period;
     }
-    
+
     return (sign == 1 ? '' : '-') + hour + ':' + minute;
 }
 
@@ -94,7 +94,7 @@ const convertDayOfYearToDate = (
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
-        
+
         const date = new Date(Date.UTC(2024, 0, dayOfYear + 1));
 
         const monthName = months[date.getUTCMonth()];
@@ -122,10 +122,10 @@ const convertWeatherTimeToDate = (
 const convertTemperature = (celsius: number, temperaturePreference: number): string => {
     let convertedTemp: number;
     let unit: string;
-    
+
     switch (temperaturePreference) {
         case TemperaturePreference.Fahrenheit:
-            convertedTemp = (celsius * 9/5) + 32;
+            convertedTemp = (celsius * 9 / 5) + 32;
             unit = '°F';
             break;
         case TemperaturePreference.Kelvin:
@@ -138,7 +138,7 @@ const convertTemperature = (celsius: number, temperaturePreference: number): str
             unit = '°C';
             break;
     }
-    
+
     return `${Math.round(convertedTemp)}${unit}`;
 }
 
@@ -204,20 +204,20 @@ export const TimeWeatherPanel = () => {
     };
 
     if (!mainPanelOpen) {
-        return(<></>)
+        return (<></>)
     }
     const profileOptions = profilesList
         .sort((a, b) => {
-            if(a.Index > b.Index) {
+            if (a.Index > b.Index) {
                 return 1;
-            } else if(a.Index < b.Index) {
+            } else if (a.Index < b.Index) {
                 return -1;
             } else {
                 return 0;
             }
         })
         .map(item => (
-            <div className={ item.Id == selectedProfile ? styles.selectedDropdownProfileItem : styles.profileBox}>
+            <div className={item.Id == selectedProfile ? styles.selectedDropdownProfileItem : styles.profileBox}>
                 <DropdownItem
                     theme={DropdownStyle}
                     value={item.Name}
@@ -225,7 +225,7 @@ export const TimeWeatherPanel = () => {
                     onChange={() => { SetSelectedProfile(item.Id) }}
                     className={styles.dropdownName}>
                     <div>
-                        { (item.Id == DEFAULT_PROFILE) ? translate("TimeWeatherAnarchy.Main", "Main") : item.Name }
+                        {(item.Id == DEFAULT_PROFILE) ? translate("TimeWeatherAnarchy.Main", "Main") : item.Name}
                     </div>
                 </DropdownItem>
                 {item.Id != DEFAULT_PROFILE ?
@@ -239,7 +239,7 @@ export const TimeWeatherPanel = () => {
                                     setProfileEditId(item.Id)
                                     setProfileQuery(item.Name)
                                     setIsEditingProfile(true)
-                                }}/>
+                                }} />
                         </Tooltip>
                     </div> : null
                 }
@@ -266,7 +266,7 @@ export const TimeWeatherPanel = () => {
                 theme={DropdownStyle}
                 value={value}
                 closeOnSelect={true}
-                className={ value == selectedWeatherOption ? styles.selectedDropdownItem : styles.box}
+                className={value == selectedWeatherOption ? styles.selectedDropdownItem : styles.box}
                 onChange={() => { SetWeatherOption(value) }}
             >
                 {translate("TimeWeatherAnarchy." + key)}
@@ -275,407 +275,412 @@ export const TimeWeatherPanel = () => {
 
     return (
         <>
-       <Panel
-           header={(
-               <div className={styles.header}>
-                   <Icon
-                       tinted={false}
-                       src={modIcon}
-                       className={styles.headerIcon}/>
-                   <span className={styles.headerText}>{translate("TimeWeatherAnarchy.ModName")}</span>
-               </div>
-           )}
-           className={styles.panel}
-       >
-           <Scrollable>
-               <Section>
-                   <div>
-                       {isCreatingProfile ?
-                           <span
-                               className={styles.optionHeader}>{translate("TimeWeatherAnarchy.CreateProfile")}</span> :
+            <Panel
+                header={(
+                    <div className={styles.header}>
+                        <Icon
+                            tinted={false}
+                            src={modIcon}
+                            className={styles.headerIcon} />
+                        <span className={styles.headerText}>{translate("TimeWeatherAnarchy.ModName")}</span>
+                    </div>
+                )}
+                className={styles.panel}
+            >
+                <Scrollable>
+                    <Section>
+                        <div>
+                            {isCreatingProfile ?
+                                <span
+                                    className={styles.optionHeader}>{translate("TimeWeatherAnarchy.CreateProfile")}</span> :
 
-                           isEditingProfile ?
-                               <span
-                                   className={styles.optionHeader}>{translate("TimeWeatherAnarchy.EditProfile")}</span> :
-                               <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.ProfileOptions")}</span>
-                       }
+                                isEditingProfile ?
+                                    <span
+                                        className={styles.optionHeader}>{translate("TimeWeatherAnarchy.EditProfile")}</span> :
+                                    <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.ProfileOptions")}</span>
+                            }
 
-                       {isCreatingProfile || isEditingProfile ? null :
-                           <span className={styles.label}>{translate("TimeWeatherAnarchy.ProfileOptionsDescription")}</span>
-                       }
+                            {isCreatingProfile || isEditingProfile ? null :
+                                <span className={styles.label}>{translate("TimeWeatherAnarchy.ProfileOptionsDescription")}</span>
+                            }
 
-                       {isEditingProfile ?
-                           <span className={styles.label}>{
-                               translate(
-                                   "TimeWeatherAnarchy.EditingProfile"
-                               )  + ": " + profilesList.find(profile => profile.Id == profileEditId)?.Name ?? ""
-                           }</span> : null
-                       }
+                            {isEditingProfile ?
+                                <span className={styles.label}>{
+                                    translate(
+                                        "TimeWeatherAnarchy.EditingProfile"
+                                    ) + ": " + profilesList.find(profile => profile.Id == profileEditId)?.Name ?? ""
+                                }</span> : null
+                            }
 
-                       <div style={({marginBottom: '16rem'})}/>
-                   </div>
+                            <div style={({ marginBottom: '16rem' })} />
+                        </div>
 
-                   { isCreatingProfile || isEditingProfile ?
-                       <>
-                           <TextInput
-                               value={profileQuery}
-                               placeholder={ isEditingProfile ?
-                                   translate("TimeWeatherAnarchy.TypeUpdatedProfileName") ?? "" :
-                                   translate("TimeWeatherAnarchy.TypeProfileName") ?? ""
+                        {isCreatingProfile || isEditingProfile ?
+                            <>
+                                <TextInput
+                                    value={profileQuery}
+                                    placeholder={isEditingProfile ?
+                                        translate("TimeWeatherAnarchy.TypeUpdatedProfileName") ?? "" :
+                                        translate("TimeWeatherAnarchy.TypeProfileName") ?? ""
+                                    }
+                                    onChange={setProfileQuery} />
+                                {!isEditingProfile ?
+                                    <CheckBoxWithLine
+                                        title={translate("TimeWeatherAnarchy.CopyCurrentProfile")}
+                                        isChecked={copyCurrentProfile}
+                                        onValueToggle={(value) => {
+                                            setCopyCurrentProfile(value)
+                                        }} /> : null
                                 }
-                               onChange={setProfileQuery}/>
-                           { !isEditingProfile ?
-                               <CheckBoxWithLine
-                                   title={translate("TimeWeatherAnarchy.CopyCurrentProfile")}
-                                   isChecked={copyCurrentProfile}
-                                   onValueToggle={(value) => {
-                                       setCopyCurrentProfile(value)
-                                   }}/> : null
-                           }
-                       </>
-                       : <div>
-                           <Dropdown
-                               theme={DropdownStyle}
-                               content={profileOptions}>
-                               <DropdownToggle>
-                                   { (profile.Id == DEFAULT_PROFILE) ? translate("TimeWeatherAnarchy.Main") : profile.Name }
-                               </DropdownToggle>
-                           </Dropdown>
-                       </div>
-                   }
+                            </>
+                            : <div>
+                                <Dropdown
+                                    theme={DropdownStyle}
+                                    content={profileOptions}>
+                                    <DropdownToggle>
+                                        {(profile.Id == DEFAULT_PROFILE) ? translate("TimeWeatherAnarchy.Main") : profile.Name}
+                                    </DropdownToggle>
+                                </Dropdown>
+                            </div>
+                        }
 
-                   <div className={styles.row} style={({marginTop: '8rem'})}>
+                        <div className={styles.row} style={({ marginTop: '8rem' })}>
 
-                       {isCreatingProfile || isEditingProfile ?
-                           <div className={styles.button}>
-                               <Button
-                                   onSelect={() => {
-                                       setIsCreatingProfile(false)
-                                       setIsEditingProfile(false)
-                                       setProfileQuery("")
-                                       setProfileEditId("")
-                                   }
-                               }>
-                                   {translate("TimeWeatherAnarchy.Cancel")}
-                               </Button>
-                           </div> : ( selectedProfile != DEFAULT_PROFILE ?
-                               <div className={styles.button}>
-                                   <Button
-                                       onSelect={() => {
-                                           setIsDeletingProfile(true)
-                                       }}>
-                                       {translate("TimeWeatherAnarchy.Delete")}
-                                   </Button>
-                               </div> : null
-                           )
-                       }
+                            {isCreatingProfile || isEditingProfile ?
+                                <div className={styles.button}>
+                                    <Button
+                                        onSelect={() => {
+                                            setIsCreatingProfile(false)
+                                            setIsEditingProfile(false)
+                                            setProfileQuery("")
+                                            setProfileEditId("")
+                                        }
+                                        }>
+                                        {translate("TimeWeatherAnarchy.Cancel")}
+                                    </Button>
+                                </div> : (selectedProfile != DEFAULT_PROFILE ?
+                                    <div className={styles.button}>
+                                        <Button
+                                            onSelect={() => {
+                                                setIsDeletingProfile(true)
+                                            }}>
+                                            {translate("TimeWeatherAnarchy.Delete")}
+                                        </Button>
+                                    </div> : null
+                                )
+                            }
 
-                       <div className={styles.button}>
-                           <Button
-                               onSelect={
-                               isEditingProfile ?
-                                   updateProfile :
-                                   (isCreatingProfile ? updateIsCreatingProfile : () => setIsCreatingProfile(true))
-                           }>
-                               {
-                                   isEditingProfile ?
-                                       translate("TimeWeatherAnarchy.UpdateProfile")
-                                     :
-                                       (isCreatingProfile ? translate("TimeWeatherAnarchy.Save") : translate("TimeWeatherAnarchy.NewProfile"))
-                               }
-                           </Button>
-                       </div>
-                   </div>
+                            <div className={styles.button}>
+                                <Button
+                                    onSelect={
+                                        isEditingProfile ?
+                                            updateProfile :
+                                            (isCreatingProfile ? updateIsCreatingProfile : () => setIsCreatingProfile(true))
+                                    }>
+                                    {
+                                        isEditingProfile ?
+                                            translate("TimeWeatherAnarchy.UpdateProfile")
+                                            :
+                                            (isCreatingProfile ? translate("TimeWeatherAnarchy.Save") : translate("TimeWeatherAnarchy.NewProfile"))
+                                    }
+                                </Button>
+                            </div>
+                        </div>
 
-               </Section>
+                    </Section>
 
-               <Section>
-               <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.TimeOptions")}</span>
-                   <Dropdown
-                       theme={DropdownStyle}
-                       content={timeOptions}>
-                       <DropdownToggle>
-                           {translate("TimeWeatherAnarchy." + Object.keys(TimeOptions)[selectedTimeOption].valueOf())}
-                       </DropdownToggle>
-                   </Dropdown>
-                   <div style={({marginBottom: '16rem'})}/>
+                    <Section>
+                        <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.TimeOptions")}</span>
+                        <Dropdown
+                            theme={DropdownStyle}
+                            content={timeOptions}>
+                            <DropdownToggle>
+                                {translate("TimeWeatherAnarchy." + Object.keys(TimeOptions)[selectedTimeOption].valueOf())}
+                            </DropdownToggle>
+                        </Dropdown>
+                        <div style={({ marginBottom: '16rem' })} />
 
-                   { showCustomTime ?
-                       <>
-                           <Slider
-                               start={0.0}
-                               end={23.99}
-                               value={currentTime}
-                               onChange={value => {
-                                   SetCurrentTime(value)
-                               }}/>
-                           <span className={styles.sliderText}>{translate("TimeWeatherAnarchy.HourOfTheDay")}: {convertNumToTime(currentTime, timePreference)}</span>
-                           <div style={({marginBottom: '16rem'})}/>
-                       </> : null
-                   }
+                        <Slider
+                            start={-90.0}
+                            end={90.0}
+                            value={customLatitude}
+                            onChange={value => {
+                                SetCustomLatitude(value)
+                            }}
+                        />
+                        <span className={styles.sliderText}>
+                            {translate("TimeWeatherAnarchy.Latitude")}: {customLatitude.toFixed(2)}
+                        </span>
 
-                   { showCustomDayOfYear ?
-                       <div>
-                           <Slider
-                               start={0}
-                               end={365}
-                               value={currentDayOfTheYear}
-                               onChange={value => {
-                                   SetCustomDayOfTheYear(value)
-                               }}/>
-                           <span
-                               className={styles.sliderText}>{translate("TimeWeatherAnarchy.DayOfTheYear")}: {convertDayOfYearToDate(currentDayOfTheYear, translate, timePreference)}</span>
+                        <div style={{ marginBottom: '16rem' }} />
 
-                           <div style={({marginBottom: '16rem'})}/>
+                        <Slider
+                            start={-180.0}
+                            end={180.0}
+                            value={customLongitude}
+                            onChange={value => {
+                                SetCustomLongitude(value)
+                            }}
+                        />
+                        <span className={styles.sliderText}>
+                            {translate("TimeWeatherAnarchy.Longitude")}: {customLongitude.toFixed(2)}
+                        </span>
+                        {showCustomTime || showCustomDayOfYear ?
+                            <div style={{ marginBottom: '16rem' }} /> : null}
 
-                           {/*<Slider*/}
-                           {/*    start={-90.0}*/}
-                           {/*    end={90.0}*/}
-                           {/*    value={customLatitude}*/}
-                           {/*    onChange={value => {*/}
-                           {/*        SetCustomLatitude(value)*/}
-                           {/*    }}/>*/}
-                           {/*<span*/}
-                           {/*    className={styles.sliderText}>{translate("TimeWeatherAnarchy.Latitude")}: {customLatitude.toFixed(2)}</span>*/}
+                        {showCustomTime ?
+                            <>
+                                <Slider
+                                    start={0.0}
+                                    end={23.99}
+                                    value={currentTime}
+                                    onChange={value => {
+                                        SetCurrentTime(value)
+                                    }} />
+                                <span className={styles.sliderText}>{translate("TimeWeatherAnarchy.HourOfTheDay")}: {convertNumToTime(currentTime, timePreference)}</span>
+                                <div style={({ marginBottom: '16rem' })} />
+                            </> : null
+                        }
 
-                           {/*<div style={({marginBottom: '16rem'})}/>*/}
+                        {showCustomDayOfYear ?
+                            <div>
+                                <Slider
+                                    start={0}
+                                    end={365}
+                                    value={currentDayOfTheYear}
+                                    onChange={value => {
+                                        SetCustomDayOfTheYear(value)
+                                    }} />
+                                <span
+                                    className={styles.sliderText}>{translate("TimeWeatherAnarchy.DayOfTheYear")}: {convertDayOfYearToDate(currentDayOfTheYear, translate, timePreference)}</span>
 
-                           {/*<Slider*/}
-                           {/*    start={-180.0}*/}
-                           {/*    end={180.0}*/}
-                           {/*    value={customLongitude}*/}
-                           {/*    onChange={value => {*/}
-                           {/*        SetCustomLongitude(value)*/}
-                           {/*    }}/>*/}
-                           {/*<span*/}
-                           {/*    className={styles.sliderText}>{translate("TimeWeatherAnarchy.Longitude")}: {customLongitude.toFixed(2)}</span>*/}
+                                <div style={({ marginBottom: '16rem' })} />
 
-                       </div> : null
-                   }
+                            </div> : null
+                        }
 
-               </Section>
+                    </Section>
 
-               <Section>
-                   <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.WeatherOptions")}</span>
+                    <Section>
+                        <span className={styles.optionHeader}>{translate("TimeWeatherAnarchy.WeatherOptions")}</span>
 
-                   <Dropdown
-                       theme={DropdownStyle}
-                       content={weatherOptions}
-                   >
-                       <DropdownToggle>
-                           {translate("TimeWeatherAnarchy." + Object.keys(WeatherOptions)[selectedWeatherOption].valueOf())}
-                       </DropdownToggle>
-                   </Dropdown>
+                        <Dropdown
+                            theme={DropdownStyle}
+                            content={weatherOptions}
+                        >
+                            <DropdownToggle>
+                                {translate("TimeWeatherAnarchy." + Object.keys(WeatherOptions)[selectedWeatherOption].valueOf())}
+                            </DropdownToggle>
+                        </Dropdown>
 
-                   {showCustomWeatherTime ?
-                       <>
-                           <div style={({marginBottom: '16rem'})}/>
-                           <Slider
-                               start={0.0}
-                               end={1.0}
-                               value={currentWeatherTime}
-                               onChange={value => {
-                                   SetCustomWeatherTime(value)
-                               }}/>
-                           <span
-                               className={styles.sliderText}>{translate("TimeWeatherAnarchy.WeatherDate")}: {convertWeatherTimeToDate(currentWeatherTime, translate, timePreference)}</span>
-                       </> : null
-                   }
+                        {showCustomWeatherTime ?
+                            <>
+                                <div style={({ marginBottom: '16rem' })} />
+                                <Slider
+                                    start={0.0}
+                                    end={1.0}
+                                    value={currentWeatherTime}
+                                    onChange={value => {
+                                        SetCustomWeatherTime(value)
+                                    }} />
+                                <span
+                                    className={styles.sliderText}>{translate("TimeWeatherAnarchy.WeatherDate")}: {convertWeatherTimeToDate(currentWeatherTime, translate, timePreference)}</span>
+                            </> : null
+                        }
 
-                   <div style={({marginBottom: '16rem'})}/>
+                        <div style={({ marginBottom: '16rem' })} />
 
-                   <div className={styles.container}>
-                       <CheckBoxWithLine
-                           title={translate("TimeWeatherAnarchy.EnableCustomTemperature")}
-                           isChecked={enableCustomTemperature}
-                           onValueToggle={(value) => {
-                               SetEnableCustomTemperature(value)
-                           }}/>
+                        <div className={styles.container}>
+                            <CheckBoxWithLine
+                                title={translate("TimeWeatherAnarchy.EnableCustomTemperature")}
+                                isChecked={enableCustomTemperature}
+                                onValueToggle={(value) => {
+                                    SetEnableCustomTemperature(value)
+                                }} />
 
-                       {enableCustomTemperature ?
-                           <>
-                               <div style={({marginBottom: '16rem'})}/>
-                               <Slider
-                                   start={-50}
-                                   end={50}
-                                   value={currentTemperature}
-                                   onChange={value => {
-                                       SetCurrentTemperature(value)
-                                   }}/>
-                               <span
-                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Temperature")}: {convertTemperature(currentTemperature, temperaturePreference)}</span>
-                           </> : null
-                       }
-                   </div>
+                            {enableCustomTemperature ?
+                                <>
+                                    <div style={({ marginBottom: '16rem' })} />
+                                    <Slider
+                                        start={-50}
+                                        end={50}
+                                        value={currentTemperature}
+                                        onChange={value => {
+                                            SetCurrentTemperature(value)
+                                        }} />
+                                    <span
+                                        className={styles.sliderText}>{translate("TimeWeatherAnarchy.Temperature")}: {convertTemperature(currentTemperature, temperaturePreference)}</span>
+                                </> : null
+                            }
+                        </div>
 
-                   <div style={({marginBottom: '16rem'})}/>
+                        <div style={({ marginBottom: '16rem' })} />
 
-                   <div className={styles.container}>
-                       <CheckBoxWithLine
-                           title={translate("TimeWeatherAnarchy.EnableCustomPrecipitation")}
-                           isChecked={enableCustomPrecipitation}
-                           onValueToggle={(value) => {
-                               SetEnableCustomPrecipitation(value)
-                           }}/>
+                        <div className={styles.container}>
+                            <CheckBoxWithLine
+                                title={translate("TimeWeatherAnarchy.EnableCustomPrecipitation")}
+                                isChecked={enableCustomPrecipitation}
+                                onValueToggle={(value) => {
+                                    SetEnableCustomPrecipitation(value)
+                                }} />
 
-                       {enableCustomPrecipitation ?
-                           <>
-                               <div style={({marginBottom: '16rem'})}/>
-                               <Slider
-                                   start={0.0}
-                                   end={1.0}
-                                   value={currentPrecipitation}
-                                   onChange={value => {
-                                       SetCustomPrecipitation(value)
-                                   }}/>
-                               <span
-                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Precipitation")}: {convertToPercentage(currentPrecipitation)}</span>
-                           </> : null
-                       }
-                   </div>
+                            {enableCustomPrecipitation ?
+                                <>
+                                    <div style={({ marginBottom: '16rem' })} />
+                                    <Slider
+                                        start={0.0}
+                                        end={1.0}
+                                        value={currentPrecipitation}
+                                        onChange={value => {
+                                            SetCustomPrecipitation(value)
+                                        }} />
+                                    <span
+                                        className={styles.sliderText}>{translate("TimeWeatherAnarchy.Precipitation")}: {convertToPercentage(currentPrecipitation)}</span>
+                                </> : null
+                            }
+                        </div>
 
-                   <div style={({marginBottom: '16rem'})}/>
+                        <div style={({ marginBottom: '16rem' })} />
 
-                   {/*<div className={styles.container}>*/}
-                   {/*    <CheckBoxWithLine*/}
-                   {/*        title={translate("TimeWeatherAnarchy.EnableCustomThunder")}*/}
-                   {/*        isChecked={enableCustomThunder}*/}
-                   {/*        onValueToggle={(value) => {*/}
-                   {/*            SetEnableCustomThunder(value)*/}
-                   {/*        }}/>*/}
+                        {/* <div className={styles.container}>
+                    <CheckBoxWithLine
+                        title={translate("TimeWeatherAnarchy.EnableCustomThunder")}
+                        isChecked={enableCustomThunder}
+                        onValueToggle={(value) => {
+                            SetEnableCustomThunder(value)
+                        }}/>
 
-                   {/*    {enableCustomThunder ?*/}
-                   {/*        <>*/}
-                   {/*            <div style={({marginBottom: '16rem'})}/>*/}
-                   {/*            <Slider*/}
-                   {/*                start={0.0}*/}
-                   {/*                end={1.0}*/}
-                   {/*                value={customThunder}*/}
-                   {/*                onChange={value => {*/}
-                   {/*                    SetCustomThunder(value)*/}
-                   {/*                }}/>*/}
-                   {/*            <div style={({marginBottom: '4rem'})}/>*/}
-                   {/*            <span*/}
-                   {/*                className={styles.sliderText}>{translate("TimeWeatherAnarchy.Thunder")}: {customThunder.toFixed(3)}</span>*/}
-                   {/*        </> : null*/}
-                   {/*    }*/}
-                   {/*</div>*/}
+                    {enableCustomThunder ?
+                        <>
+                            <div style={{marginBottom: '16rem'}}/>
+                            <Slider
+                                start={0.0}
+                                end={1.0}
+                                value={customThunder}
+                                onChange={value => {
+                                    SetCustomThunder(value)
+                                }}/>
+                            <div style={{marginBottom: '4rem'}}/>
+                            <span
+                                className={styles.sliderText}>{translate("TimeWeatherAnarchy.Thunder")}: {customThunder.toFixed(3)}</span>
+                        </> : null
+                    }
+                </div>
 
-                   {/*<div style={({marginBottom: '16rem'})}/>*/}
+                <div style={{marginBottom: '16rem'}}/> */}
 
-                   <div className={styles.container}>
-                       <CheckBoxWithLine
-                           title={translate("TimeWeatherAnarchy.EnableCustomClouds")}
-                           isChecked={enableCustomClouds}
-                           onValueToggle={(value) => {
-                               SetEnableCustomClouds(value)
-                           }}/>
+                        <div className={styles.container}>
+                            <CheckBoxWithLine
+                                title={translate("TimeWeatherAnarchy.EnableCustomClouds")}
+                                isChecked={enableCustomClouds}
+                                onValueToggle={(value) => {
+                                    SetEnableCustomClouds(value)
+                                }} />
 
-                       {enableCustomClouds ?
-                           <>
-                               <div style={({marginBottom: '16rem'})}/>
-                               <Slider
-                                   start={0.0}
-                                   end={1.0}
-                                   value={currentClouds}
-                                   onChange={value => {
-                                       SetCustomClouds(value)
-                                   }}/>
-                               <span
-                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Clouds")}: {convertToPercentage(currentClouds)}</span>
-                           </> : null
-                       }
-                   </div>
+                            {enableCustomClouds ?
+                                <>
+                                    <div style={({ marginBottom: '16rem' })} />
+                                    <Slider
+                                        start={0.0}
+                                        end={1.0}
+                                        value={currentClouds}
+                                        onChange={value => {
+                                            SetCustomClouds(value)
+                                        }} />
+                                    <span
+                                        className={styles.sliderText}>{translate("TimeWeatherAnarchy.Clouds")}: {convertToPercentage(currentClouds)}</span>
+                                </> : null
+                            }
+                        </div>
 
-                   <div style={({marginBottom: '16rem'})}/>
+                        <div style={({ marginBottom: '16rem' })} />
 
-                   <div className={styles.container}>
-                       <CheckBoxWithLine
-                           title={translate("TimeWeatherAnarchy.EnableCustomAurora")}
-                           isChecked={enableCustomAurora}
-                           onValueToggle={(value) => {
-                               SetEnableCustomAurora(value)
-                           }}/>
+                        <div className={styles.container}>
+                            <CheckBoxWithLine
+                                title={translate("TimeWeatherAnarchy.EnableCustomAurora")}
+                                isChecked={enableCustomAurora}
+                                onValueToggle={(value) => {
+                                    SetEnableCustomAurora(value)
+                                }} />
 
-                       {enableCustomAurora ?
-                           <>
-                               <div style={({marginBottom: '16rem'})}/>
-                               <Slider
-                                   start={0.0}
-                                   end={1.0}
-                                   value={currentAurora}
-                                   onChange={value => {
-                                       SetCustomAurora(value)
-                                   }}/>
-                               <div style={({marginBottom: '4rem'})}/>
-                               <span
-                                   className={styles.sliderText}>{translate("TimeWeatherAnarchy.Aurora")}: {convertToPercentage(currentAurora)}</span>
-                           </> : null
-                       }
-                   </div>
+                            {enableCustomAurora ?
+                                <>
+                                    <div style={({ marginBottom: '16rem' })} />
+                                    <Slider
+                                        start={0.0}
+                                        end={1.0}
+                                        value={currentAurora}
+                                        onChange={value => {
+                                            SetCustomAurora(value)
+                                        }} />
+                                    <div style={({ marginBottom: '4rem' })} />
+                                    <span
+                                        className={styles.sliderText}>{translate("TimeWeatherAnarchy.Aurora")}: {convertToPercentage(currentAurora)}</span>
+                                </> : null
+                            }
+                        </div>
 
-                   <div style={({marginBottom: '16rem'})}/>
+                        {/* <div style={({marginBottom: '16rem'})}/>
+                    <div className={styles.container}>
+                        <CheckBoxWithLine
+                            title={translate("TimeWeatherAnarchy.EnableCustomFog")}
+                            isChecked={enableCustomFog}
+                            onValueToggle={(value) => {
+                                SetEnableCustomFog(value)
+                            }}/>
 
-                   {/*<div className={styles.container}>*/}
-                   {/*    <CheckBoxWithLine*/}
-                   {/*        title={translate("TimeWeatherAnarchy.EnableCustomFog")}*/}
-                   {/*        isChecked={enableCustomFog}*/}
-                   {/*        onValueToggle={(value) => {*/}
-                   {/*            SetEnableCustomFog(value)*/}
-                   {/*        }}/>*/}
+                        {enableCustomFog ?
+                            <>
+                                <div style={{marginBottom: '16rem'}}/>
+                                <Slider
+                                    start={0.0}
+                                    end={1.0}
+                                    value={customFog}
+                                    onChange={value => {
+                                        SetCustomFog(value)
+                                    }}/>
+                                <div style={{marginBottom: '4rem'}}/>
+                                <span
+                                    className={styles.sliderText}>{translate("TimeWeatherAnarchy.Fog")}: {customFog.toFixed(3)}</span>
+                            </> : null
+                        }
+                    </div>
 
-                   {/*    {enableCustomFog ?*/}
-                   {/*        <>*/}
-                   {/*            <div style={({marginBottom: '16rem'})}/>*/}
-                   {/*            <Slider*/}
-                   {/*                start={0.0}*/}
-                   {/*                end={1.0}*/}
-                   {/*                value={customFog}*/}
-                   {/*                onChange={value => {*/}
-                   {/*                    SetCustomFog(value)*/}
-                   {/*                }}/>*/}
-                   {/*            <div style={({marginBottom: '4rem'})}/>*/}
-                   {/*            <span*/}
-                   {/*                className={styles.sliderText}>{translate("TimeWeatherAnarchy.Fog")}: {customFog.toFixed(3)}</span>*/}
-                   {/*        </> : null*/}
-                   {/*    }*/}
-                   {/*</div>*/}
+                    <div style={{marginBottom: '16rem'}}/>
 
-                   {/*<div style={({marginBottom: '16rem'})}/>*/}
+                    <div className={styles.container}>
+                        <FormLine title={translate("TimeWeatherAnarchy.RainbowStrength")}/>
+                        <div style={{marginBottom: '16rem'}}/>
+                        <Slider
+                            start={0.0}
+                            end={1.0}
+                            value={customRainbow}
+                            onChange={value => {
+                                SetCustomRainbow(value)
+                            }}/>
+                        <div style={{marginBottom: '4rem'}}/>
+                        <span
+                            className={styles.sliderText}>{translate("TimeWeatherAnarchy.Rainbow")}: {customRainbow.toFixed(3)}</span>
+                    </div> */}
 
-                   {/*<div className={styles.container}>*/}
-                   {/*    <FormLine title={translate("TimeWeatherAnarchy.RainbowStrength")}/>*/}
-                   {/*    <div style={({marginBottom: '16rem'})}/>*/}
-                   {/*    <Slider*/}
-                   {/*        start={0.0}*/}
-                   {/*        end={1.0}*/}
-                   {/*        value={customRainbow}*/}
-                   {/*        onChange={value => {*/}
-                   {/*            SetCustomRainbow(value)*/}
-                   {/*        }}/>*/}
-                   {/*    <div style={({marginBottom: '4rem'})}/>*/}
-                   {/*    <span*/}
-                   {/*        className={styles.sliderText}>{translate("TimeWeatherAnarchy.Rainbow")}: {customRainbow.toFixed(3)}</span>*/}
-                   {/*</div>*/}
+                    </Section>
+                </Scrollable>
+                {isDeletingProfile ?
+                    <Portal>
+                        <ConfirmationDialog
+                            onConfirm={() => {
+                                setIsDeletingProfile(false)
+                                DeleteProfile(selectedProfile)
+                            }}
+                            onCancel={() => setIsDeletingProfile(false)}
+                            cancellable={true}
+                            cancel={translate("TimeWeatherAnarchy.Cancel")}
+                            title={translate("TimeWeatherAnarchy.DeleteProfile") + ": " + profile.Name}
+                            message={translate("TimeWeatherAnarchy.DeleteProfileConfirmation")}
+                            confirm={translate("TimeWeatherAnarchy.Delete")} />
+                    </Portal> : null}
+            </Panel>
 
-               </Section>
-           </Scrollable>
-           { isDeletingProfile ?
-               <Portal>
-                   <ConfirmationDialog
-                       onConfirm={() => {
-                           setIsDeletingProfile(false)
-                           DeleteProfile(selectedProfile)
-                       }}
-                       onCancel={() => setIsDeletingProfile(false)}
-                       cancellable={true}
-                       cancel={translate("TimeWeatherAnarchy.Cancel")}
-                       title={translate("TimeWeatherAnarchy.DeleteProfile") + ": " + profile.Name}
-                       message={translate("TimeWeatherAnarchy.DeleteProfileConfirmation")}
-                       confirm={translate("TimeWeatherAnarchy.Delete")} />
-               </Portal> : null }
-       </Panel>
-           
         </>
     )
 }

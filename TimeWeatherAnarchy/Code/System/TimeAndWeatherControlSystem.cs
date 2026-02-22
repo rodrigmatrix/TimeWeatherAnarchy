@@ -20,10 +20,10 @@ namespace TimeWeatherAnarchy.Code.System
         private bool _seasonSet;
         private bool _isPaused;
 
-        private const string SPRING_SEASON = "Climate.SEASON[Spring]";
-        private const string SUMMER_SEASON = "Climate.SEASON[Summer]";
-        private const string FALL_SEASON = "Climate.SEASON[Autumn]";
-        private const string WINTER_SEASON = "Climate.SEASON[Winter]";
+        private const string SPRING_SEASON = "SeasonSpring";
+        private const string SUMMER_SEASON = "SeasonSummer";
+        private const string FALL_SEASON = "SeasonAutumn";
+        private const string WINTER_SEASON = "SeasonWinter";
 
         protected override void OnCreate()
         {
@@ -136,25 +136,25 @@ namespace TimeWeatherAnarchy.Code.System
                     invertSeason = false;
                     break;
                 case ((int)WeatherOptions.Spring):
-                    if (_climateSystem.currentSeasonNameID != SPRING_SEASON)
+                    if (_climateSystem.currentSeasonName != SPRING_SEASON)
                     {
                         invertSeason = true;
                     }
                     break;
                 case ((int)WeatherOptions.Summer):
-                    if (_climateSystem.currentSeasonNameID != SUMMER_SEASON)
+                    if (_climateSystem.currentSeasonName != SUMMER_SEASON)
                     {
                         invertSeason = true;
                     }
                     break;
                 case ((int)WeatherOptions.Fall):
-                    if (_climateSystem.currentSeasonNameID != FALL_SEASON)
+                    if (_climateSystem.currentSeasonName != FALL_SEASON)
                     {
                         invertSeason = true;
                     }
                     break;
                 case ((int)WeatherOptions.Winter): 
-                    if (_climateSystem.currentSeasonNameID != WINTER_SEASON)
+                    if (_climateSystem.currentSeasonName != WINTER_SEASON)
                     {
                         invertSeason = true;
                     }
@@ -222,8 +222,8 @@ namespace TimeWeatherAnarchy.Code.System
             if (_isEditor) return;
             _planetarySystem.overrideTime = Mod.m_Setting.Profile.TimeOption != (int) TimeOptions.Default;
             _planetarySystem.dayOfYear = Mod.m_Setting.Profile.DayOfTheYear;
-            //UpdateLatitude();
-            //UpdateLongitude();
+            UpdateLatitude();
+            UpdateLongitude();
             _currentTime = Mod.m_Setting.Profile.TimeOption switch
             {
                 ((int) TimeOptions.Default) => 0,

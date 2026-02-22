@@ -11,7 +11,6 @@
   "Options.TAB[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "常规设置",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.Main]": "常规设置",
   "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.KeyBindingGroup]": "键位绑定",
-
   "TimeWeatherAnarchy.ModName": "时间与天气混乱",
   "TimeWeatherAnarchy.ModIconTooltip": "时间与天气混乱",
   "TimeWeatherAnarchy.Default": "默认",
@@ -21,8 +20,8 @@
   "TimeWeatherAnarchy.ProfileOptions": "配置文件",
   "TimeWeatherAnarchy.Create": "创建",
   "TimeWeatherAnarchy.NewProfile": "新配置文件",
-  "TimeWeatherAnarchy.Latitude": "太阳纬度",
-  "TimeWeatherAnarchy.Longitude": "太阳经度",
+  "TimeWeatherAnarchy.Latitude": "纬度",
+  "TimeWeatherAnarchy.Longitude": "经度",
   "TimeWeatherAnarchy.Delete": "删除",
   "TimeWeatherAnarchy.CreateProfile": "创建配置文件",
   "TimeWeatherAnarchy.UpdateProfile": "更新配置文件",
