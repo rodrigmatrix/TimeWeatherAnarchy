@@ -31,10 +31,7 @@ namespace TimeWeatherAnarchy
         public List<TimeWeatherProfile> Profiles { get; private set; } = new();
 
         [Exclude]
-        public Dictionary<string, string> SaveGameLinks { get; private set; } = new();
-
-        [Exclude]
-        public Dictionary<string, string> SaveGameNames { get; private set; } = new();
+        public Dictionary<string, SaveLinkData> SaveGameLinks { get; private set; } = new();
 
         public TimeWeatherAnarchySettings(IMod imod) : base(imod)
         {
@@ -46,7 +43,6 @@ namespace TimeWeatherAnarchy
             var profiles = ProfileUtils.LoadProfiles(this);
             Profiles = profiles;
             SaveGameLinks = SaveLinkUtils.LoadLinks();
-            SaveGameNames = SaveLinkUtils.LoadNames();
         }
         
         public void CreateProfile(string profileName, bool copyCurrentProfile)
@@ -84,7 +80,7 @@ namespace TimeWeatherAnarchy
             var profile = Profiles.Find((p) => p.Id == profileId);
             SelectedProfile = Profiles.Prev(profile).Id;
             ProfileUtils.Delete(profileId);
-            var linksToRemove = SaveGameLinks.Where(kv => kv.Value == profileId).Select(kv => kv.Key).ToList();
+            var linksToRemove = SaveGameLinks.Where(kv => kv.Value?.ProfileId == profileId).Select(kv => kv.Key).ToList();
             foreach (var key in linksToRemove) SaveGameLinks.Remove(key);
             SaveLinkUtils.SaveLinks(SaveGameLinks);
             InitializeProfiles();
@@ -92,17 +88,18 @@ namespace TimeWeatherAnarchy
 
         public void AttachSave(string guid, string displayName, string profileId)
         {
-            SaveGameLinks[guid] = profileId;
-            SaveGameNames[guid] = displayName;
+            SaveGameLinks[guid] = new SaveLinkData { ProfileId = profileId, DisplayName = displayName };
             SaveLinkUtils.SaveLinks(SaveGameLinks);
-            SaveLinkUtils.SaveNames(SaveGameNames);
         }
 
         public void UpdateSaveDisplayName(string guid, string displayName)
         {
             if (string.IsNullOrEmpty(guid)) return;
-            SaveGameNames[guid] = displayName;
-            SaveLinkUtils.SaveNames(SaveGameNames);
+            if (SaveGameLinks.TryGetValue(guid, out var data))
+            {
+                data.DisplayName = displayName;
+                SaveLinkUtils.SaveLinks(SaveGameLinks);
+            }
         }
 
         public void DetachSave(string guid)
@@ -113,12 +110,12 @@ namespace TimeWeatherAnarchy
 
         public string GetLinkedProfile(string guid)
         {
-            return SaveGameLinks.TryGetValue(guid, out var profileId) ? profileId : null;
+            return SaveGameLinks.TryGetValue(guid, out var data) ? data?.ProfileId : null;
         }
 
         public string GetDisplayName(string guid)
         {
-            return SaveGameNames.TryGetValue(guid, out var name) ? name : guid;
+            return SaveGameLinks.TryGetValue(guid, out var data) && !string.IsNullOrEmpty(data?.DisplayName) ? data.DisplayName : guid;
         }
 
         [SettingsUISection(MainSection, KeyBindingGroup), SettingsUIKeyboardBinding]

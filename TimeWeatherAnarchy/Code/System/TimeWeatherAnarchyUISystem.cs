@@ -531,7 +531,7 @@ namespace TimeWeatherAnarchy.Code.System
             var currentGuid = _timeAndWeatherControlSystem.CurrentSaveGuid;
             var profileId = Mod.m_Setting.SelectedProfile;
             return Mod.m_Setting.SaveGameLinks
-                .Where(kv => kv.Value == profileId && kv.Key != currentGuid)
+                .Where(kv => kv.Value?.ProfileId == profileId && kv.Key != currentGuid)
                 .Select(kv => kv.Key)
                 .ToList();
         }

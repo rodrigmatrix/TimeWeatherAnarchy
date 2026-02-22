@@ -10,7 +10,7 @@ import {
     Scrollable,
     Tooltip
 } from "cs2/ui";
-import modIcon from "images/mod-icon.png";
+import modIcon from "images/Thumbnail.png";
 import styles from "./time-weather-panel.module.scss";
 import {
     CreateProfile,
@@ -194,7 +194,6 @@ export const TimeWeatherPanel = () => {
     const currentSaveAttached = useValue(CurrentSaveAttachedBinding);
     const attachedSaves = useValue(AttachedSavesBinding) ?? [];        // GUIDs
     const attachedSaveNames = useValue(AttachedSaveNamesBinding) ?? []; // display names (same order)
-    const profileActiveTimeDisabled = selectedTimeOption !== TimeOptions.Default;
     const updateProfile = () => {
         if (profileQuery.length > 0) {
             UpdateProfile(profileEditId, profileQuery)
@@ -294,7 +293,7 @@ export const TimeWeatherPanel = () => {
                 closeOnSelect={true}
                 className={value == selectedProfileActiveTime ? styles.selectedDropdownItem : styles.box}
                 onChange={() => {
-                    if (!profileActiveTimeDisabled) SetProfileActiveTime(value)
+                    SetProfileActiveTime(value)
                 }}
             >
                 {translate("TimeWeatherAnarchy.ProfileActiveTime." + key)}
@@ -334,9 +333,8 @@ export const TimeWeatherPanel = () => {
 
                             {isEditingProfile ?
                                 <span className={styles.label}>{
-                                    translate(
-                                        "TimeWeatherAnarchy.EditingProfile"
-                                    ) + ": " + profilesList.find(profile => profile.Id == profileEditId)?.Name ?? ""
+                                    translate("TimeWeatherAnarchy.EditingProfile") + ": " +
+                                    (profilesList.find(profile => profile.Id == profileEditId)?.Name ?? "")
                                 }</span> : null
                             }
 
@@ -361,15 +359,29 @@ export const TimeWeatherPanel = () => {
                                         }} /> : null
                                 }
                             </>
-                            : <div>
-                                <Dropdown
-                                    theme={DropdownStyle}
-                                    content={profileOptions}>
-                                    <DropdownToggle>
-                                        {(profile.Id == DEFAULT_PROFILE) ? translate("TimeWeatherAnarchy.Main") : profile.Name}
-                                    </DropdownToggle>
-                                </Dropdown>
-                            </div>
+                            : currentSaveAttached ? (
+                                <Tooltip tooltip={translate("TimeWeatherAnarchy.ProfileSelectionDisabledTooltip")}>
+                                    <div style={{ opacity: 0.4, pointerEvents: 'none' }}>
+                                        <Dropdown
+                                            theme={DropdownStyle}
+                                            content={profileOptions}>
+                                            <DropdownToggle>
+                                                {(profile.Id == DEFAULT_PROFILE) ? translate("TimeWeatherAnarchy.Main") : profile.Name}
+                                            </DropdownToggle>
+                                        </Dropdown>
+                                    </div>
+                                </Tooltip>
+                            ) : (
+                                <div>
+                                    <Dropdown
+                                        theme={DropdownStyle}
+                                        content={profileOptions}>
+                                        <DropdownToggle>
+                                            {(profile.Id == DEFAULT_PROFILE) ? translate("TimeWeatherAnarchy.Main") : profile.Name}
+                                        </DropdownToggle>
+                                    </Dropdown>
+                                </div>
+                            )
                         }
 
                         <div className={styles.row} style={({ marginTop: '8rem' })}>
@@ -399,56 +411,60 @@ export const TimeWeatherPanel = () => {
                             }
 
                             <div className={styles.button}>
-                                <Button
-                                    onSelect={
-                                        isEditingProfile ?
-                                            updateProfile :
-                                            (isCreatingProfile ? updateIsCreatingProfile : () => setIsCreatingProfile(true))
-                                    }>
-                                    {
-                                        isEditingProfile ?
-                                            translate("TimeWeatherAnarchy.UpdateProfile")
-                                            :
-                                            (isCreatingProfile ? translate("TimeWeatherAnarchy.Save") : translate("TimeWeatherAnarchy.NewProfile"))
-                                    }
-                                </Button>
+                                {currentSaveAttached && !isEditingProfile && !isCreatingProfile ? (
+                                    <Tooltip tooltip={translate("TimeWeatherAnarchy.ProfileSelectionDisabledTooltip")}>
+                                        <div style={{ opacity: 0.4, pointerEvents: 'none' }}>
+                                            <Button onSelect={() => { }}>
+                                                {translate("TimeWeatherAnarchy.NewProfile")}
+                                            </Button>
+                                        </div>
+                                    </Tooltip>
+                                ) : (
+                                    <Button
+                                        onSelect={
+                                            isEditingProfile ?
+                                                updateProfile :
+                                                (isCreatingProfile ? updateIsCreatingProfile : () => setIsCreatingProfile(true))
+                                        }>
+                                        {
+                                            isEditingProfile ?
+                                                translate("TimeWeatherAnarchy.UpdateProfile")
+                                                :
+                                                (isCreatingProfile ? translate("TimeWeatherAnarchy.Save") : translate("TimeWeatherAnarchy.NewProfile"))
+                                        }
+                                    </Button>
+                                )}
                             </div>
                         </div>
 
                         {!isCreatingProfile && !isEditingProfile ?
                             <>
                                 <div style={{ marginTop: '16rem' }} />
-                                <span className={styles.label}>
-                                    {translate("TimeWeatherAnarchy.WhenToApplyProfile")}
-                                </span>
+                                <Tooltip tooltip={translate("TimeWeatherAnarchy.WhenToApplyProfileTooltip")}>
+                                    <div>
+                                        <span className={styles.label}>
+                                            {translate("TimeWeatherAnarchy.WhenToApplyProfile")}
+                                        </span>
+                                    </div>
+                                </Tooltip>
                                 <div style={{ marginTop: '4rem' }} />
-                                {profileActiveTimeDisabled ? (
-                                    <Tooltip tooltip={translate("TimeWeatherAnarchy.WhenToApplyProfileDisabledTooltip")}>
-                                        <div style={{ opacity: 0.4, pointerEvents: 'none' }}>
-                                            <Dropdown
-                                                theme={DropdownStyle}
-                                                content={profileActiveTimeOptions}>
-                                                <DropdownToggle>
-                                                    {translate("TimeWeatherAnarchy.ProfileActiveTime." + Object.keys(ProfileActiveTime)[selectedProfileActiveTime])}
-                                                </DropdownToggle>
-                                            </Dropdown>
-                                        </div>
-                                    </Tooltip>
-                                ) : (
-                                    <Dropdown
-                                        theme={DropdownStyle}
-                                        content={profileActiveTimeOptions}>
-                                        <DropdownToggle>
-                                            {translate("TimeWeatherAnarchy.ProfileActiveTime." + Object.keys(ProfileActiveTime)[selectedProfileActiveTime])}
-                                        </DropdownToggle>
-                                    </Dropdown>
-                                )}
+                                <Dropdown
+                                    theme={DropdownStyle}
+                                    content={profileActiveTimeOptions}>
+                                    <DropdownToggle>
+                                        {translate("TimeWeatherAnarchy.ProfileActiveTime." + Object.keys(ProfileActiveTime)[selectedProfileActiveTime])}
+                                    </DropdownToggle>
+                                </Dropdown>
 
                                 <div style={{ marginTop: '16rem' }} />
-                                <CheckBoxWithLine
-                                    title={translate("TimeWeatherAnarchy.AttachToCurrentSave")}
-                                    isChecked={currentSaveAttached}
-                                    onValueToggle={(value) => SetSaveAttached(value)} />
+                                <Tooltip tooltip={translate("TimeWeatherAnarchy.AttachToCurrentSaveTooltip")}>
+                                    <div>
+                                        <CheckBoxWithLine
+                                            title={translate("TimeWeatherAnarchy.AttachToCurrentSave")}
+                                            isChecked={currentSaveAttached}
+                                            onValueToggle={(value) => SetSaveAttached(value)} />
+                                    </div>
+                                </Tooltip>
 
                                 {attachedSaves.length > 0 && (
                                     <>

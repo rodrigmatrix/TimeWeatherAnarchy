@@ -88,5 +88,8 @@
   "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "Load a save game to enable this option.",
   "TimeWeatherAnarchy.AlsoAttachedTo": "Also attached to:",
   "TimeWeatherAnarchy.DetachSave": "Detach from this save",
-  "TimeWeatherAnarchy.RemoveSnow": "Remove Snow"
+  "TimeWeatherAnarchy.RemoveSnow": "Remove Snow",
+  "TimeWeatherAnarchy.ProfileSelectionDisabledTooltip": "Profile selection is locked because this save is attached to a specific profile. Detach the profile to switch.",
+  "TimeWeatherAnarchy.AttachToCurrentSaveTooltip": "Attaching a profile will lock it to this save, preventing you from changing it until you detach.",
+  "TimeWeatherAnarchy.WhenToApplyProfileTooltip": "You can change the day start and end times in the mod settings."
 }

@@ -88,5 +88,8 @@
   "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "Загрузите сохранение, чтобы активировать эту опцию.",
   "TimeWeatherAnarchy.AlsoAttachedTo": "Также прикреплено к:",
   "TimeWeatherAnarchy.DetachSave": "Открепить от этого сохранения",
-  "TimeWeatherAnarchy.RemoveSnow": "Убрать снег"
+  "TimeWeatherAnarchy.RemoveSnow": "Убрать снег",
+  "TimeWeatherAnarchy.ProfileSelectionDisabledTooltip": "Выбор профиля заблокирован, так как это сохранение привязано к определенному профилю. Открепите профиль для переключения.",
+  "TimeWeatherAnarchy.AttachToCurrentSaveTooltip": "Прикрепление профиля заблокирует его для этого сохранения, не позволяя изменить его до открепления.",
+  "TimeWeatherAnarchy.WhenToApplyProfileTooltip": "Вы можете изменить время начала и окончания дня в настройках мода."
 }

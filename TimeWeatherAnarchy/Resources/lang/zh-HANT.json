@@ -88,5 +88,8 @@
   "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "請載入存檔以啟用此選項。",
   "TimeWeatherAnarchy.AlsoAttachedTo": "也附加到：",
   "TimeWeatherAnarchy.DetachSave": "從此存檔移除附加",
-  "TimeWeatherAnarchy.RemoveSnow": "移除積雪"
+  "TimeWeatherAnarchy.RemoveSnow": "移除積雪",
+  "TimeWeatherAnarchy.ProfileSelectionDisabledTooltip": "設定檔選擇已鎖定，因為此存檔已附加到特定設定檔。請移除附加以切換。",
+  "TimeWeatherAnarchy.AttachToCurrentSaveTooltip": "附加設定檔將將其鎖定到此存檔，在移除附加之前無法更改。",
+  "TimeWeatherAnarchy.WhenToApplyProfileTooltip": "您可以在模組附表中更改一天開始和結束的時間。"
 }

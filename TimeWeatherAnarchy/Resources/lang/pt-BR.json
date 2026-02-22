@@ -87,5 +87,8 @@
   "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "Carregue um save para ativar esta opção.",
   "TimeWeatherAnarchy.AlsoAttachedTo": "Também anexado a:",
   "TimeWeatherAnarchy.DetachSave": "Desanexar deste save",
-  "TimeWeatherAnarchy.RemoveSnow": "Remover Neve"
+  "TimeWeatherAnarchy.RemoveSnow": "Remover Neve",
+  "TimeWeatherAnarchy.ProfileSelectionDisabledTooltip": "A seleção de perfil está bloqueada porque este save está anexado a um perfil específico. Desanexe o perfil para trocar.",
+  "TimeWeatherAnarchy.AttachToCurrentSaveTooltip": "Anexar um perfil o bloqueará neste save, impedindo que você o altere até desanexar.",
+  "TimeWeatherAnarchy.WhenToApplyProfileTooltip": "Você pode alterar o horário de início e término do dia nas configurações do mod."
 }

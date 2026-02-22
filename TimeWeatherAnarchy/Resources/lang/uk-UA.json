@@ -88,5 +88,8 @@
   "TimeWeatherAnarchy.AttachToCurrentSaveDisabledTooltip": "Завантажте збереження, щоб активувати цю опцію.",
   "TimeWeatherAnarchy.AlsoAttachedTo": "Також прикріплено до:",
   "TimeWeatherAnarchy.DetachSave": "Відкріпити від цього збереження",
-  "TimeWeatherAnarchy.RemoveSnow": "Прибрати сніг"
+  "TimeWeatherAnarchy.RemoveSnow": "Прибрати сніг",
+  "TimeWeatherAnarchy.ProfileSelectionDisabledTooltip": "Вибір профілю заблоковано, оскільки це збереження прив'язано до певного профілю. Відкріпіть профіль для перемикання.",
+  "TimeWeatherAnarchy.AttachToCurrentSaveTooltip": "Прикріплення профілю заблокує його для цього збереження, не дозволяючи змінити його до відкріплення.",
+  "TimeWeatherAnarchy.WhenToApplyProfileTooltip": "Ви можете змінити час початку та кінця дня в налаштуваннях моду."
 }
