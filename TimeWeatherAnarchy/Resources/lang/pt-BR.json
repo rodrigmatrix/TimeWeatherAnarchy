@@ -70,5 +70,15 @@
   "TimeWeatherAnarchy.November": "Novembro",
   "TimeWeatherAnarchy.December": "Dezembro",
   "TimeWeatherAnarchy.DeleteProfileConfirmation": "Tem certeza que deseja deletar este perfil?",
-  "TimeWeatherAnarchy.DeleteProfile": "Deletar Perfil"
+  "TimeWeatherAnarchy.DeleteProfile": "Deletar Perfil",
+  "TimeWeatherAnarchy.WhenToApplyProfile": "Quando aplicar este perfil",
+  "TimeWeatherAnarchy.WhenToApplyProfileDisabledTooltip": "Desativado quando uma opção de tempo personalizada está definida. Defina a Opção de Tempo como Padrão para ativar.",
+  "TimeWeatherAnarchy.ProfileActiveTime.Always": "Sempre",
+  "TimeWeatherAnarchy.ProfileActiveTime.Day": "Dia",
+  "TimeWeatherAnarchy.ProfileActiveTime.Night": "Noite",
+  "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.DayNightGroup]": "Horário Dia / Noite",
+  "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayStartHour]": "Dia começa às",
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayStartHour]": "Hora do jogo em que o Dia começa para verificações de tempo ativo do perfil.",
+  "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "Dia termina às",
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "Hora do jogo em que a Noite começa para verificações de tempo ativo do perfil."
 }

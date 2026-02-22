@@ -20,6 +20,7 @@ namespace TimeWeatherAnarchy.Code.System
         private bool _seasonSet;
         private bool _isPaused;
 
+
         private const string SPRING_SEASON = "SeasonSpring";
         private const string SUMMER_SEASON = "SeasonSummer";
         private const string FALL_SEASON = "SeasonAutumn";
@@ -92,36 +93,66 @@ namespace TimeWeatherAnarchy.Code.System
             _planetarySystem.longitude = Mod.m_Setting.Profile.Longitude;
         }
         
+        private bool IsProfileActive()
+        {
+            var profile = Mod.m_Setting.Profile;
+
+            if (profile.TimeOption != (int)TimeOptions.Default)
+                return true;
+
+            var activeTime = (ProfileActiveTime)profile.ProfileActiveTime;
+            if (activeTime == ProfileActiveTime.Always)
+                return true;
+
+            var hour = _planetarySystem.time;
+            var dayStart = Mod.m_Setting.DayStartHour;
+            var dayEnd = Mod.m_Setting.DayEndHour;
+            var isDaytime = hour >= dayStart && hour < dayEnd;
+
+            return activeTime == ProfileActiveTime.Day ? isDaytime : !isDaytime;
+        }
+
         public void UpdateAurora()
         {
-            _climateSystem.aurora.overrideValue = Mod.m_Setting.Profile.Aurora;
-            _climateSystem.aurora.overrideState = Mod.m_Setting.Profile.EnableCustomAurora;
+            var active = IsProfileActive();
+            _climateSystem.aurora.overrideValue = active ? Mod.m_Setting.Profile.Aurora : 0f;
+            _climateSystem.aurora.overrideState = active && Mod.m_Setting.Profile.EnableCustomAurora;
         }
         
         public void UpdateTemperature()
         {
-            _climateSystem.temperature.overrideValue = Mod.m_Setting.Profile.Temperature;
-            _climateSystem.temperature.overrideState = Mod.m_Setting.Profile.EnableCustomTemperature;
+            var active = IsProfileActive();
+            _climateSystem.temperature.overrideValue = active ? Mod.m_Setting.Profile.Temperature : 0;
+            _climateSystem.temperature.overrideState = active && Mod.m_Setting.Profile.EnableCustomTemperature;
         }
         
         public void UpdateClouds()
         {
-            _climateSystem.cloudiness.overrideValue = Mod.m_Setting.Profile.Clouds;
-            _climateSystem.cloudiness.overrideState = Mod.m_Setting.Profile.EnableCustomClouds;
+            var active = IsProfileActive();
+            _climateSystem.cloudiness.overrideValue = active ? Mod.m_Setting.Profile.Clouds : 0f;
+            _climateSystem.cloudiness.overrideState = active && Mod.m_Setting.Profile.EnableCustomClouds;
         }
 
 
         public void UpdatePrecipitation()
         {
-            _climateSystem.precipitation.overrideValue = Mod.m_Setting.Profile.Precipitation;
-            _climateSystem.precipitation.overrideState = Mod.m_Setting.Profile.EnableCustomPrecipitation;
+            var active = IsProfileActive();
+            _climateSystem.precipitation.overrideValue = active ? Mod.m_Setting.Profile.Precipitation : 0f;
+            _climateSystem.precipitation.overrideState = active && Mod.m_Setting.Profile.EnableCustomPrecipitation;
         }
 
 
         public void UpdateSeason()
         {
-            SetSeason();
-            _climateSystem.currentDate.overrideState = Mod.m_Setting.Profile.WeatherOption != (int) WeatherOptions.Default;
+            if (IsProfileActive())
+            {
+                SetSeason();
+                _climateSystem.currentDate.overrideState = Mod.m_Setting.Profile.WeatherOption != (int) WeatherOptions.Default;
+            }
+            else
+            {
+                _climateSystem.currentDate.overrideState = false;
+            }
             _seasonSet = false;
             _time = 0f;
         }
@@ -220,6 +251,8 @@ namespace TimeWeatherAnarchy.Code.System
         public void UpdateTime()
         {
             if (_isEditor) return;
+            // Time override is only gated by TimeOption, not by ProfileActiveTime
+            // (because IsProfileActive itself uses planetary time when TimeOption == Default).
             _planetarySystem.overrideTime = Mod.m_Setting.Profile.TimeOption != (int) TimeOptions.Default;
             _planetarySystem.dayOfYear = Mod.m_Setting.Profile.DayOfTheYear;
             UpdateLatitude();

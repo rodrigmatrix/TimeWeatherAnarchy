@@ -1,6 +1,6 @@
-import {bindValue, trigger} from "cs2/api";
+import { bindValue, trigger } from "cs2/api";
 import mod from "mod.json";
-import {TimeWeatherProfile} from "./domain/timeWeatherProfile";
+import { TimeWeatherProfile } from "./domain/timeWeatherProfile";
 
 const MAIN_PANEL_OPEN = "MainPanelOpen"
 export const PROFILES = "Profiles"
@@ -28,6 +28,7 @@ export const CUSTOM_THUNDER = "CurrentThunder"
 export const CUSTOM_RAINBOW = "CurrentRainbow"
 export const CUSTOM_LATITUDE = "CustomLatitude"
 export const CUSTOM_LONGITUDE = "CustomLongitude"
+export const PROFILE_ACTIVE_TIME = "ProfileActiveTime"
 
 export const TIME_PREFERENCE = "TimePreference"
 export const TEMPERATURE_PREFERENCE = "TemperaturePreference"
@@ -55,6 +56,7 @@ export const CustomRainbow = bindValue<number>(mod.id, CUSTOM_RAINBOW);
 export const EnableCustomTemperature = bindValue<boolean>(mod.id, ENABLE_CUSTOM_TEMPERATURE);
 export const CustomLatitude = bindValue<number>(mod.id, CUSTOM_LATITUDE);
 export const CustomLongitude = bindValue<number>(mod.id, CUSTOM_LONGITUDE);
+export const ProfileActiveTimeBinding = bindValue<number>(mod.id, PROFILE_ACTIVE_TIME);
 
 export const TemperaturePreferenceValueBinding = bindValue<number>(mod.id, TEMPERATURE_PREFERENCE)
 export const TimePreferenceValueBinding = bindValue<number>(mod.id, TIME_PREFERENCE)
@@ -84,3 +86,4 @@ export const DeleteProfile = (id: string) => trigger(mod.id, DELETE_PROFILE, id)
 export const UpdateProfile = (id: string, name: string) => trigger(mod.id, UPDATE_PROFILE, id, name);
 export const SetCustomLatitude = (value: number) => trigger(mod.id, CUSTOM_LATITUDE, value);
 export const SetCustomLongitude = (value: number) => trigger(mod.id, CUSTOM_LONGITUDE, value);
+export const SetProfileActiveTime = (value: number) => trigger(mod.id, PROFILE_ACTIVE_TIME, value);

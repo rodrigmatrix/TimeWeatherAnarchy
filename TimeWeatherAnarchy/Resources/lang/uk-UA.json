@@ -71,5 +71,15 @@
   "TimeWeatherAnarchy.November": "Листопад",
   "TimeWeatherAnarchy.December": "Грудень",
   "TimeWeatherAnarchy.DeleteProfileConfirmation": "Ви впевнені, що хочете видалити цей профіль?",
-  "TimeWeatherAnarchy.DeleteProfile": "Видалити профіль"
+  "TimeWeatherAnarchy.DeleteProfile": "Видалити профіль",
+  "TimeWeatherAnarchy.WhenToApplyProfile": "Коли застосовувати цей профіль",
+  "TimeWeatherAnarchy.WhenToApplyProfileDisabledTooltip": "Відключено, коли встановлено параметр перемоги часу. Встановіть параметр часу на «За замовчуванням», щоб увімкнути.",
+  "TimeWeatherAnarchy.ProfileActiveTime.Always": "Завжди",
+  "TimeWeatherAnarchy.ProfileActiveTime.Day": "День",
+  "TimeWeatherAnarchy.ProfileActiveTime.Night": "Ніч",
+  "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.DayNightGroup]": "Розклад дня / ночі",
+  "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayStartHour]": "День починається о",
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayStartHour]": "Ігрова година початку дня для перевірок активного часу профілю.",
+  "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "День закінчується о",
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "Ігрова година початку ночі для перевірок активного часу профілю."
 }

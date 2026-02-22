@@ -44,6 +44,7 @@ namespace TimeWeatherAnarchy.Code.System
         private const string CustomLongitude = "CustomLongitude";
         private const string TimePreference = "TimePreference";
         private const string TemperaturePreference = "TemperaturePreference";
+        private const string ProfileActiveTime = "ProfileActiveTime";
         
         private ValueBindingHelper<string> _selectedProfile;
         private ValueBindingHelper<List<TimeWeatherProfileUI>> _profiles;
@@ -70,6 +71,7 @@ namespace TimeWeatherAnarchy.Code.System
         private ValueBindingHelper<float> _currentLongitude;
         private ValueBinding<int> _timePreference;
         private ValueBinding<int> _temperaturePreference;
+        private ValueBinding<int> _profileActiveTime;
         private ProxyAction _toggleMainPanelBinding;
         private ProxyAction _toggleDayNightTimeBinding;
         private ProxyAction _toggleNextProfileBinding;
@@ -171,14 +173,18 @@ namespace TimeWeatherAnarchy.Code.System
             _currentLatitude = CreateBinding(CustomLatitude, Mod.m_Setting.Profile.Latitude);
             
             _currentLongitude = CreateBinding(CustomLongitude, Mod.m_Setting.Profile.Longitude);
+
+            _profileActiveTime = new ValueBinding<int>(ModID, ProfileActiveTime, Mod.m_Setting.Profile.ProfileActiveTime);
+            AddBinding(_profileActiveTime);
             
             CreateTrigger<string>(SelectedProfile, SetProfile);
             
             CreateTrigger<float>(CustomLatitude, SetCustomLatitude);
             
             CreateTrigger<float>(CustomLongitude, SetCustomLongitude);
+
+            CreateTrigger<int>(ProfileActiveTime, SetProfileActiveTime);
             
-            // set triggers
             AddBinding(new TriggerBinding<bool>(ModID, MainPanelOpen, SetPanelVisibility));
 
             AddBinding(new TriggerBinding<float>(ModID, CurrentTime, SetCurrentTime));
@@ -456,7 +462,16 @@ namespace TimeWeatherAnarchy.Code.System
             _timeAndWeatherControlSystem.UpdateTimeAndWeather();
             ProfileUtils.Save(Mod.m_Setting.Profile);
         }
-        
+
+        private void SetProfileActiveTime(int activeTime)
+        {
+            _profileActiveTime.Update(activeTime);
+            Mod.m_Setting.Profile.ProfileActiveTime = activeTime;
+            _timeAndWeatherControlSystem.UpdateTimeAndWeather();
+            ProfileUtils.Save(Mod.m_Setting.Profile);
+        }
+
+
         private void SetCustomThunder(float thunder)
         {
             _currentThunder.Update(thunder);
@@ -517,6 +532,7 @@ namespace TimeWeatherAnarchy.Code.System
             _enableCustomPrecipitation.Update(profile.EnableCustomPrecipitation);
             _enableCustomAurora.Update(profile.EnableCustomAurora);
             _currentDayOfTheYear.Update(profile.DayOfTheYear);
+            _profileActiveTime.Update(profile.ProfileActiveTime);
             _profiles.Value = Mod.m_Setting.Profiles.ToUI();
             _selectedProfile.Value = Mod.m_Setting.SelectedProfile;
         }

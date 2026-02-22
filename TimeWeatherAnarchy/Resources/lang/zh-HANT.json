@@ -71,5 +71,15 @@
   "TimeWeatherAnarchy.November": "十一月",
   "TimeWeatherAnarchy.December": "十二月",
   "TimeWeatherAnarchy.DeleteProfileConfirmation": "您確定要刪除此配置檔嗎？",
-  "TimeWeatherAnarchy.DeleteProfile": "刪除配置檔"
+  "TimeWeatherAnarchy.DeleteProfile": "刪除配置檔",
+  "TimeWeatherAnarchy.WhenToApplyProfile": "何時套用此設定檔",
+  "TimeWeatherAnarchy.WhenToApplyProfileDisabledTooltip": "設定自訂時間選項時停用。將時間選項設為「預設」以啟用。",
+  "TimeWeatherAnarchy.ProfileActiveTime.Always": "始終",
+  "TimeWeatherAnarchy.ProfileActiveTime.Day": "白天",
+  "TimeWeatherAnarchy.ProfileActiveTime.Night": "夜晚",
+  "Options.GROUP[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.DayNightGroup]": "日 / 夜时間表",
+  "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayStartHour]": "白天開始於",
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayStartHour]": "白天開始的遊戲內小時，用於設定檔活躍時間檢查。",
+  "Options.OPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "白天結束於",
+  "Options.OPTION_DESCRIPTION[TimeWeatherAnarchy.TimeWeatherAnarchy.Mod.TimeWeatherAnarchySettings.DayEndHour]": "夜晚開始的遊戲內小時，用於設定檔活躍時間檢查。"
 }

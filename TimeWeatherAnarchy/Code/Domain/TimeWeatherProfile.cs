@@ -51,6 +51,13 @@ namespace TimeWeatherAnarchy.Code.Domain
 
         public float Longitude { get; set; } = 90.0f;
 
+        /// <summary>
+        /// When this profile's settings should be applied.
+        /// 0 = Always, 1 = Day only, 2 = Night only.
+        /// Disabled (forced to Always) when TimeOption is not Default.
+        /// </summary>
+        public int ProfileActiveTime { get; set; } = 0; // 0 = Always (ProfileActiveTime.Always)
+
         public static TimeWeatherProfile Create(string name, int index) => new(Guid.NewGuid(), index, name);
 
         public TimeWeatherProfile()

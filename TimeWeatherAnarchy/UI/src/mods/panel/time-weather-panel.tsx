@@ -25,7 +25,7 @@ import {
     EnableCustomClouds, EnableCustomFog,
     EnableCustomPrecipitation,
     EnableCustomTemperature, EnableCustomThunder,
-    MainPanelOpen, Profiles, SelectedProfile,
+    MainPanelOpen, ProfileActiveTimeBinding, Profiles, SelectedProfile,
     SetCurrentTemperature,
     SetCurrentTime,
     SetCustomAurora,
@@ -36,7 +36,7 @@ import {
     SetEnableCustomAurora,
     SetEnableCustomClouds, SetEnableCustomFog,
     SetEnableCustomPrecipitation,
-    SetEnableCustomTemperature, SetEnableCustomThunder, SetSelectedProfile,
+    SetEnableCustomTemperature, SetEnableCustomThunder, SetProfileActiveTime, SetSelectedProfile,
     SetTimeOption,
     SetWeatherOption, TemperaturePreferenceValueBinding,
     TimeOption, TimePreferenceValueBinding, UpdateProfile,
@@ -53,6 +53,7 @@ import { Localization, useLocalization } from "cs2/l10n";
 import { FormLine } from "../components/form-line/form-line";
 import { WeatherOptions } from "../domain/weatherOptions";
 import { TimeOptions } from "../domain/timeOptions";
+import { ProfileActiveTime } from "../domain/profileActiveTime";
 import { TimePreference } from "../domain/TimePreference";
 import { TemperaturePreference } from "../domain/TemperaturePreference";
 import { TextInput } from "../components/text-input/text-input";
@@ -182,6 +183,8 @@ export const TimeWeatherPanel = () => {
     const [isDeletingProfile, setIsDeletingProfile] = useState<boolean>(false);
     const timePreference = useValue(TimePreferenceValueBinding);
     const temperaturePreference = useValue(TemperaturePreferenceValueBinding);
+    const selectedProfileActiveTime = useValue(ProfileActiveTimeBinding);
+    const profileActiveTimeDisabled = selectedTimeOption !== TimeOptions.Default;
     const updateProfile = () => {
         if (profileQuery.length > 0) {
             UpdateProfile(profileEditId, profileQuery)
@@ -270,6 +273,21 @@ export const TimeWeatherPanel = () => {
                 onChange={() => { SetWeatherOption(value) }}
             >
                 {translate("TimeWeatherAnarchy." + key)}
+            </DropdownItem>
+        ))
+
+    const profileActiveTimeOptions = Object.keys(ProfileActiveTime)
+        .map((key, value) => (
+            <DropdownItem
+                theme={DropdownStyle}
+                value={value}
+                closeOnSelect={true}
+                className={value == selectedProfileActiveTime ? styles.selectedDropdownItem : styles.box}
+                onChange={() => {
+                    if (!profileActiveTimeDisabled) SetProfileActiveTime(value)
+                }}
+            >
+                {translate("TimeWeatherAnarchy.ProfileActiveTime." + key)}
             </DropdownItem>
         ))
 
@@ -386,6 +404,37 @@ export const TimeWeatherPanel = () => {
                                 </Button>
                             </div>
                         </div>
+
+                        {!isCreatingProfile && !isEditingProfile ?
+                            <>
+                                <div style={{ marginTop: '16rem' }} />
+                                <span className={styles.label}>
+                                    {translate("TimeWeatherAnarchy.WhenToApplyProfile")}
+                                </span>
+                                <div style={{ marginTop: '4rem' }} />
+                                {profileActiveTimeDisabled ? (
+                                    <Tooltip tooltip={translate("TimeWeatherAnarchy.WhenToApplyProfileDisabledTooltip")}>
+                                        <div style={{ opacity: 0.4, pointerEvents: 'none' }}>
+                                            <Dropdown
+                                                theme={DropdownStyle}
+                                                content={profileActiveTimeOptions}>
+                                                <DropdownToggle>
+                                                    {translate("TimeWeatherAnarchy.ProfileActiveTime." + Object.keys(ProfileActiveTime)[selectedProfileActiveTime])}
+                                                </DropdownToggle>
+                                            </Dropdown>
+                                        </div>
+                                    </Tooltip>
+                                ) : (
+                                    <Dropdown
+                                        theme={DropdownStyle}
+                                        content={profileActiveTimeOptions}>
+                                        <DropdownToggle>
+                                            {translate("TimeWeatherAnarchy.ProfileActiveTime." + Object.keys(ProfileActiveTime)[selectedProfileActiveTime])}
+                                        </DropdownToggle>
+                                    </Dropdown>
+                                )}
+                            </> : null
+                        }
 
                     </Section>
 

@@ -14,13 +14,15 @@ namespace TimeWeatherAnarchy
 {
     
     [FileLocation("ModsSettings/" + nameof(TimeWeatherAnarchy))]
-    [SettingsUIGroupOrder(KeyBindingGroup)]
-    [SettingsUIShowGroupName(KeyBindingGroup)]
+    [SettingsUIGroupOrder(KeyBindingGroup, DayNightGroup)]
+    [SettingsUIShowGroupName(KeyBindingGroup, DayNightGroup)]
     public class TimeWeatherAnarchySettings : ModSetting
     {
         public const string MainSection = "Main";
 
         public const string KeyBindingGroup = "KeyBindingGroup";
+
+        public const string DayNightGroup = "DayNightGroup";
         
         [Exclude]
         public TimeWeatherProfile Profile => Profiles.Find((p) => p.Id == SelectedProfile) ?? ProfileUtils.CreateDefault(this);
@@ -143,9 +145,16 @@ namespace TimeWeatherAnarchy
         [SettingsUIHidden]
         public int DayOfTheYear { get; set; }
 
+        [SettingsUISection(MainSection, DayNightGroup)]
+        [SettingsUISlider(min = 0f, max = 23f, step = 0.5f, scalarMultiplier = 1f)]
+        public float DayStartHour { get; set; } = 6f;
+
+        [SettingsUISection(MainSection, DayNightGroup)]
+        [SettingsUISlider(min = 0f, max = 23f, step = 0.5f, scalarMultiplier = 1f)]
+        public float DayEndHour { get; set; } = 20f;
+
         public override void SetDefaults()
         {
-            //throw new System.NotImplementedException();
         }
     }
 
