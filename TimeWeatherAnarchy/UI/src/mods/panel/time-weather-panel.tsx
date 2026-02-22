@@ -194,6 +194,7 @@ export const TimeWeatherPanel = () => {
     const currentSaveAttached = useValue(CurrentSaveAttachedBinding);
     const attachedSaves = useValue(AttachedSavesBinding) ?? [];        // GUIDs
     const attachedSaveNames = useValue(AttachedSaveNamesBinding) ?? []; // display names (same order)
+    const profileActiveTimeDisabled = selectedTimeOption !== TimeOptions.Default;
     const updateProfile = () => {
         if (profileQuery.length > 0) {
             UpdateProfile(profileEditId, profileQuery)
@@ -293,7 +294,7 @@ export const TimeWeatherPanel = () => {
                 closeOnSelect={true}
                 className={value == selectedProfileActiveTime ? styles.selectedDropdownItem : styles.box}
                 onChange={() => {
-                    SetProfileActiveTime(value)
+                    if (!profileActiveTimeDisabled) SetProfileActiveTime(value)
                 }}
             >
                 {translate("TimeWeatherAnarchy.ProfileActiveTime." + key)}
@@ -442,19 +443,35 @@ export const TimeWeatherPanel = () => {
                                 <div style={{ marginTop: '16rem' }} />
                                 <Tooltip tooltip={translate("TimeWeatherAnarchy.WhenToApplyProfileTooltip")}>
                                     <div>
-                                        <span className={styles.label}>
-                                            {translate("TimeWeatherAnarchy.WhenToApplyProfile")}
-                                        </span>
+                                        <CheckBoxWithLine
+                                            title={translate("TimeWeatherAnarchy.WhenToApplyProfile")}
+                                            isChecked={false}
+                                            hideCheckbox={true}
+                                            onValueToggle={() => { }} />
                                     </div>
                                 </Tooltip>
                                 <div style={{ marginTop: '4rem' }} />
-                                <Dropdown
-                                    theme={DropdownStyle}
-                                    content={profileActiveTimeOptions}>
-                                    <DropdownToggle>
-                                        {translate("TimeWeatherAnarchy.ProfileActiveTime." + Object.keys(ProfileActiveTime)[selectedProfileActiveTime])}
-                                    </DropdownToggle>
-                                </Dropdown>
+                                {profileActiveTimeDisabled ? (
+                                    <Tooltip tooltip={translate("TimeWeatherAnarchy.WhenToApplyProfileDisabledTooltip")}>
+                                        <div style={{ opacity: 0.4, pointerEvents: 'none' }}>
+                                            <Dropdown
+                                                theme={DropdownStyle}
+                                                content={profileActiveTimeOptions}>
+                                                <DropdownToggle>
+                                                    {translate("TimeWeatherAnarchy.ProfileActiveTime." + Object.keys(ProfileActiveTime)[selectedProfileActiveTime])}
+                                                </DropdownToggle>
+                                            </Dropdown>
+                                        </div>
+                                    </Tooltip>
+                                ) : (
+                                    <Dropdown
+                                        theme={DropdownStyle}
+                                        content={profileActiveTimeOptions}>
+                                        <DropdownToggle>
+                                            {translate("TimeWeatherAnarchy.ProfileActiveTime." + Object.keys(ProfileActiveTime)[selectedProfileActiveTime])}
+                                        </DropdownToggle>
+                                    </Dropdown>
+                                )}
 
                                 <div style={{ marginTop: '16rem' }} />
                                 <Tooltip tooltip={translate("TimeWeatherAnarchy.AttachToCurrentSaveTooltip")}>

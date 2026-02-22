@@ -55,10 +55,7 @@ They can be copied and shared with other people. Just paste the profile and relo
 
 #### This mod can conflict with other weather mods like WeatherPlus, NiceWeather DayNight Switch, so I recommend you disable it if you want to use this to avoid any crashes. This will not conflict with Lumina but Lumina's time of day slider must be DISABLED.
 
-# Planned Features:
-- Add more translations.
-
-#### Thanks to Klyte45 and T.D.W. for their open source code. I used some of the react components they have created.
+#### Thanks to 𝕭𝖔g𝖉𝖆𝖓 on Discord, for the new thumbnail and icon for the mod
   </LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="ParadoxRes/Thumbnail.png" />
@@ -76,36 +73,33 @@ They can be copied and shared with other people. Just paste the profile and relo
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/time-and-weather-anarchy-mod.1701564/" />
 	<!--Version of the mod-->
-	<ModVersion Value="2.2.4" />
+	<ModVersion Value="3.0" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.*" />
 	<Dependency Id="75426"/>
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog>
-# Release 2.2.4
+# Release 3.0
 
-- Update to new patch
-
-# Changes from 2.0
-
-### Time and Weather Profiles.
-- Create time and weather profiles that can be changed with a hotkey set in preferences or using the panel.
-- Profiles that are created are saved as a json file in pathToYourUser\AppData\LocalLow\Colossal Order\Cities Skylines II\ModsSettings\TimeWeatherAnarchy\Profiles
-They can be copied and shared with other people. Just paste the profile and reload your save.
-- By default, all your current preferences will be copied to the Main profile if you already have the mod installed.
-- If you delete all the profiles in the file explorer, a new main profile will be created inside the game.
-
-### Translations
-#### Added translations to:
-- German
-- Italian
-- Spanish
-- French
-- Chinese Traditional
-- Chinese Simplified
-- Russian
-- Ukrainian
-  </ChangeLog>
+This release brings quality of life changes, improvements, and new features.
+		
+ - New Mod Icon and thumbnail:
+		- Thanks to 𝕭𝖔g𝖉𝖆𝖓 on Discord, there is a new identity to the mod. 
+		- Congrats on the incredible work, and thank you for the help. 
+ - Latitude and Longitude:
+		- Select the latitude and longitude under the time options
+ - When to apply this profile:
+		- You can select when the profile should be applied. Always, Day or Night. It will use your map real time to detect this
+		- You can change when a day starts and ends in the mod settings page.
+		- Your time options should be set to default for it to work.
+ - Attach profile to save game
+		- If you have multiple profiles and play with multiple saves, you can force a specific profile into a specific save. When that save loads, if another profile is selected, it will switch to the attached profile.
+		- You can have the same profile for multiples saves and manage it when more than one is selected.
+ - Remove Snow Button:
+		- There is a new button to remove snow from the ground under the precipitation section.
+ - Go back to previous profile hotkey:
+		- Just like you can attach a button to go to the next profile, you can now do the same, but for the previous profile..
+	</ChangeLog>
 	<!--ChangeLog>
 	</ChangeLog-->
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->

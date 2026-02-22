@@ -7,14 +7,15 @@ export interface Cs2CheckboxProps {
     title: string | null;
     isChecked: boolean;
     onValueToggle: (newVal: boolean) => void;
+    hideCheckbox?: boolean;
 }
 
 export const CheckBoxWithLine = (props: Cs2CheckboxProps) => {
-    const { title, onValueToggle } = props;
+    const { title, onValueToggle, hideCheckbox } = props;
     const isChecked = props.isChecked;
     return (
         <FormLine title={title} onClick={() => onValueToggle(!isChecked)}>
-            <Cs2Checkbox isChecked={props.isChecked} onValueToggle={(x) => onValueToggle(x)} />
+            {hideCheckbox ? undefined : <Cs2Checkbox isChecked={props.isChecked} onValueToggle={(x) => onValueToggle(x)} />}
         </FormLine>
     );
 }
@@ -30,11 +31,11 @@ export const Cs2Checkbox = (props: Cs2CheckboxTitleLessProps) => {
 
     return (<>
         <div className={[styles.cs2Toggle, styles.cs2ItemMouseStates].join(" ")} onClick={() => onValueToggle(!isChecked)}>
-            { isChecked ?
+            {isChecked ?
                 <Icon
                     src={checkIcon}
                     className={styles.cs2CheckmarkIcon}
-                    tinted={true}/> : null
+                    tinted={true} /> : null
             }
         </div>
     </>);
