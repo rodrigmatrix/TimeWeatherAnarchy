@@ -745,48 +745,49 @@ export const TimeWeatherPanel = () => {
                             }
                         </div>
 
+                        <div style={({ marginBottom: '16rem' })} />
+
+                        <div className={styles.container}>
+                            <CheckBoxWithLine
+                                title={translate("TimeWeatherAnarchy.EnableCustomFog")}
+                                isChecked={enableCustomFog}
+                                onValueToggle={(value) => {
+                                    SetEnableCustomFog(value)
+                                }} />
+
+                            {enableCustomFog ?
+                                <>
+                                    <div style={({ marginBottom: '16rem' })} />
+                                    <Slider
+                                        start={0.0}
+                                        end={1.0}
+                                        value={customFog}
+                                        onChange={value => {
+                                            SetCustomFog(value)
+                                        }} />
+                                    <div style={({ marginBottom: '4rem' })} />
+                                    <span
+                                        className={styles.sliderText}>{translate("TimeWeatherAnarchy.Fog")}: {convertToPercentage(customFog)}</span>
+                                </> : null
+                            }
+                        </div>
+
                         {/* <div style={({marginBottom: '16rem'})}/>
-                    <div className={styles.container}>
-                        <CheckBoxWithLine
-                            title={translate("TimeWeatherAnarchy.EnableCustomFog")}
-                            isChecked={enableCustomFog}
-                            onValueToggle={(value) => {
-                                SetEnableCustomFog(value)
-                            }}/>
 
-                        {enableCustomFog ?
-                            <>
-                                <div style={{marginBottom: '16rem'}}/>
-                                <Slider
-                                    start={0.0}
-                                    end={1.0}
-                                    value={customFog}
-                                    onChange={value => {
-                                        SetCustomFog(value)
-                                    }}/>
-                                <div style={{marginBottom: '4rem'}}/>
-                                <span
-                                    className={styles.sliderText}>{translate("TimeWeatherAnarchy.Fog")}: {customFog.toFixed(3)}</span>
-                            </> : null
-                        }
-                    </div>
-
-                    <div style={{marginBottom: '16rem'}}/>
-
-                    <div className={styles.container}>
-                        <FormLine title={translate("TimeWeatherAnarchy.RainbowStrength")}/>
-                        <div style={{marginBottom: '16rem'}}/>
-                        <Slider
-                            start={0.0}
-                            end={1.0}
-                            value={customRainbow}
-                            onChange={value => {
-                                SetCustomRainbow(value)
-                            }}/>
-                        <div style={{marginBottom: '4rem'}}/>
-                        <span
-                            className={styles.sliderText}>{translate("TimeWeatherAnarchy.Rainbow")}: {customRainbow.toFixed(3)}</span>
-                    </div> */}
+                        <div className={styles.container}>
+                            <FormLine title={translate("TimeWeatherAnarchy.RainbowStrength")}/>
+                            <div style={{marginBottom: '16rem'}}/>
+                            <Slider
+                                start={0.0}
+                                end={1.0}
+                                value={customRainbow}
+                                onChange={value => {
+                                    SetCustomRainbow(value)
+                                }}/>
+                            <div style={{marginBottom: '4rem'}}/>
+                            <span
+                                className={styles.sliderText}>{translate("TimeWeatherAnarchy.Rainbow")}: {customRainbow.toFixed(3)}</span>
+                        </div> */}
 
                     </Section>
                 </Scrollable>

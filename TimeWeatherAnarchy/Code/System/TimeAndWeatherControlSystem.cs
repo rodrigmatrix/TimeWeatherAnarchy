@@ -114,11 +114,10 @@ namespace TimeWeatherAnarchy.Code.System
             UpdateTemperature();
             UpdateClouds();
             UpdatePrecipitation();
+            UpdateFog();
             UpdateSeason();
-            //_climateSystem.fog.overrideValue = Mod.m_Setting.Fog;
             //_climateSystem.thunder.overrideValue = Mod.m_Setting.Thunder;
             //_climateSystem.rainbow = Mod.m_Setting.Rainbow;
-            //_climateSystem.fog.overrideState = Mod.m_Setting.EnableCustomFog;
             //_climateSystem.thunder.overrideState = Mod.m_Setting.EnableCustomThunder;
         }
 
@@ -180,6 +179,12 @@ namespace TimeWeatherAnarchy.Code.System
             _climateSystem.precipitation.overrideState = active && Mod.m_Setting.Profile.EnableCustomPrecipitation;
         }
 
+        public void UpdateFog()
+        {
+            var active = IsProfileActive();
+            _climateSystem.fog.overrideValue = active ? Mod.m_Setting.Profile.Fog : 0f;
+            _climateSystem.fog.overrideState = active && Mod.m_Setting.Profile.EnableCustomFog;
+        }
 
         public void UpdateSeason()
         {
