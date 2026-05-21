@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -78,27 +78,40 @@ public static class ProfileUtils
                     {
                         var text = File.ReadAllText(fileInfo.FullName);
                         var profile = JSON.MakeInto<TimeWeatherProfile>(JSON.Load(text));
-                        profiles.Add(profile);
+                        if (profile != null)
+                        {
+                            profiles.Add(profile);
+                        }
+                        else
+                        {
+                            Mod.log.Info("error loading profile. Deserialization returned null for: " + fileInfo.Name);
+                        }
                     }
                     catch (Exception e)
                     {
                         Mod.log.Info("error loading profile. check json for issues " + e.Message);
                     }
                 });
-                if (profiles.FirstOrDefault(profile => profile.Id == TimeWeatherProfile.DefaultID) == null)
+                if (profiles.FirstOrDefault(profile => profile != null && profile.Id == TimeWeatherProfile.DefaultID) == null)
                 {
                     var defaultProfile = CreateDefault(settings);
-                    profiles.Add(defaultProfile);
-                    Save(defaultProfile);
+                    if (defaultProfile != null)
+                    {
+                        profiles.Add(defaultProfile);
+                        Save(defaultProfile);
+                    }
                 }
             }
             else
             {
                 var defaultProfile = CreateDefault(settings);
-                profiles.Add(defaultProfile);
-                Save(defaultProfile);
+                if (defaultProfile != null)
+                {
+                    profiles.Add(defaultProfile);
+                    Save(defaultProfile);
+                }
             }
-            return profiles.OrderBy(q => q.Index).ToList();
+            return profiles.Where(q => q != null).OrderBy(q => q.Index).ToList();
         }
 
         public static void Delete(string id)

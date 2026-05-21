@@ -73,34 +73,15 @@ They can be copied and shared with other people. Just paste the profile and relo
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/time-and-weather-anarchy-mod.1701564/" />
 	<!--Version of the mod-->
-	<ModVersion Value="3.1" />
+	<ModVersion Value="3.2" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.*" />
 	<Dependency Id="75426"/>
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog>
-# Release 3.1
-
-This release brings quality of life changes, improvements, and new features.
-		
- - New Mod Icon and thumbnail:
-		- Thanks to 𝕭𝖔g𝖉𝖆𝖓 on Discord, there is a new identity to the mod. 
-		- Congrats on the incredible work, and thank you for the help. 
- - Latitude and Longitude:
-		- Select the latitude and longitude under the time options
- - When to apply this profile:
-		- You can select when the profile should be applied. Always, Day or Night. It will use your map real time to detect this
-		- You can change when a day starts and ends in the mod settings page.
-		- Your time options should be set to default for it to work.
- - Attach profile to save game
-		- If you have multiple profiles and play with multiple saves, you can force a specific profile into a specific save. When that save loads, if another profile is selected, it will switch to the attached profile.
-		- You can have the same profile for multiples saves and manage it when more than one is selected.
- - Remove Snow Button:
-		- There is a new button to remove snow from the ground under the precipitation section.
- - Enable Custom Fog:
-		- Enable/Disable a custom fog and select it's percentage.
- - Go back to previous profile hotkey:
-		- Just like you can attach a button to go to the next profile, you can now do the same, but for the previous profile.
+# Release 3.2
+- Updated app icon
+- Fixed crash for a few users
 	</ChangeLog>
 	<!--ChangeLog>
 	</ChangeLog-->

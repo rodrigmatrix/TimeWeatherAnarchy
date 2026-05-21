@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Colossal.IO.AssetDatabase;
@@ -68,21 +68,26 @@ namespace TimeWeatherAnarchy
         public void UpdateProfile(string profileId, string profileName)
         {
             var profile = Profiles.Find((p) => p.Id == profileId);
-            profile.Name = profileName;
-            Profiles.Add(profile);
-            SelectedProfile = profile.Id;
-            ProfileUtils.Save(profile);
+            if (profile != null)
+            {
+                profile.Name = profileName;
+                SelectedProfile = profile.Id;
+                ProfileUtils.Save(profile);
+            }
             InitializeProfiles();
         }
         
         public void DeleteProfile(string profileId)
         {
             var profile = Profiles.Find((p) => p.Id == profileId);
-            SelectedProfile = Profiles.Prev(profile).Id;
-            ProfileUtils.Delete(profileId);
-            var linksToRemove = SaveGameLinks.Where(kv => kv.Value?.ProfileId == profileId).Select(kv => kv.Key).ToList();
-            foreach (var key in linksToRemove) SaveGameLinks.Remove(key);
-            SaveLinkUtils.SaveLinks(SaveGameLinks);
+            if (profile != null)
+            {
+                SelectedProfile = Profiles.Prev(profile)?.Id ?? TimeWeatherProfile.DefaultID;
+                ProfileUtils.Delete(profileId);
+                var linksToRemove = SaveGameLinks.Where(kv => kv.Value?.ProfileId == profileId).Select(kv => kv.Key).ToList();
+                foreach (var key in linksToRemove) SaveGameLinks.Remove(key);
+                SaveLinkUtils.SaveLinks(SaveGameLinks);
+            }
             InitializeProfiles();
         }
 
